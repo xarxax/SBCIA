@@ -60,20 +60,22 @@
 ;  (declare (salience 900))
 ;  (not (Evento Presupuesto) )
 ;  =>
-;  (switch   (ask-question "Cual es tu presupuesto?
-;      1:200€
-;      2:300€
-;      3:500€
-;      4:1000€
-; >"
-;       1 2 3 4)
-;    (case 1 then (assert (Evento Presupuesto 15)))
-;    (case 2 then (assert (Evento Presupuesto 35)))
-;    (case 3 then (assert (Evento Presupuesto 75)))
-;    (case 4 then (assert (Evento Presupuesto 150)))
-;    (case default (printout t "No te he entendido"))
+;  (bind (Evento Presupuesto) (ask-question "Cual es tu presupuesto?")
+
 ;   )
 ; ) )
+
+; (defrule menuvalido
+;   ;tener algun presupuesto
+;   (Evento Presupuesto)
+;   ;tener 3 menus
+;   (length$ Menus)
+;
+;   =>
+;   (insert$ <lista><indice><expresión simple o lista>)
+; )
+
+
 
 
 (defrule system-banner ""
