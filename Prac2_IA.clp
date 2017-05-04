@@ -23,39 +23,72 @@
 
 
 
-
-
-
-
 ;;;****************************
 ;;;* STARTUP AND REPAIR RULES *
 ;;;****************************
 
-(defrule vegano ""
-  (not (want-vegan))
-  =>
-  (if (yes-or-no-p "want vegan? (yes/no)")
-  then (assert (want-vegan yes))
-   else (assert (want-vegan  no))
+;(defrule vegano ""
+;  (not (want-vegan))
+;  =>
+
+;  (if (yes-or-no-p "want vegan? (yes/no)")
+;  then (assert (want-vegan yes))
+;   else (assert (want-vegan  no))
+;  )
+;)
+
+(defrule determine-num-com
+ (declare (salience 900))
+ (not (Evento Num_com) )
+ =>
+ (switch   (ask-question "Cuanta gente calculas tener?
+     1:10-20
+     2:20-50
+     3:50-100
+     4:100 o mas
+>"
+      1 2 3 4)
+   (case 1 then (assert (Evento Num_com 15)))
+   (case 2 then (assert (Evento Num_com 35)))
+   (case 3 then (assert (Evento Num_com 75)))
+   (case 4 then (assert (Evento Num_com 150)))
+   (default (printout t "No te he entendido"))
   )
 )
 
-
+; (comment (defrule determine-presupuesto
+;  (declare (salience 900))
+;  (not (Evento Presupuesto) )
+;  =>
+;  (switch   (ask-question "Cual es tu presupuesto?
+;      1:200€
+;      2:300€
+;      3:500€
+;      4:1000€
+; >"
+;       1 2 3 4)
+;    (case 1 then (assert (Evento Presupuesto 15)))
+;    (case 2 then (assert (Evento Presupuesto 35)))
+;    (case 3 then (assert (Evento Presupuesto 75)))
+;    (case 4 then (assert (Evento Presupuesto 150)))
+;    (case default (printout t "No te he entendido"))
+;   )
+; ) )
 
 
 (defrule system-banner ""
-  (declare (salience 10))
+  (declare (salience 1000))
   =>
   (printout t crlf crlf)
   (printout t "The Menu Maker Expert System")
   (printout t crlf crlf))
 
-(defrule print-dish ""
-  (declare (salience 10))
-  (repair ?item)
+(defrule main-answer ""
+  (declare (salience 1000))
+  (menu ?item)
   =>
   (printout t crlf crlf)
-  (printout t "Suggested Dish:")
+  (printout t "Suggested Menu:")
   (printout t crlf crlf)
   (format t " %s%n%n%n" ?item))
 
