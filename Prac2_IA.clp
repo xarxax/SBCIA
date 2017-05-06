@@ -128,6 +128,22 @@
     (printout t "fin de las preguntas" crlf)
     (focus filtrado))
 
+
+
+;;;------------------------------------------------------------------------------------------------------------------------------------------------------
+;;;----------  					MODULO DE INFERENCIAS DE DATOS				---------- 				MODULO DE INFERENCIAS DE DATOS
+;;;------------------------------------------------------------------------------------------------------------------------------------------------------
+
+;; En este modulo se hace la abstraccion de los datos obtenidos del modulo de pregunatas
+
+(defmodule inferir_datos
+    (import MAIN ?ALL)
+    (import hacer_preguntas ?ALL)
+    (export ?ALL)
+)
+
+
+
 ;;;****************************
 ;;;
 ;;;***** Filtrade Module *****
