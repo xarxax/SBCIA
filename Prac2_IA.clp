@@ -50,25 +50,25 @@
 
 (defrule system-begin ""
   (initial-fact)
-  (not (menu-nuevo))
+  (not (evento-nuevo))
   =>
   (printout t crlf)
   (printout t "----------------------------" crlf)
- (printout t "The Menu Maker Expert System" crlf)
- (printout t "----------------------------" crlf)
- (printout t crlf)
- (assert (menu-nuevo))
- (focus make-questions)
+  (printout t "The Menu Maker Expert System" crlf)
+  (printout t "----------------------------" crlf)
+  (printout t crlf)
+  (assert (evento-nuevo))
+  (focus make-questions)
 )
 
-(defrule answer ""
-  (declare (salience 1000))
-  (menu-nuevo ?menu-valido)
-  =>
-  (printout t crlf crlf)
-  (printout t "Suggested Menu:")
-  (printout t crlf crlf)
-  (format t " %s%n%n%n" ?menu-valido))
+; (defrule answer ""
+;   (declare (salience 1000))
+;   (evento-nuevo ?)
+;   =>
+;   (printout t crlf crlf)
+;   (printout t "Suggested Menu:")
+;   (printout t crlf crlf)
+;   (format t " %s%n%n%n" ?menu-valido))
 
 ;;;****************************
 ;;;
@@ -120,6 +120,24 @@
   )
 )
 
+(defrule pregunta-presupuesto "regla para saber el presupuesto"
+(not (Evento Presupuesto ?) )
+=>
+(switch   (ask-question "Cuanta presupuesto tienes?
+    1:100€
+    2:200€
+    3:400€
+    4:1000€
+>"
+     1 2 3 4)
+  (case 1 then (assert (Evento Presupuesto 100)))
+  (case 2 then (assert (Evento Presupuesto 200)))
+  (case 3 then (assert (Evento Presupuesto 400)))
+  (case 4 then (assert (Evento Presupuesto 1000)))
+  (default (printout t "No te he entendido"))
+ )
+)
+
 (defrule vegano "regla para saber si prefiere un menu vegano"
   (declare (salience -1))
   (not (want-vegan ?))
@@ -134,10 +152,10 @@
 
 (defrule end-questions "regla para pasar al siguiente modulo"
     (questions end)
-    (menu-nuevo)
+    (evento-nuevo)
     =>
     (printout t "fin de las preguntas" crlf)
-    (focus filtrado))
+    (focus inferir_datos))
 
 
 
@@ -149,10 +167,26 @@
 
 (defmodule inferir_datos
     (import MAIN ?ALL)
-    (import hacer_preguntas ?ALL)
+    (import make-questions ?ALL)
     (export ?ALL)
 )
 
+(defrule presupuesto-por-invitado "regla para establecer el presupuesto-por-invitado maximo"
+   ?numcom <- (Evento Num_com)
+   ?presu <- (Evento Presupuesto)
+   (not (Evento presupuesto-por-invitado))
+   =>
+   (assert (Evento presupuesto-por-invitado (/ ?presu ?numcom)))
+   (assert (inference end))
+)
+
+(defrule finInferir "regla para pasar al modulo siguiente"
+      (inference end)
+      (evento-nuevo)
+      =>
+	  (printout t "Inferencia de datos hecha" crlf)
+      (focus filtrado)
+)
 
 
 ;;;****************************
@@ -164,6 +198,7 @@
 (defmodule filtrado
     (import MAIN ?ALL)
     (import make-questions ?ALL)
+    (import inferir_datos ?ALL)
     (export ?ALL))
 
 ;(defrule obtenerMenus
