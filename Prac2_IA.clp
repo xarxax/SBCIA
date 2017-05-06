@@ -1,235 +1,4 @@
 
-;;****************
-;;*  TEMPLATES   *
-;;****************
-
-
-
-
-;;****************
-;;* DEFFUNCTIONS *
-;;****************
-
-(deffunction ask-question (?question $?allowed-values)
-   (printout t ?question)
-   (bind ?answer (read))
-   (if (lexemep ?answer)
-       then (bind ?answer (lowcase ?answer)))
-   (while (not (member ?answer ?allowed-values)) do
-      (printout t ?question)
-      (bind ?answer (read))
-      (if (lexemep ?answer)
-          then (bind ?answer (lowcase ?answer))))
-   ?answer)
-
-(deffunction yes-or-no-p (?question)
-   (bind ?response (ask-question ?question yes no y n))
-   (if (or (eq ?response yes) (eq ?response y))
-       then TRUE
-       else FALSE))
-
-
-;;; Funcion para hacer una pregunta con respuesta en un rango dado
-(deffunction pregunta-numerica (?pregunta ?rangini ?rangfi)
-	(format t "%s [%d, %d] " ?pregunta ?rangini ?rangfi)
-	(bind ?respuesta (read))
-	(while (not(and(>= ?respuesta ?rangini)(<= ?respuesta ?rangfi))) do
-		(format t "�%s? [%d, %d] " ?pregunta ?rangini ?rangfi)
-		(bind ?respuesta (read))
-	)
-	?respuesta
-)
-
-
-;;;**************************************
-;;;
-;;;---------      MAIN       -----------
-;;;
-;;;**************************************
-(defmodule MAIN (export ?ALL))
-
-(defrule system-begin ""
-  (initial-fact)
-  (not (evento-nuevo))
-  =>
-  (printout t crlf)
-  (printout t "----------------------------" crlf)
-  (printout t "The Menu Maker Expert System" crlf)
-  (printout t "----------------------------" crlf)
-  (printout t crlf)
-  (assert (evento-nuevo))
-  (focus make-questions)
-)
-
-; (defrule answer ""
-;   (declare (salience 1000))
-;   (evento-nuevo ?)
-;   =>
-;   (printout t crlf crlf)
-;   (printout t "Suggested Menu:")
-;   (printout t crlf crlf)
-;   (format t " %s%n%n%n" ?menu-valido))
-
-;;;****************************
-;;;
-;;;***** Questions Module *****
-;;;
-;;;****************************
-(defmodule make-questions
-    (import MAIN ?ALL)
-    (export ?ALL)
-)
-
-(defrule tipoEvento "regla para saber el tipo de evento"
-  (not (Evento Tipo ?))
-  =>
-  (switch (ask-question "Elija el tipo de evento:
-    1:Boda
-    2:Cumpleaños
-    3:Fiesta Infantil
-    4:Cena de empresa
-    5:Fin de año
-    >"
-      1 2 3 4 5)
-    (case 1 then (assert (Evento Tipo Boda)))
-    (case 2 then (assert (Evento Tipo Cumpleaños)))
-    (case 3 then (assert (Evento Tipo Fiesta_Infantil)))
-    (case 4 then (assert (Evento Tipo Cena_empresa)))
-    (case 5 then (assert (Evento Tipo Fin_año)))
-    (default (printout t "No te he entendido"))
-    )
-)
-
-
-(defrule determine-num-com "regla para saber el numero aproximado de invitados"
- ;(declare (salience 900))
- (not (Evento Num_com ?) )
- =>
- (switch   (ask-question "Cuanta gente calculas tener?
-     1:10-20
-     2:20-50
-     3:50-100
-     4:100 o mas
->"
-      1 2 3 4)
-   (case 1 then (assert (Evento Num_com 15)))
-   (case 2 then (assert (Evento Num_com 35)))
-   (case 3 then (assert (Evento Num_com 75)))
-   (case 4 then (assert (Evento Num_com 150)))
-   (default (printout t "No te he entendido"))
-  )
-)
-
-(defrule pregunta-presupuesto "regla para saber el presupuesto"
-(not (Evento Presupuesto ?) )
-=>
-(switch   (ask-question "Cuanta presupuesto tienes?
-    1:100€
-    2:200€
-    3:400€
-    4:1000€
->"
-     1 2 3 4)
-  (case 1 then (assert (Evento Presupuesto 100)))
-  (case 2 then (assert (Evento Presupuesto 200)))
-  (case 3 then (assert (Evento Presupuesto 400)))
-  (case 4 then (assert (Evento Presupuesto 1000)))
-  (default (printout t "No te he entendido"))
- )
-)
-
-(defrule vegano "regla para saber si prefiere un menu vegano"
-  (declare (salience -1))
-  (not (want-vegan ?))
-  =>
-  (if (yes-or-no-p "Prefiere un menu vegano? (yes/no)")
-  then (assert (want-vegan yes))
-
-   else (assert (want-vegan  no))
-  )
-  (assert (questions end))
-)
-
-(defrule end-questions "regla para pasar al siguiente modulo"
-    (questions end)
-    (evento-nuevo)
-    =>
-    (printout t "fin de las preguntas" crlf)
-    (focus inferir_datos))
-
-
-
-;;;------------------------------------------------------------------------------------------------------------------------------------------------------
-;;;----------  					MODULO DE INFERENCIAS DE DATOS				---------- 				MODULO DE INFERENCIAS DE DATOS
-;;;------------------------------------------------------------------------------------------------------------------------------------------------------
-
-;; En este modulo se hace la abstraccion de los datos obtenidos del modulo de pregunatas
-
-(defmodule inferir_datos
-    (import MAIN ?ALL)
-    (import make-questions ?ALL)
-    (export ?ALL)
-)
-
-(defrule presupuesto-por-invitado "regla para establecer el presupuesto-por-invitado maximo"
-   ?numcom <- (Evento Num_com)
-   ?presu <- (Evento Presupuesto)
-   (not (Evento presupuesto-por-invitado))
-   =>
-   (assert (Evento presupuesto-por-invitado (/ ?presu ?numcom)))
-   (assert (inference end))
-)
-
-(defrule finInferir "regla para pasar al modulo siguiente"
-      (inference end)
-      (evento-nuevo)
-      =>
-	  (printout t "Inferencia de datos hecha" crlf)
-      (focus filtrado)
-)
-
-
-;;;****************************
-;;;
-;;;***** Filtrade Module *****
-;;;
-;;;****************************
-
-(defmodule filtrado
-    (import MAIN ?ALL)
-    (import make-questions ?ALL)
-    (import inferir_datos ?ALL)
-    (export ?ALL))
-
-;(defrule obtenerMenus
-;  (menu-nuevo)
-;  =>
-;  (bind $?allPlatos (find-all-instances(?inst Plato) TRUE)))
-;  (loop-for-count (?i 1 (length$ ?allPlatos))
-;    (bind ?plat (nth$ ?i ?allPlatos))
-;
-;  )
-;  )
-
-
-; (defrule determine-presupuesto
-;  (declare (salience 900))
-;  (not (Evento Presupuesto) )
-;  =>
-;  (bind (Evento Presupuesto) (ask-question "Cual es tu presupuesto?")
-
-;   )
-;  )
-
-; (defrule menuvalido
-;   ;tener algun presupuesto
-;   (Evento Presupuesto)
-;   ;tener 3 menus
-;   (length$ Menus)
-;
-;   =>
-;   (insert$ <lista><indice><expresión simple o lista>)
-; )
 
 
 
@@ -1481,3 +1250,273 @@
 
 
   )
+
+;;****************
+;;*  TEMPLATES   *
+;;****************
+
+
+
+
+;;****************
+;;* DEFFUNCTIONS *
+;;****************
+
+(deffunction ask-question (?question $?allowed-values)
+   (printout t ?question)
+   (bind ?answer (read))
+   (if (lexemep ?answer)
+       then (bind ?answer (lowcase ?answer)))
+   (while (not (member ?answer ?allowed-values)) do
+      (printout t ?question)
+      (bind ?answer (read))
+      (if (lexemep ?answer)
+          then (bind ?answer (lowcase ?answer))))
+   ?answer)
+
+(deffunction yes-or-no-p (?question)
+   (bind ?response (ask-question ?question yes no y n))
+   (if (or (eq ?response yes) (eq ?response y))
+       then TRUE
+       else FALSE))
+
+
+;;; Funcion para hacer una pregunta con respuesta en un rango dado
+(deffunction pregunta-numerica (?pregunta ?rangini ?rangfi)
+	(format t "%s [%d, %d] " ?pregunta ?rangini ?rangfi)
+	(bind ?respuesta (read))
+	(while (not(and(>= ?respuesta ?rangini)(<= ?respuesta ?rangfi))) do
+		(format t "�%s? [%d, %d] " ?pregunta ?rangini ?rangfi)
+		(bind ?respuesta (read))
+	)
+	?respuesta
+)
+
+
+;;;**************************************
+;;;
+;;;---------      MAIN       -----------
+;;;
+;;;**************************************
+(defmodule MAIN (export ?ALL))
+
+(defrule system-begin ""
+  (initial-fact)
+  (not (evento-nuevo))
+  =>
+  (printout t crlf)
+  (printout t "----------------------------" crlf)
+  (printout t "The Menu Maker Expert System" crlf)
+  (printout t "----------------------------" crlf)
+  (printout t crlf)
+  (assert (evento-nuevo))
+  (focus make-questions)
+)
+
+; (defrule answer ""
+;   (declare (salience 1000))
+;   (evento-nuevo ?)
+;   =>
+;   (printout t crlf crlf)
+;   (printout t "Suggested Menu:")
+;   (printout t crlf crlf)
+;   (format t " %s%n%n%n" ?menu-valido))
+
+;;;****************************
+;;;
+;;;***** Questions Module *****
+;;;
+;;;****************************
+(defmodule make-questions
+    (import MAIN ?ALL)
+    (export ?ALL)
+)
+
+(defrule tipoEvento "regla para saber el tipo de evento"
+  (not (Evento Tipo ?))
+  =>
+  (switch (ask-question "Elija el tipo de evento:
+    1:Boda
+    2:Cumpleaños
+    3:Fiesta Infantil
+    4:Cena de empresa
+    5:Fin de año
+    >"
+      1 2 3 4 5)
+    (case 1 then (assert (Evento Tipo Boda)))
+    (case 2 then (assert (Evento Tipo Cumpleaños)))
+    (case 3 then (assert (Evento Tipo Fiesta_Infantil)))
+    (case 4 then (assert (Evento Tipo Cena_empresa)))
+    (case 5 then (assert (Evento Tipo Fin_año)))
+    (default (printout t "No te he entendido"))
+    )
+)
+
+
+(defrule determine-num-com "regla para saber el numero aproximado de invitados"
+ ;(declare (salience 900))
+ (not (Evento Num_com ?) )
+ =>
+ (switch   (ask-question "Cuanta gente calculas tener?
+     1:10-20
+     2:20-50
+     3:50-100
+     4:100 o mas
+>"
+      1 2 3 4)
+   (case 1 then (assert (Evento Num_com 15)))
+   (case 2 then (assert (Evento Num_com 35)))
+   (case 3 then (assert (Evento Num_com 75)))
+   (case 4 then (assert (Evento Num_com 150)))
+   (default (printout t "No te he entendido"))
+  )
+)
+
+(defrule pregunta-presupuesto "regla para saber el presupuesto"
+(not (Evento Presupuesto ?) )
+=>
+(switch   (ask-question "Cuanta presupuesto tienes?
+    1:100€
+    2:200€
+    3:400€
+    4:1000€
+>"
+     1 2 3 4)
+  (case 1 then (assert (Evento Presupuesto 100)))
+  (case 2 then (assert (Evento Presupuesto 200)))
+  (case 3 then (assert (Evento Presupuesto 400)))
+  (case 4 then (assert (Evento Presupuesto 1000)))
+  (default (printout t "No te he entendido"))
+ )
+)
+
+(defrule vegano "regla para saber si prefiere un menu vegano"
+  (declare (salience -1))
+  (not (want-vegan ?))
+  =>
+  (if (yes-or-no-p "Prefiere un menu vegano? (yes/no)")
+  then (assert (want-vegan yes))
+
+   else (assert (want-vegan  no))
+  )
+  (assert (questions end))
+)
+
+(defrule end-questions "regla para pasar al siguiente modulo"
+    (questions end)
+    (evento-nuevo)
+    =>
+    (printout t "fin de las preguntas" crlf)
+    (focus inferir_datos))
+
+
+
+;;;------------------------------------------------------------------------------------------------------------------------------------------------------
+;;;----------  					MODULO DE INFERENCIAS DE DATOS				---------- 				MODULO DE INFERENCIAS DE DATOS
+;;;------------------------------------------------------------------------------------------------------------------------------------------------------
+
+;; En este modulo se hace la abstraccion de los datos obtenidos del modulo de pregunatas
+
+(defmodule inferir_datos
+    (import MAIN ?ALL)
+    ;(printout t "inferiendo" crlf)
+    (import make-questions ?ALL)
+    (export ?ALL)
+)
+
+(defrule presupuesto-por-invitado "regla para establecer el presupuesto-por-invitado maximo"
+   (Evento Num_com ?numcom)
+   (Evento Presupuesto  ?presu)
+   (not (presupuesto-por-invitado))
+   =>
+   (assert (presupuesto-por-invitado (/ ?presu ?numcom)))
+   (assert (inference end))
+)
+
+(defrule finInferir "regla para pasar al modulo siguiente"
+      (inference end)
+      (evento-nuevo)
+      =>
+	  (printout t "Inferencia de datos hecha" crlf)
+      (focus filtrado)
+)
+
+
+;;;****************************
+;;;
+;;;***** Filtrade Module *****
+;;;
+;;;****************************
+
+(defmodule filtrado
+    (import MAIN ?ALL)
+    (import make-questions ?ALL)
+    (import inferir_datos ?ALL)
+    (export ?ALL))
+
+(defrule obtenerMenus
+ (menu-nuevo)
+ =>
+ (bind $?allPlatos (find-all-instances(?inst Plato) TRUE)))
+ (loop-for-count (?i 1 (length$ ?allPlatos))
+   (bind ?plat (nth$ ?i ?allPlatos))
+  )
+ )
+;;calcula el precio de un plato
+(deffunction preuplat (object (is-a Plato) (Componentes $?comp))
+  (bind ?x 0)
+  (loop-for-count (?i 1 (length$ ?comp)) do
+    (bind ?var (nth$ ?i ?comp))
+    (bind ?precio (?var get-Precio))
+    (bind ?x (+ ?x ?precio))
+  )
+ ?x
+)
+;;ELIMINA DE LA LISTA DE INSTANCIAS AQUELLAS QUE POR EL MULTISLOT SL NO
+;;;CONTENGAN EL VALOR ?CONST  PAGINA 44 FAQ
+(deffunction filtrar-multi-por (?li ?sl ?const)
+ (bind ?encontrado FALSE)
+ (if (neq ?li FALSE) then
+
+ (bind ?li (create$ ?li))
+
+ (if (> (length ?li) 0) then
+ (loop-for-count (?i 1 (length ?li))
+ (bind $?v (send (nth$ ?i ?li) ?sl))
+
+ (if (member$ ?const $?v) then
+ (if (eq ?encontrado FALSE) then
+ (bind ?encontrado TRUE)
+ (bind ?ins (nth$ ?i ?li))
+ else
+ (bind ?ins (create$ ?ins (nth$ ?i ?li)))
+ )
+ )
+ )
+ )
+ )
+ (if (eq ?encontrado FALSE) then
+ (bind ?ins FALSE)
+ )
+(return ?ins)
+)
+
+
+; (defrule determine-presupuesto
+;  (declare (salience 900))
+;  (not (Evento Presupuesto) )
+;  =>
+;  (bind (Evento Presupuesto) (ask-question "Cual es tu presupuesto?")
+
+;   )
+;  )
+
+; (defrule menuvalido
+;   ;tener algun presupuesto
+;   (Evento Presupuesto)
+;   ;tener 3 menus
+;   (length$ Menus)
+;
+;   =>
+;   (insert$ <lista><indice><expresión simple o lista>)
+; )
