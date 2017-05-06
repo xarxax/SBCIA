@@ -1,7 +1,7 @@
-; Thu May 04 17:06:25 CEST 2017
+; Fri May 05 17:51:23 CEST 2017
 ; 
-;+ (version "3.5")
-;+ (build "Build 663")
+;+ (version "3.4.8")
+;+ (build "Build 629")
 
 ([Proyect2_Class0] of  Plato
 
@@ -862,7 +862,3 @@
 	(Especiales sin_gluten sin_lactosa ligero)
 	(NombreP "melonconjamon")
 	(Orden Primero))
-
-([Proyect2_Class50028] of  Ingredientes
-
-	(Temporada todas))
