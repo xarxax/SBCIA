@@ -1525,15 +1525,15 @@
 (return ?ins)
 )
 
-;por ahora un Menu es solucion
-; (defrule menu-valido
-;   ((is-a Menu) (Primero ?p) (Segundo ?s) (Postre ?po))
-;   (< (+ (?p get-Precio) (?s get-Precio) (?po get-Precio)) presupuesto-por-invitado)
-;   (menu-nuevo)
-;   =>
-;   (printout t "fin de Refinamiento" crlf)
-;   (focus recomendaciones)
-;   )
+por ahora un Menu es solucion
+ (defrule menu-valido
+   (object (is-a Menu) (Primero ?p) (Segundo ?s) (Postre ?po))
+   (test(< (+ (?p get-Precio) (?s get-Precio) (?po get-Precio)) presupuesto-por-invitado))
+   (menu-nuevo)
+   =>
+   (printout t "fin de Refinamiento" crlf)
+   (focus recomendaciones)
+   )
 
 
 ;;;------------------------------------------------------------------------------------------------------------------------------------------------------
