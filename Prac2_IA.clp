@@ -1522,12 +1522,12 @@
 
  (deffunction sumapreuMenu "" ( ?menu )
    (bind ?x 0)
-     (bind ?prim (?menu get-Primero))
-     (bind ?x (+ ?x (?prim get-PrecioPlato)))
-     (bind ?seg (?menu get-Segundo))
-     (bind ?x (+ ?x (?seg get-PrecioPlato)))
-     (bind ?postr (?menu get-Postre))
-     (bind ?x (+ ?x (?postr get-PrecioPlato)))
+     (bind ?prim (send ?menu get-Primero))
+     (bind ?x (+ ?x (send ?prim get-PrecioPlato)))
+     (bind ?seg (send ?menu get-Segundo))
+     (bind ?x (+ ?x (send ?seg get-PrecioPlato)))
+     (bind ?postr (send ?menu get-Postre))
+     (bind ?x (+ ?x (send ?postr get-PrecioPlato)))
 
   ?x
  )
