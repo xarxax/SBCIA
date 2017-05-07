@@ -1388,16 +1388,16 @@
 (not (Evento Presupuesto ?) )
 =>
 (switch   (ask-question "Cuanta presupuesto tienes?
-    1:100€
-    2:200€
-    3:400€
-    4:1000€
+    1:10000
+    2:20000
+    3:40000
+    4:100000
 >"
      1 2 3 4)
-  (case 1 then (assert (Evento Presupuesto 100)))
-  (case 2 then (assert (Evento Presupuesto 200)))
-  (case 3 then (assert (Evento Presupuesto 400)))
-  (case 4 then (assert (Evento Presupuesto 1000)))
+  (case 1 then (assert (Evento Presupuesto 10000)))
+  (case 2 then (assert (Evento Presupuesto 20000)))
+  (case 3 then (assert (Evento Presupuesto 40000)))
+  (case 4 then (assert (Evento Presupuesto 100000)))
   (default (printout t "No te he entendido"))
  )
 )
@@ -1484,6 +1484,7 @@
 	(printout t "creando menu " crlf)
  	(bind ?newMenu (make-instance  newMenu of Menu))
  	(printout t "menu creado " crlf)
+
  	)
 
 
@@ -1508,6 +1509,16 @@
 ;  ?x
 ; )
 
+(deffunction printa-menu "" (?menu)
+(bind ?prim (send ?menu get-Primero))
+(bind ?seg (send ?menu get-Segundo))
+(bind ?postr (send ?menu get-Postre))
+(bind ?prec (send ?menu get-PrecioMenu))
+(printout t ?prim)
+(printout t ?seg)
+(printout t ?postr)
+(printout t ?prec)
+)
 ;;calcula el precio de un plato
 (deffunction sumapreuComp "" ( $?comp )
   (bind ?x 0)
@@ -1528,6 +1539,7 @@
      (bind ?x (+ ?x (send ?seg get-PrecioPlato)))
      (bind ?postr (send ?menu get-Postre))
      (bind ?x (+ ?x (send ?postr get-PrecioPlato)))
+		 (printout t "precio " ?x crlf)
 
   ?x
  )
@@ -1539,6 +1551,7 @@
           (bind ?x (and ?x (not (eq ?seg nil))))
           (bind ?postr (send ?menu get-Postre))
           (bind ?x (and ?x (not (eq ?postr nil))))
+					(printout t "evaluable " ?x crlf)
        ?x
 )
 ;;ELIMINA DE LA LISTA DE INSTANCIAS AQUELLAS QUE POR EL MULTISLOT SL NO
@@ -1593,8 +1606,8 @@
     ?plato2 <- (object (is-a Plato) (Orden Segundo))
     ?plato3 <- (object (is-a Plato) (Orden Postre))
     =>
-		;(printout t "addmembers-menu" crlf)
-    (bind ?x (sumapreuComp (send ?plato1 get-Componentes)))
+		(printout t "addmembers-menu" crlf)
+     (bind ?x (sumapreuComp (send ?plato1 get-Componentes)))
     (bind ?y  (sumapreuComp (send ?plato2 get-Componentes)))
     (bind ?z (sumapreuComp (send ?plato3 get-Componentes)))
 		;(printout t "binded" crlf)
@@ -1602,6 +1615,7 @@
     (send ?menu1 put-Segundo ?plato2)
     (send ?menu1 put-Postre ?plato3)
     (send ?menu1 put-PrecioMenu (+ ?x (+ ?y ?z)))
+		;(printa-menu ?menu1)
     )
 ;por ahora un Menu es solucion
  ; (defrule menu-valido
@@ -1627,10 +1641,12 @@
   ;   )
 
 		(defrule menu-valido
+			(declare (salience 10))
 	     (presupuesto-por-invitado ?x)
-	    ?putamierda <- (object(is-a Menu))
-			(test (evaluable ?putamierda))
-	    (test (< ?x (sumapreuMenu ?putamierda)))
+	    ?putamierda <- (object(is-a Menu) (PrecioMenu ?y))
+			(test (printout t "menuvalidar"))
+			;(test (evaluable ?putamierda))
+	    (test (> ?x ?y))
 			;(printout t "test done")
 	    (menu-nuevo)
 	    =>
@@ -1655,6 +1671,14 @@
  	;(import valorar_preferencias ?ALL)
  	(export ?ALL)
 )
+
+(defrule recomendar-menu
+	?mimenu <-(object (is-a Menu))
+	(not (FIN))
+	=>
+	(printa-menu ?mimenu)
+	(assert (FIN))
+	)
 ; (defrule printa-menu
 ;   (object (is-a Menu) (Primero ?p) (Segundo ?s) (Postre ?po)  (BebidaM ?drink)(PrecioMenu ?preciom))
 ;   (nuevo_menu)
