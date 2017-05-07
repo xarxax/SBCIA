@@ -1302,14 +1302,14 @@
 
 (defrule system-begin ""
   (initial-fact)
-  (not (evento-nuevo))
+  (not (menu-nuevo))
   =>
   (printout t crlf)
   (printout t "----------------------------" crlf)
   (printout t "The Menu Maker Expert System" crlf)
   (printout t "----------------------------" crlf)
   (printout t crlf)
-  (assert (evento-nuevo))
+  (assert (menu-nuevo))
   (focus make-questions)
 )
 
@@ -1404,7 +1404,7 @@
 
 (defrule end-questions "regla para pasar al siguiente modulo"
     (questions end)
-    (evento-nuevo)
+    (menu-nuevo)
     =>
     (printout t "fin de las preguntas" crlf)
     (focus inferir_datos))
@@ -1435,7 +1435,7 @@
 
 (defrule finInferir "regla para pasar al modulo siguiente"
       (inference end)
-      (evento-nuevo)
+      (menu-nuevo)
       =>
 	  (printout t "Inferencia de datos hecha" crlf)
       (focus filtrado)
@@ -1455,6 +1455,7 @@
     (export ?ALL))
 
 (defrule obtener-platos
+	(declare (salience 1))
  (menu-nuevo)
  =>
  (bind $?allPlatos (find-all-instances((?inst Plato)) TRUE))
@@ -1525,10 +1526,11 @@
 (return ?ins)
 )
 
-por ahora un Menu es solucion
+;por ahora un Menu es solucion
  (defrule menu-valido
-   (object (is-a Menu) (Primero ?p) (Segundo ?s) (Postre ?po))
-   (test(< (+ (?p get-Precio) (?s get-Precio) (?po get-Precio)) presupuesto-por-invitado))
+	 (presupuesto-por-invitado ?x)
+   (object(is-a Menu) (Primero ?p) (Segundo ?s) (Postre ?po))
+   (test(< (+ (send ?p get-Precio) (send ?s get-Precio) (send ?po get-Precio)) ?x ))
    (menu-nuevo)
    =>
    (printout t "fin de Refinamiento" crlf)
