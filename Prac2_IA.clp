@@ -1514,9 +1514,9 @@
 (bind ?seg (send ?menu get-Segundo))
 (bind ?postr (send ?menu get-Postre))
 (bind ?prec (send ?menu get-PrecioMenu))
-(printout t ?prim)
-(printout t ?seg)
-(printout t ?postr)
+(printout t ?prim get-NombreP)
+(printout t ?seg get-NombreP)
+(printout t ?postr get-NombreP)
 (printout t ?prec)
 )
 ;;calcula el precio de un plato
