@@ -1,14 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
 ;;;-------------------------------------------------------------------------------------------------
 
 ;;;**************************************
@@ -17,6 +7,10 @@
 ;;;
 ;;;**************************************
 
+; Sun May 07 20:36:00 CEST 2017
+;
+;+ (version "3.4.8")
+;+ (build "Build 629")
 
 
 (defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
@@ -40,13 +34,13 @@
 		(type INTEGER)
 		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
-	(multislot Especiales
-		(type SYMBOL)
-		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero)
-		(create-accessor read-write))
 	(multislot Presupuesto
 		(type INTEGER)
 		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(multislot Especiales
+		(type SYMBOL)
+		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero)
 		(create-accessor read-write))
 	(single-slot Calidad
 		(type INTEGER)
@@ -72,14 +66,14 @@
 ;+		(allowed-parents Plato)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
+	(multislot Ingrediente
+		(type SYMBOL)
+;+		(allowed-parents Ingredientes)
+		(create-accessor read-write))
 	(multislot Componentes
 		(type INSTANCE)
 ;+		(allowed-classes Ingredientes)
 		(cardinality 1 ?VARIABLE)
-		(create-accessor read-write))
-	(multislot Ingrediente
-		(type SYMBOL)
-;+		(allowed-parents Ingredientes)
 		(create-accessor read-write))
 	(single-slot Complejidad
 ;+		(comment "0 to 5")
@@ -95,41 +89,41 @@
 		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot NombreB
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(single-slot N
 		(type INTEGER)
 ;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot NombreB
+		(type STRING)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot MenuEvento
 		(type SYMBOL)
 ;+		(allowed-parents Menu)
 		(cardinality 3 3)
 		(create-accessor read-write))
-	(single-slot MayorQue
-		(type SYMBOL)
-		(allowed-values FALSE TRUE)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(single-slot TipoE
 ;+		(comment "Deberia ser Symbol")
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot CalidadR
-		(type INTEGER)
+	(single-slot MayorQue
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot Gama
-		(type SYMBOL)
-		(allowed-values baja media alta)
+	(single-slot CalidadR
+		(type INTEGER)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot NombreI
 		(type STRING)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot Gama
+		(type SYMBOL)
+		(allowed-values baja media alta)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(multislot Restricciones
 		(type SYMBOL)
@@ -139,6 +133,10 @@
 		(type SYMBOL)
 		(allowed-values todas primavera verano oto%C3%B1o invierno)
 		(default todas)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot PrecioMenu
+		(type FLOAT)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot Caliente
@@ -191,14 +189,14 @@
 		(type INTEGER)
 		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
+	(multislot Presupuesto
+		(type INTEGER)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
 	(multislot MenuEvento
 		(type SYMBOL)
 ;+		(allowed-parents Menu)
 		(cardinality 3 3)
-		(create-accessor read-write))
-	(multislot Presupuesto
-		(type INTEGER)
-		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
 	(single-slot TipoE
 ;+		(comment "Deberia ser Symbol")
@@ -214,15 +212,19 @@
 ;+		(allowed-parents Bebida)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot Primero
-		(type SYMBOL)
-;+		(allowed-parents Plato)
+	(single-slot PrecioMenu
+		(type FLOAT)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot Postre
 		(type SYMBOL)
 ;+		(allowed-parents Plato)
 ;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot Primero
+		(type SYMBOL)
+;+		(allowed-parents Plato)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot Segundo
 		(type SYMBOL)
@@ -233,13 +235,13 @@
 (defclass Plato
 	(is-a USER)
 	(role concrete)
-	(multislot Especiales
-		(type SYMBOL)
-		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero)
-		(create-accessor read-write))
 	(single-slot NombreP
 		(type STRING)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot Especiales
+		(type SYMBOL)
+		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero)
 		(create-accessor read-write))
 	(multislot Orden
 		(type SYMBOL)
@@ -302,24 +304,24 @@
 (defclass Ingredientes
 	(is-a USER)
 	(role concrete)
-	(single-slot Precio
-		(type FLOAT)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(single-slot Temporada
 		(type SYMBOL)
 		(allowed-values todas primavera verano oto%C3%B1o invierno)
 		(default todas)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot TipoI
-		(type SYMBOL)
-		(allowed-values lacteos proteina_animal hidratos fruta%2Fverdura grasas condimentos otros dulces legumbre carne pescado huevos marisco)
+	(single-slot Precio
+		(type FLOAT)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot Calidad
 		(type INTEGER)
 		(range 0 5)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot TipoI
+		(type SYMBOL)
+		(allowed-values lacteos proteina_animal hidratos fruta%2Fverdura grasas condimentos otros dulces legumbre carne pescado huevos marisco)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot NombreI
@@ -354,13 +356,13 @@
 		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
+	(single-slot CalidadR
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
 	(single-slot TipoEst
 ;+		(comment "???")
 		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot CalidadR
-		(type INTEGER)
 ;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
@@ -386,866 +388,867 @@
 ;;;
 ;;;***************************************
 (definstances instancies
+	([Proyect2_Class0] of  Plato
+
+		(Clasificacion bocadillo)
+		(Complejidad 1)
+		(Componentes
+			[Proyect2_Class20000]
+			[Proyect2_Class3]
+			[Proyect2_Class20016]
+			[Proyect2_Class20007])
+		(NombreP "bocata de mortadela")
+		(Orden Primero Segundo))
+
+	([Proyect2_Class1] of  Ingredientes
+
+		(Calidad 4)
+		(NombreI "huevo gallina")
+		(Precio 0.2)
+		(Temporada todas)
+		(TipoI huevos))
+
+	([Proyect2_Class10000] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "azucar")
+		(Precio 0.5)
+		(Temporada todas)
+		(TipoI condimentos))
+
+	([Proyect2_Class10001] of  Ingredientes
+
+		(Calidad 3)
+		(NombreI "aceituna")
+		(Precio 0.7)
+		(Temporada todas)
+		(TipoI fruta%2Fverdura))
+
+	([Proyect2_Class10002] of  Ingredientes
+
+		(Calidad 2)
+		(NombreI "cerdo")
+		(Precio 2.0)
+		(Temporada todas)
+		(TipoI carne))
+
+	([Proyect2_Class10003] of  Ingredientes
+
+		(Calidad 4)
+		(NombreI "cerdo ecologico")
+		(Precio 4.0)
+		(Temporada todas)
+		(TipoI carne))
+
+	([Proyect2_Class10004] of  Ingredientes
+
+		(Calidad 5)
+		(NombreI "caviar")
+		(Precio 80.0)
+		(Temporada todas)
+		(TipoI huevos))
+
+	([Proyect2_Class10005] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "margarina")
+		(Precio 0.5)
+		(Temporada todas)
+		(TipoI grasas))
+
+	([Proyect2_Class10006] of  Ingredientes
+
+		(Calidad 5)
+		(NombreI "margarina buena")
+		(Precio 2.0)
+		(Temporada todas)
+		(TipoI grasas))
+
+	([Proyect2_Class10007] of  Plato
+
+		(Caliente FALSE)
+		(Clasificacion tapa)
+		(Complejidad 1)
+		(Componentes
+			[Proyect2_Class20000]
+			[Proyect2_Class10004]
+			[Proyect2_Class10024])
+		(Especiales sin_lactosa ligero)
+		(NombreP "tostadas con caviar")
+		(Orden Primero))
+
+	([Proyect2_Class10008] of  Ingredientes
+
+		(Calidad 2)
+		(NombreI "lechuga")
+		(Precio 0.0)
+		(Temporada todas)
+		(TipoI fruta%2Fverdura))
+
+	([Proyect2_Class10009] of  Ingredientes
+
+		(Calidad 5)
+		(NombreI "lechuga buena")
+		(Precio 1.0)
+		(Temporada todas)
+		(TipoI fruta%2Fverdura))
 
-  ([Proyect2_Class0] of  Plato
-
-  	(Clasificacion bocadillo)
-  	(Complejidad 1)
-  	(Componentes
-  		[Proyect2_Class20000]
-  		[Proyect2_Class3]
-  		[Proyect2_Class20016]
-  		[Proyect2_Class20007])
-  	(NombreP "bocata de mortadela")
-  	(Orden Primero Segundo))
-
-  ([Proyect2_Class1] of  Ingredientes
-
-  	(Calidad 4)
-  	(NombreI "huevo gallina")
-  	(Precio 0.2)
-  	(Temporada todas)
-  	(TipoI huevos))
-
-  ([Proyect2_Class10000] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "azucar")
-  	(Precio 0.5)
-  	(Temporada todas)
-  	(TipoI condimentos))
-
-  ([Proyect2_Class10001] of  Ingredientes
-
-  	(Calidad 3)
-  	(NombreI "aceituna")
-  	(Precio 0.7)
-  	(Temporada todas)
-  	(TipoI fruta%2Fverdura))
-
-  ([Proyect2_Class10002] of  Ingredientes
-
-  	(Calidad 2)
-  	(NombreI "cerdo")
-  	(Precio 2.0)
-  	(Temporada todas)
-  	(TipoI carne))
-
-  ([Proyect2_Class10003] of  Ingredientes
-
-  	(Calidad 4)
-  	(NombreI "cerdo ecologico")
-  	(Precio 4.0)
-  	(Temporada todas)
-  	(TipoI carne))
-
-  ([Proyect2_Class10004] of  Ingredientes
-
-  	(Calidad 5)
-  	(NombreI "caviar")
-  	(Precio 80.0)
-  	(Temporada todas)
-  	(TipoI huevos))
-
-  ([Proyect2_Class10005] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "margarina")
-  	(Precio 0.5)
-  	(Temporada todas)
-  	(TipoI grasas))
-
-  ([Proyect2_Class10006] of  Ingredientes
-
-  	(Calidad 5)
-  	(NombreI "margarina buena")
-  	(Precio 2.0)
-  	(Temporada todas)
-  	(TipoI grasas))
-
-  ([Proyect2_Class10007] of  Plato
-
-  	(Caliente FALSE)
-  	(Clasificacion tapa)
-  	(Complejidad 1)
-  	(Componentes
-  		[Proyect2_Class20000]
-  		[Proyect2_Class10004]
-  		[Proyect2_Class10024])
-  	(Especiales sin_lactosa ligero)
-  	(NombreP "tostadas con caviar")
-  	(Orden Primero))
-
-  ([Proyect2_Class10008] of  Ingredientes
-
-  	(Calidad 2)
-  	(NombreI "lechuga")
-  	(Precio 0.0)
-  	(Temporada todas)
-  	(TipoI fruta%2Fverdura))
-
-  ([Proyect2_Class10009] of  Ingredientes
-
-  	(Calidad 5)
-  	(NombreI "lechuga buena")
-  	(Precio 1.0)
-  	(Temporada todas)
-  	(TipoI fruta%2Fverdura))
-
-  ([Proyect2_Class10011] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "cebolla")
-  	(Precio 0.5)
-  	(Temporada todas)
-  	(TipoI fruta%2Fverdura))
-
-  ([Proyect2_Class10012] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "lentejas")
-  	(Precio 0.5)
-  	(Temporada todas)
-  	(TipoI legumbre))
-
-  ([Proyect2_Class10013] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "garbanzos")
-  	(Precio 0.5)
-  	(Temporada todas)
-  	(TipoI legumbre))
-
-  ([Proyect2_Class10014] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "arroz")
-  	(Precio 0.3)
-  	(Temporada todas)
-  	(TipoI hidratos))
-
-  ([Proyect2_Class10015] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "pato")
-  	(Precio 4.0)
-  	(Temporada todas)
-  	(TipoI carne))
-
-  ([Proyect2_Class10016] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "pollo")
-  	(Precio 2.0)
-  	(Temporada todas)
-  	(TipoI carne))
-
-  ([Proyect2_Class10017] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "ternera")
-  	(Precio 2.5)
-  	(Temporada todas)
-  	(TipoI carne))
-
-  ([Proyect2_Class10018] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "gamba")
-  	(Precio 4.0)
-  	(Temporada todas)
-  	(TipoI marisco))
-
-  ([Proyect2_Class10019] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "calamar")
-  	(Precio 3.0)
-  	(Temporada todas)
-  	(TipoI pescado))
-
-  ([Proyect2_Class10020] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "conejo")
-  	(Precio 3.0)
-  	(Temporada todas)
-  	(TipoI carne))
-
-  ([Proyect2_Class10021] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "pavo")
-  	(Precio 3.5)
-  	(Temporada todas)
-  	(TipoI carne))
-
-  ([Proyect2_Class10022] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "salmon")
-  	(Precio 3.5)
-  	(Temporada todas)
-  	(TipoI pescado))
-
-  ([Proyect2_Class10023] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "merluza")
-  	(Precio 2.5)
-  	(Temporada todas)
-  	(TipoI pescado))
-
-  ([Proyect2_Class10024] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "mantequilla")
-  	(Precio 0.5)
-  	(Temporada todas)
-  	(TipoI grasas))
-
-  ([Proyect2_Class10025] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "mantequilla buena")
-  	(Precio 2.0)
-  	(Temporada todas)
-  	(TipoI grasas))
-
-  ([Proyect2_Class10026] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "bacalao")
-  	(Precio 2.0)
-  	(Temporada todas)
-  	(TipoI pescado))
-
-  ([Proyect2_Class10027] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "alubias")
-  	(Precio 0.5)
-  	(Temporada todas)
-  	(TipoI legumbre))
-
-  ([Proyect2_Class10028] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "zanahoria")
-  	(Precio 0.5)
-  	(Temporada todas)
-  	(TipoI fruta%2Fverdura))
-
-  ([Proyect2_Class10029] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "ajo")
-  	(Precio 0.5)
-  	(Temporada todas)
-  	(TipoI fruta%2Fverdura))
-
-  ([Proyect2_Class10030] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "pimiento")
-  	(Precio 0.5)
-  	(Temporada todas)
-  	(TipoI fruta%2Fverdura))
-
-  ([Proyect2_Class10031] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "brocoli")
-  	(Precio 1.0)
-  	(Temporada todas)
-  	(TipoI fruta%2Fverdura))
-
-  ([Proyect2_Class10032] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "col")
-  	(Precio 0.2)
-  	(Temporada todas)
-  	(TipoI fruta%2Fverdura))
-
-  ([Proyect2_Class10033] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "coliflor")
-  	(Precio 0.7)
-  	(Temporada todas)
-  	(TipoI fruta%2Fverdura))
-
-  ([Proyect2_Class10034] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "rabano")
-  	(Precio 0.5)
-  	(Temporada todas)
-  	(TipoI fruta%2Fverdura))
-
-  ([Proyect2_Class10035] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "pasta trigo")
-  	(Precio 1.5)
-  	(Temporada todas)
-  	(TipoI hidratos))
-
-  ([Proyect2_Class10036] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "quinoa")
-  	(Precio 2.0)
-  	(Temporada todas)
-  	(TipoI hidratos))
-
-  ([Proyect2_Class10037] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "avena")
-  	(Precio 1.0)
-  	(Temporada todas)
-  	(TipoI hidratos))
-
-  ([Proyect2_Class10038] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "pasta maiz")
-  	(Precio 2.0)
-  	(Temporada todas)
-  	(TipoI hidratos))
-
-  ([Proyect2_Class2] of  Ingredientes
-
-  	(Calidad 3)
-  	(NombreI "nocilla")
-  	(Precio 2.0)
-  	(Temporada todas)
-  	(TipoI dulces))
-
-  ([Proyect2_Class20000] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "pan")
-  	(Precio 0.2)
-  	(Temporada todas)
-  	(TipoI hidratos))
-
-  ([Proyect2_Class20001] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "azucar moreno")
-  	(Precio 0.4)
-  	(Temporada todas)
-  	(TipoI hidratos))
-
-  ([Proyect2_Class20002] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "pimienta")
-  	(Precio 0.1)
-  	(Temporada todas)
-  	(TipoI condimentos))
-
-  ([Proyect2_Class20003] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "pimenton")
-  	(Precio 0.1)
-  	(Temporada todas)
-  	(TipoI condimentos))
-
-  ([Proyect2_Class20004] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "sal")
-  	(Precio 0.0)
-  	(Temporada todas)
-  	(TipoI condimentos))
-
-  ([Proyect2_Class20005] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "curry")
-  	(Precio 0.1)
-  	(Temporada todas)
-  	(TipoI condimentos))
-
-  ([Proyect2_Class20006] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "oregano")
-  	(Precio 0.2)
-  	(Temporada todas)
-  	(TipoI condimentos))
-
-  ([Proyect2_Class20007] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "tomate")
-  	(Precio 0.5)
-  	(Temporada todas)
-  	(TipoI fruta%2Fverdura))
-
-  ([Proyect2_Class20008] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "manzana")
-  	(Precio 0.5)
-  	(Temporada oto%C3%B1o)
-  	(TipoI fruta%2Fverdura))
-
-  ([Proyect2_Class20009] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "pera")
-  	(Precio 0.5)
-  	(Temporada oto%C3%B1o)
-  	(TipoI fruta%2Fverdura))
-
-  ([Proyect2_Class20010] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "naranja")
-  	(Precio 0.5)
-  	(Temporada invierno)
-  	(TipoI fruta%2Fverdura))
-
-  ([Proyect2_Class20011] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "kiwi")
-  	(Precio 0.6)
-  	(Temporada invierno)
-  	(TipoI fruta%2Fverdura))
-
-  ([Proyect2_Class20012] of  Ingredientes
+	([Proyect2_Class10011] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "cebolla")
+		(Precio 0.5)
+		(Temporada todas)
+		(TipoI fruta%2Fverdura))
 
-  	(Calidad 1)
-  	(NombreI "fresa")
-  	(Precio 1.0)
-  	(Temporada primavera)
-  	(TipoI fruta%2Fverdura))
-
-  ([Proyect2_Class20013] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "melon")
-  	(Precio 0.7)
-  	(Temporada verano)
-  	(TipoI fruta%2Fverdura))
-
-  ([Proyect2_Class20014] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "miel")
-  	(Precio 0.7)
-  	(Temporada todas)
-  	(TipoI condimentos))
-
-  ([Proyect2_Class20015] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "sandia")
-  	(Precio 0.6)
-  	(Temporada verano)
-  	(TipoI fruta%2Fverdura))
-
-  ([Proyect2_Class20016] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "aceite")
-  	(Precio 0.5)
-  	(Temporada todas)
-  	(TipoI grasas))
-
-  ([Proyect2_Class20017] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "cheddar")
-  	(Precio 3.0)
-  	(Temporada todas)
-  	(TipoI lacteos))
-
-  ([Proyect2_Class20018] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "emmental")
-  	(Precio 3.0)
-  	(Temporada todas)
-  	(TipoI lacteos))
-
-  ([Proyect2_Class20019] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "queso azul")
-  	(Precio 3.5)
-  	(Temporada todas)
-  	(TipoI lacteos))
-
-  ([Proyect2_Class20020] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "leche")
-  	(Precio 0.7)
-  	(Temporada todas)
-  	(TipoI lacteos))
-
-  ([Proyect2_Class20021] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "nata")
-  	(Precio 1.5)
-  	(Temporada todas)
-  	(TipoI lacteos))
-
-  ([Proyect2_Class20022] of  Ingredientes
-
-  	(Calidad 1)
-  	(NombreI "yogur")
-  	(Precio 1.0)
-  	(Temporada todas)
-  	(TipoI lacteos))
-
-  ([Proyect2_Class3] of  Ingredientes
-
-  	(Calidad 2)
-  	(NombreI "mortadela")
-  	(Precio 0.5)
-  	(Temporada todas)
-  	(TipoI carne))
-
-  ([Proyect2_Class30000] of  NoAlcohol
-
-  	(NombreB "agua"))
-
-  ([Proyect2_Class30006] of  Plato
-
-  	(Caliente FALSE)
-  	(Clasificacion tapa)
-  	(Complejidad 1)
-  	(Componentes
-  		[Proyect2_Class20000]
-  		[Proyect2_Class10004]
-  		[Proyect2_Class10025])
-  	(Especiales sin_lactosa ligero)
-  	(NombreP "tostadas con caviar plus")
-  	(Orden Primero))
-
-  ([Proyect2_Class30008] of  Plato
+	([Proyect2_Class10012] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "lentejas")
+		(Precio 0.5)
+		(Temporada todas)
+		(TipoI legumbre))
 
-  	(Caliente FALSE)
-  	(Clasificacion tapa)
-  	(Complejidad 1)
-  	(Componentes
-  		[Proyect2_Class20000]
-  		[Proyect2_Class10004]
-  		[Proyect2_Class10005])
-  	(Especiales sin_lactosa vegetariano ligero)
-  	(NombreP "tostadas con caviar vegetariana")
-  	(Orden Primero))
-
-  ([Proyect2_Class30010] of  Plato
-
-  	(Caliente FALSE)
-  	(Clasificacion tapa)
-  	(Complejidad 1)
-  	(Componentes
-  		[Proyect2_Class20000]
-  		[Proyect2_Class10004]
-  		[Proyect2_Class10006])
-  	(Especiales sin_lactosa vegetariano ligero)
-  	(NombreP "tostadas con caviar vegetariana plus")
-  	(Orden Primero))
+	([Proyect2_Class10013] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "garbanzos")
+		(Precio 0.5)
+		(Temporada todas)
+		(TipoI legumbre))
 
-  ([Proyect2_Class30011] of  Plato
+	([Proyect2_Class10014] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "arroz")
+		(Precio 0.3)
+		(Temporada todas)
+		(TipoI hidratos))
 
-  	(Caliente TRUE)
-  	(Clasificacion sopa)
-  	(Complejidad 3)
-  	(Componentes
-  		[Proyect2_Class10014]
-  		[Proyect2_Class10012]
-  		[Proyect2_Class10029]
-  		[Proyect2_Class20004])
-  	(Especiales pesado vegano vegetariano sin_gluten sin_lactosa)
-  	(NombreP "arroz con lentejas")
-  	(Orden Primero PlatoCombinado))
+	([Proyect2_Class10015] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "pato")
+		(Precio 4.0)
+		(Temporada todas)
+		(TipoI carne))
 
-  ([Proyect2_Class30012] of  Ingredientes
+	([Proyect2_Class10016] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "pollo")
+		(Precio 2.0)
+		(Temporada todas)
+		(TipoI carne))
 
-  	(Calidad 1)
-  	(NombreI "jamon")
-  	(Precio 2.0)
-  	(Temporada todas)
-  	(TipoI carne))
+	([Proyect2_Class10017] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "ternera")
+		(Precio 2.5)
+		(Temporada todas)
+		(TipoI carne))
 
-  ([Proyect2_Class30013] of  Plato
+	([Proyect2_Class10018] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "gamba")
+		(Precio 4.0)
+		(Temporada todas)
+		(TipoI marisco))
 
-  	(Caliente TRUE)
-  	(Clasificacion bocadillo)
-  	(Complejidad 2)
-  	(Componentes
-  		[Proyect2_Class10017]
-  		[Proyect2_Class10016]
-  		[Proyect2_Class10008]
-  		[Proyect2_Class10011]
-  		[Proyect2_Class20007])
-  	(Especiales pesado)
-  	(NombreP "kebab")
-  	(Orden PlatoCombinado))
+	([Proyect2_Class10019] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "calamar")
+		(Precio 3.0)
+		(Temporada todas)
+		(TipoI pescado))
 
-  ([Proyect2_Class40000] of  Alcohol
+	([Proyect2_Class10020] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "conejo")
+		(Precio 3.0)
+		(Temporada todas)
+		(TipoI carne))
 
-  	(Gama baja)
-  	(NombreB "sanmiguel")
-  	(TipoA cerveza))
+	([Proyect2_Class10021] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "pavo")
+		(Precio 3.5)
+		(Temporada todas)
+		(TipoI carne))
 
-  ([Proyect2_Class40001] of  NoAlcohol
+	([Proyect2_Class10022] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "salmon")
+		(Precio 3.5)
+		(Temporada todas)
+		(TipoI pescado))
 
-  	(NombreB "cocacola")
-  	(Refresco TRUE))
+	([Proyect2_Class10023] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "merluza")
+		(Precio 2.5)
+		(Temporada todas)
+		(TipoI pescado))
 
-  ([Proyect2_Class40002] of  NoAlcohol
+	([Proyect2_Class10024] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "mantequilla")
+		(Precio 0.5)
+		(Temporada todas)
+		(TipoI grasas))
 
-  	(NombreB "fanta naranja")
-  	(Refresco TRUE))
+	([Proyect2_Class10025] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "mantequilla buena")
+		(Precio 2.0)
+		(Temporada todas)
+		(TipoI grasas))
 
-  ([Proyect2_Class40003] of  NoAlcohol
+	([Proyect2_Class10026] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "bacalao")
+		(Precio 2.0)
+		(Temporada todas)
+		(TipoI pescado))
 
-  	(NombreB "fanta limon")
-  	(Refresco TRUE))
+	([Proyect2_Class10027] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "alubias")
+		(Precio 0.5)
+		(Temporada todas)
+		(TipoI legumbre))
 
-  ([Proyect2_Class40004] of  NoAlcohol
+	([Proyect2_Class10028] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "zanahoria")
+		(Precio 0.5)
+		(Temporada todas)
+		(TipoI fruta%2Fverdura))
 
-  	(NombreB "acuarius")
-  	(Refresco TRUE))
+	([Proyect2_Class10029] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "ajo")
+		(Precio 0.5)
+		(Temporada todas)
+		(TipoI fruta%2Fverdura))
 
-  ([Proyect2_Class40005] of  NoAlcohol
+	([Proyect2_Class10030] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "pimiento")
+		(Precio 0.5)
+		(Temporada todas)
+		(TipoI fruta%2Fverdura))
 
-  	(NombreB "zumo de naranja"))
+	([Proyect2_Class10031] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "brocoli")
+		(Precio 1.0)
+		(Temporada todas)
+		(TipoI fruta%2Fverdura))
 
-  ([Proyect2_Class40006] of  NoAlcohol
+	([Proyect2_Class10032] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "col")
+		(Precio 0.2)
+		(Temporada todas)
+		(TipoI fruta%2Fverdura))
 
-  	(NombreB "limonada"))
+	([Proyect2_Class10033] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "coliflor")
+		(Precio 0.7)
+		(Temporada todas)
+		(TipoI fruta%2Fverdura))
 
-  ([Proyect2_Class40007] of  NoAlcohol
+	([Proyect2_Class10034] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "rabano")
+		(Precio 0.5)
+		(Temporada todas)
+		(TipoI fruta%2Fverdura))
 
-  	(NombreB "camomila"))
+	([Proyect2_Class10035] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "pasta trigo")
+		(Precio 1.5)
+		(Temporada todas)
+		(TipoI hidratos))
 
-  ([Proyect2_Class5] of  Plato
+	([Proyect2_Class10036] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "quinoa")
+		(Precio 2.0)
+		(Temporada todas)
+		(TipoI hidratos))
 
-  	(Caliente FALSE)
-  	(Clasificacion bocadillo)
-  	(Complejidad 1)
-  	(Componentes
-  		[Proyect2_Class20000]
-  		[Proyect2_Class2])
-  	(Especiales vegano sin_gluten)
-  	(NombreP "bocata de nocilla")
-  	(Orden Postre Primero Segundo))
+	([Proyect2_Class10037] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "avena")
+		(Precio 1.0)
+		(Temporada todas)
+		(TipoI hidratos))
 
-  ([Proyect2_Class50003] of  Alcohol
+	([Proyect2_Class10038] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "pasta maiz")
+		(Precio 2.0)
+		(Temporada todas)
+		(TipoI hidratos))
 
-  	(Gama media)
-  	(NombreB "estrelladam")
-  	(TipoA cerveza))
+	([Proyect2_Class2] of  Ingredientes
+
+		(Calidad 3)
+		(NombreI "nocilla")
+		(Precio 2.0)
+		(Temporada todas)
+		(TipoI dulces))
 
-  ([Proyect2_Class50004] of  Alcohol
+	([Proyect2_Class20000] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "pan")
+		(Precio 0.2)
+		(Temporada todas)
+		(TipoI hidratos))
 
-  	(Gama alta)
-  	(NombreB "taramay")
-  	(TipoA cerveza))
+	([Proyect2_Class20001] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "azucar moreno")
+		(Precio 0.4)
+		(Temporada todas)
+		(TipoI hidratos))
 
-  ([Proyect2_Class50005] of  Alcohol
+	([Proyect2_Class20002] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "pimienta")
+		(Precio 0.1)
+		(Temporada todas)
+		(TipoI condimentos))
 
-  	(Gama baja)
-  	(NombreB "eroski")
-  	(TipoA cava))
+	([Proyect2_Class20003] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "pimenton")
+		(Precio 0.1)
+		(Temporada todas)
+		(TipoI condimentos))
 
-  ([Proyect2_Class50006] of  Alcohol
+	([Proyect2_Class20004] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "sal")
+		(Precio 0.0)
+		(Temporada todas)
+		(TipoI condimentos))
 
-  	(Gama media)
-  	(NombreB "codorniu brut")
-  	(TipoA cava))
+	([Proyect2_Class20005] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "curry")
+		(Precio 0.1)
+		(Temporada todas)
+		(TipoI condimentos))
 
-  ([Proyect2_Class50007] of  Alcohol
+	([Proyect2_Class20006] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "oregano")
+		(Precio 0.2)
+		(Temporada todas)
+		(TipoI condimentos))
 
-  	(Gama alta)
-  	(NombreB "codorniu gran reserva")
-  	(TipoA cava))
+	([Proyect2_Class20007] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "tomate")
+		(Precio 0.5)
+		(Temporada todas)
+		(TipoI fruta%2Fverdura))
 
-  ([Proyect2_Class50008] of  Alcohol
+	([Proyect2_Class20008] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "manzana")
+		(Precio 0.5)
+		(Temporada oto%C3%B1o)
+		(TipoI fruta%2Fverdura))
 
-  	(Gama baja)
-  	(NombreB "don simon")
-  	(TipoA vino_blanco))
+	([Proyect2_Class20009] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "pera")
+		(Precio 0.5)
+		(Temporada oto%C3%B1o)
+		(TipoI fruta%2Fverdura))
 
-  ([Proyect2_Class50009] of  Alcohol
+	([Proyect2_Class20010] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "naranja")
+		(Precio 0.5)
+		(Temporada invierno)
+		(TipoI fruta%2Fverdura))
 
-  	(Gama baja)
-  	(NombreB "don simon")
-  	(TipoA vino_tinto))
+	([Proyect2_Class20011] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "kiwi")
+		(Precio 0.6)
+		(Temporada invierno)
+		(TipoI fruta%2Fverdura))
 
-  ([Proyect2_Class50010] of  Alcohol
+	([Proyect2_Class20012] of  Ingredientes
 
-  	(Gama baja)
-  	(NombreB "don simon")
-  	(TipoA vino_negro))
+		(Calidad 1)
+		(NombreI "fresa")
+		(Precio 1.0)
+		(Temporada primavera)
+		(TipoI fruta%2Fverdura))
 
-  ([Proyect2_Class50011] of  Alcohol
+	([Proyect2_Class20013] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "melon")
+		(Precio 0.7)
+		(Temporada verano)
+		(TipoI fruta%2Fverdura))
 
-  	(Gama media)
-  	(NombreB "blanc pescador")
-  	(TipoA vino_blanco))
+	([Proyect2_Class20014] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "miel")
+		(Precio 0.7)
+		(Temporada todas)
+		(TipoI condimentos))
+
+	([Proyect2_Class20015] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "sandia")
+		(Precio 0.6)
+		(Temporada verano)
+		(TipoI fruta%2Fverdura))
+
+	([Proyect2_Class20016] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "aceite")
+		(Precio 0.5)
+		(Temporada todas)
+		(TipoI grasas))
+
+	([Proyect2_Class20017] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "cheddar")
+		(Precio 3.0)
+		(Temporada todas)
+		(TipoI lacteos))
+
+	([Proyect2_Class20018] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "emmental")
+		(Precio 3.0)
+		(Temporada todas)
+		(TipoI lacteos))
+
+	([Proyect2_Class20019] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "queso azul")
+		(Precio 3.5)
+		(Temporada todas)
+		(TipoI lacteos))
+
+	([Proyect2_Class20020] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "leche")
+		(Precio 0.7)
+		(Temporada todas)
+		(TipoI lacteos))
+
+	([Proyect2_Class20021] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "nata")
+		(Precio 1.5)
+		(Temporada todas)
+		(TipoI lacteos))
+
+	([Proyect2_Class20022] of  Ingredientes
+
+		(Calidad 1)
+		(NombreI "yogur")
+		(Precio 1.0)
+		(Temporada todas)
+		(TipoI lacteos))
+
+	([Proyect2_Class3] of  Ingredientes
+
+		(Calidad 2)
+		(NombreI "mortadela")
+		(Precio 0.5)
+		(Temporada todas)
+		(TipoI carne))
+
+	([Proyect2_Class30000] of  NoAlcohol
+
+		(NombreB "agua"))
+
+	([Proyect2_Class30006] of  Plato
+
+		(Caliente FALSE)
+		(Clasificacion tapa)
+		(Complejidad 1)
+		(Componentes
+			[Proyect2_Class20000]
+			[Proyect2_Class10004]
+			[Proyect2_Class10025])
+		(Especiales sin_lactosa ligero)
+		(NombreP "tostadas con caviar plus")
+		(Orden Primero))
+
+	([Proyect2_Class30008] of  Plato
 
-  ([Proyect2_Class50012] of  Alcohol
+		(Caliente FALSE)
+		(Clasificacion tapa)
+		(Complejidad 1)
+		(Componentes
+			[Proyect2_Class20000]
+			[Proyect2_Class10004]
+			[Proyect2_Class10005])
+		(Especiales sin_lactosa vegetariano ligero)
+		(NombreP "tostadas con caviar vegetariana")
+		(Orden Primero))
+
+	([Proyect2_Class30010] of  Plato
+
+		(Caliente FALSE)
+		(Clasificacion tapa)
+		(Complejidad 1)
+		(Componentes
+			[Proyect2_Class20000]
+			[Proyect2_Class10004]
+			[Proyect2_Class10006])
+		(Especiales sin_lactosa vegetariano ligero)
+		(NombreP "tostadas con caviar vegetariana plus")
+		(Orden Primero))
 
-  	(Gama alta)
-  	(NombreB "perro verde")
-  	(TipoA vino_blanco))
+	([Proyect2_Class30011] of  Plato
 
-  ([Proyect2_Class50013] of  Alcohol
+		(Caliente TRUE)
+		(Clasificacion sopa)
+		(Complejidad 3)
+		(Componentes
+			[Proyect2_Class10014]
+			[Proyect2_Class10012]
+			[Proyect2_Class10029]
+			[Proyect2_Class20004])
+		(Especiales pesado vegano vegetariano sin_gluten sin_lactosa)
+		(NombreP "arroz con lentejas")
+		(Orden Primero PlatoCombinado))
 
-  	(Gama media)
-  	(NombreB "bodegas vivanco")
-  	(TipoA vino_tinto))
+	([Proyect2_Class30012] of  Ingredientes
 
-  ([Proyect2_Class50014] of  Alcohol
+		(Calidad 1)
+		(NombreI "jamon")
+		(Precio 2.0)
+		(Temporada todas)
+		(TipoI carne))
 
-  	(Gama media)
-  	(NombreB "bodegas vivanco")
-  	(TipoA vino_negro))
+	([Proyect2_Class30013] of  Plato
 
-  ([Proyect2_Class50015] of  Alcohol
+		(Caliente TRUE)
+		(Clasificacion bocadillo)
+		(Complejidad 2)
+		(Componentes
+			[Proyect2_Class10017]
+			[Proyect2_Class10016]
+			[Proyect2_Class10008]
+			[Proyect2_Class10011]
+			[Proyect2_Class20007])
+		(Especiales pesado)
+		(NombreP "kebab")
+		(Orden PlatoCombinado))
 
-  	(Gama alta)
-  	(NombreB "alabaster gran reserva")
-  	(TipoA vino_tinto))
+	([Proyect2_Class40000] of  Alcohol
 
-  ([Proyect2_Class50016] of  Alcohol
+		(Gama baja)
+		(NombreB "sanmiguel")
+		(TipoA cerveza))
 
-  	(Gama alta)
-  	(NombreB "alabaster gran reserva")
-  	(TipoA vino_negro))
+	([Proyect2_Class40001] of  NoAlcohol
 
-  ([Proyect2_Class50017] of  Plato
-
-  	(Caliente TRUE)
-  	(Clasificacion plancha)
-  	(Complejidad 3)
-  	(Componentes
-  		[Proyect2_Class10016]
-  		[Proyect2_Class10014]
-  		[Proyect2_Class20005])
-  	(Especiales sin_gluten sin_lactosa)
-  	(NombreP "polloconcurry")
-  	(Orden Segundo))
-
-  ([Proyect2_Class50018] of  Plato
-
-  	(Caliente FALSE)
-  	(Clasificacion fruta)
-  	(Complejidad 0)
-  	(Componentes [Proyect2_Class20015])
-  	(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
-  	(NombreP "sandia")
-  	(Orden Postre))
-
-  ([Proyect2_Class50019] of  Plato
-
-  	(Caliente FALSE)
-  	(Clasificacion fruta)
-  	(Complejidad 0)
-  	(Componentes [Proyect2_Class20012])
-  	(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
-  	(NombreP "fresas")
-  	(Orden Postre))
-
-  ([Proyect2_Class50020] of  Plato
-
-  	(Caliente FALSE)
-  	(Clasificacion fruta)
-  	(Complejidad 0)
-  	(Componentes [Proyect2_Class20008])
-  	(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
-  	(NombreP "manzana")
-  	(Orden Postre))
-
-  ([Proyect2_Class50021] of  Plato
-
-  	(Caliente FALSE)
-  	(Clasificacion fruta)
-  	(Complejidad 0)
-  	(Componentes [Proyect2_Class20009])
-  	(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
-  	(NombreP "pera")
-  	(Orden Postre))
-
-  ([Proyect2_Class50022] of  Plato
-
-  	(Caliente FALSE)
-  	(Clasificacion fruta)
-  	(Complejidad 0)
-  	(Componentes [Proyect2_Class20013])
-  	(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
-  	(NombreP "melon")
-  	(Orden Postre))
-
-  ([Proyect2_Class50023] of  Plato
-
-  	(Caliente FALSE)
-  	(Clasificacion fruta)
-  	(Complejidad 0)
-  	(Componentes [Proyect2_Class20010])
-  	(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
-  	(NombreP "naranja")
-  	(Orden Postre))
-
-  ([Proyect2_Class50024] of  Plato
-
-  	(Caliente FALSE)
-  	(Clasificacion fruta)
-  	(Complejidad 0)
-  	(Componentes [Proyect2_Class20011])
-  	(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
-  	(NombreP "kiwi")
-  	(Orden Postre))
-
-  ([Proyect2_Class50025] of  Plato
-
-  	(Clasificacion reposteria)
-  	(Complejidad 0)
-  	(Componentes [Proyect2_Class20022])
-  	(Especiales vegetariano sin_gluten sin_lactosa ligero)
-  	(NombreP "yogur")
-  	(Orden Postre))
-
-  ([Proyect2_Class50026] of  Plato
-
-  	(Caliente FALSE)
-  	(Clasificacion pasta)
-  	(Complejidad 2)
-  	(Componentes
-  		[Proyect2_Class20018]
-  		[Proyect2_Class20004]
-  		[Proyect2_Class20016]
-  		[Proyect2_Class10038])
-  	(Especiales vegetariano sin_gluten)
-  	(NombreP "pasta con queso fundido sin gluten")
-  	(Orden Primero))
-
-  ([Proyect2_Class50027] of  Plato
-
-  	(Clasificacion tapa)
-  	(Complejidad 1)
-  	(Componentes
-  		[Proyect2_Class20013]
-  		[Proyect2_Class30012])
-  	(Especiales sin_gluten sin_lactosa ligero)
-  	(NombreP "melonconjamon")
-  	(Orden Primero))
+		(NombreB "cocacola")
+		(Refresco TRUE))
+
+	([Proyect2_Class40002] of  NoAlcohol
+
+		(NombreB "fanta naranja")
+		(Refresco TRUE))
+
+	([Proyect2_Class40003] of  NoAlcohol
+
+		(NombreB "fanta limon")
+		(Refresco TRUE))
+
+	([Proyect2_Class40004] of  NoAlcohol
+
+		(NombreB "acuarius")
+		(Refresco TRUE))
+
+	([Proyect2_Class40005] of  NoAlcohol
+
+		(NombreB "zumo de naranja"))
+
+	([Proyect2_Class40006] of  NoAlcohol
+
+		(NombreB "limonada"))
+
+	([Proyect2_Class40007] of  NoAlcohol
+
+		(NombreB "camomila"))
+
+	([Proyect2_Class5] of  Plato
+
+		(Caliente FALSE)
+		(Clasificacion bocadillo)
+		(Complejidad 1)
+		(Componentes
+			[Proyect2_Class20000]
+			[Proyect2_Class2])
+		(Especiales vegano sin_gluten)
+		(NombreP "bocata de nocilla")
+		(Orden Postre Primero Segundo))
+
+	([Proyect2_Class50003] of  Alcohol
+
+		(Gama media)
+		(NombreB "estrelladam")
+		(TipoA cerveza))
+
+	([Proyect2_Class50004] of  Alcohol
+
+		(Gama alta)
+		(NombreB "taramay")
+		(TipoA cerveza))
+
+	([Proyect2_Class50005] of  Alcohol
+
+		(Gama baja)
+		(NombreB "eroski")
+		(TipoA cava))
+
+	([Proyect2_Class50006] of  Alcohol
+
+		(Gama media)
+		(NombreB "codorniu brut")
+		(TipoA cava))
+
+	([Proyect2_Class50007] of  Alcohol
+
+		(Gama alta)
+		(NombreB "codorniu gran reserva")
+		(TipoA cava))
+
+	([Proyect2_Class50008] of  Alcohol
+
+		(Gama baja)
+		(NombreB "don simon")
+		(TipoA vino_blanco))
+
+	([Proyect2_Class50009] of  Alcohol
+
+		(Gama baja)
+		(NombreB "don simon")
+		(TipoA vino_tinto))
+
+	([Proyect2_Class50010] of  Alcohol
+
+		(Gama baja)
+		(NombreB "don simon")
+		(TipoA vino_negro))
+
+	([Proyect2_Class50011] of  Alcohol
+
+		(Gama media)
+		(NombreB "blanc pescador")
+		(TipoA vino_blanco))
+
+	([Proyect2_Class50012] of  Alcohol
+
+		(Gama alta)
+		(NombreB "perro verde")
+		(TipoA vino_blanco))
+
+	([Proyect2_Class50013] of  Alcohol
+
+		(Gama media)
+		(NombreB "bodegas vivanco")
+		(TipoA vino_tinto))
+
+	([Proyect2_Class50014] of  Alcohol
+
+		(Gama media)
+		(NombreB "bodegas vivanco")
+		(TipoA vino_negro))
+
+	([Proyect2_Class50015] of  Alcohol
+
+		(Gama alta)
+		(NombreB "alabaster gran reserva")
+		(TipoA vino_tinto))
+
+	([Proyect2_Class50016] of  Alcohol
+
+		(Gama alta)
+		(NombreB "alabaster gran reserva")
+		(TipoA vino_negro))
+
+	([Proyect2_Class50017] of  Plato
+
+		(Caliente TRUE)
+		(Clasificacion plancha)
+		(Complejidad 3)
+		(Componentes
+			[Proyect2_Class10016]
+			[Proyect2_Class10014]
+			[Proyect2_Class20005])
+		(Especiales sin_gluten sin_lactosa)
+		(NombreP "polloconcurry")
+		(Orden Segundo))
+
+	([Proyect2_Class50018] of  Plato
+
+		(Caliente FALSE)
+		(Clasificacion fruta)
+		(Complejidad 0)
+		(Componentes [Proyect2_Class20015])
+		(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
+		(NombreP "sandia")
+		(Orden Postre))
+
+	([Proyect2_Class50019] of  Plato
+
+		(Caliente FALSE)
+		(Clasificacion fruta)
+		(Complejidad 0)
+		(Componentes [Proyect2_Class20012])
+		(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
+		(NombreP "fresas")
+		(Orden Postre))
+
+	([Proyect2_Class50020] of  Plato
+
+		(Caliente FALSE)
+		(Clasificacion fruta)
+		(Complejidad 0)
+		(Componentes [Proyect2_Class20008])
+		(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
+		(NombreP "manzana")
+		(Orden Postre))
+
+	([Proyect2_Class50021] of  Plato
+
+		(Caliente FALSE)
+		(Clasificacion fruta)
+		(Complejidad 0)
+		(Componentes [Proyect2_Class20009])
+		(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
+		(NombreP "pera")
+		(Orden Postre))
+
+	([Proyect2_Class50022] of  Plato
+
+		(Caliente FALSE)
+		(Clasificacion fruta)
+		(Complejidad 0)
+		(Componentes [Proyect2_Class20013])
+		(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
+		(NombreP "melon")
+		(Orden Postre))
+
+	([Proyect2_Class50023] of  Plato
+
+		(Caliente FALSE)
+		(Clasificacion fruta)
+		(Complejidad 0)
+		(Componentes [Proyect2_Class20010])
+		(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
+		(NombreP "naranja")
+		(Orden Postre))
+
+	([Proyect2_Class50024] of  Plato
+
+		(Caliente FALSE)
+		(Clasificacion fruta)
+		(Complejidad 0)
+		(Componentes [Proyect2_Class20011])
+		(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
+		(NombreP "kiwi")
+		(Orden Postre))
+
+	([Proyect2_Class50025] of  Plato
+
+		(Clasificacion reposteria)
+		(Complejidad 0)
+		(Componentes [Proyect2_Class20022])
+		(Especiales vegetariano sin_gluten sin_lactosa ligero)
+		(NombreP "yogur")
+		(Orden Postre))
+
+	([Proyect2_Class50026] of  Plato
+
+		(Caliente FALSE)
+		(Clasificacion pasta)
+		(Complejidad 2)
+		(Componentes
+			[Proyect2_Class20018]
+			[Proyect2_Class20004]
+			[Proyect2_Class20016]
+			[Proyect2_Class10038])
+		(Especiales vegetariano sin_gluten)
+		(NombreP "pasta con queso fundido sin gluten")
+		(Orden Primero))
+
+	([Proyect2_Class50027] of  Plato
+
+		(Clasificacion tapa)
+		(Complejidad 1)
+		(Componentes
+			[Proyect2_Class20013]
+			[Proyect2_Class30012])
+		(Especiales sin_gluten sin_lactosa ligero)
+		(NombreP "melonconjamon")
+		(Orden Primero))
+
+
 
 
 
@@ -1455,14 +1458,23 @@
     (export ?ALL))
 
 (defrule obtener-platos
-	(declare (salience 1))
+	(declare (salience 2))
  (menu-nuevo)
  =>
+ (printout t "platos" crlf)
  (bind $?allPlatos (find-all-instances((?inst Plato)) TRUE))
  (loop-for-count (?i 1 (length$ ?allPlatos))
    (bind ?plat (nth$ ?i ?allPlatos))
   )
  )
+
+; (defrule make_menu
+; 	(declare (salience 1))
+; 	(menu-nuevo)
+; 	=>
+; 	(bind ?newMenu (make-instance  newMenu of Menu))
+; 	(printout t "menu creado ")
+; 	)
 
 
 ;;si un plato es mas caro que nuestro presupuesto-por-invitado lo descartamos
@@ -1487,7 +1499,7 @@
 ; )
 
 ;;calcula el precio de un plato
-(deffunction sumapreuComp ( ?comp )
+(deffunction sumapreuComp "" ( $?comp )
   (bind ?x 0)
   (loop-for-count (?i 1 (length ?comp)) do
     (bind ?var (nth$ ?i ?comp))
@@ -1503,39 +1515,83 @@
  (bind ?encontrado FALSE)
  (if (neq ?li FALSE) then
 
- (bind ?li (create$ ?li))
+ 	(bind ?li (create$ ?li))
 
- (if (> (length ?li) 0) then
- (loop-for-count (?i 1 (length ?li))
- (bind $?v (send (nth$ ?i ?li) ?sl))
+ 	(if (> (length ?li) 0) then
+ 		(loop-for-count (?i 1 (length ?li))
+ 			(bind $?v (send (nth$ ?i ?li) ?sl))
 
- (if (member$ ?const $?v) then
- (if (eq ?encontrado FALSE) then
- (bind ?encontrado TRUE)
- (bind ?ins (nth$ ?i ?li))
- else
- (bind ?ins (create$ ?ins (nth$ ?i ?li)))
- )
- )
- )
- )
- )
- (if (eq ?encontrado FALSE) then
- (bind ?ins FALSE)
- )
-(return ?ins)
+ 				(if (member$ ?const $?v) then
+ 					(if (eq ?encontrado FALSE) then
+ 						(bind ?encontrado TRUE)
+ 						(bind ?ins (nth$ ?i ?li))
+ 						else
+ 						(bind ?ins (create$ ?ins (nth$ ?i ?li)))
+ 					)
+ 				)
+ 			)
+ 		)
+ 	)
+ 	(if (eq ?encontrado FALSE) then
+ 		(bind ?ins FALSE)
+ 	)
+	(return ?ins)
 )
 
+
+; (defrule addmembers-menu ""
+;     ?menu1  <- (object (is-a Menu))
+;     ?plato1 <- (object (is-a Plato) (Orden Primero))
+;     ?plato2 <- (object (is-a Plato) (Orden Segundo))
+;     ?plato3 <- (object (is-a Plato) (Orden Postre))
+;     ?x <- (sumapreuComp Plato ?plato1)
+;     ?y <- (sumapreuComp ?plato2 get-Componentes)
+;     ?z <- (sumapreuComp ?plato3 get-Componentes)
+;     =>
+;     (send ?menu1 put-Primero ?plato1)
+;     (send ?menu1 put-Segundo ?plato2)
+;     (send ?menu1 put-Postre ?plato3)
+;     (send ?menu1 put-PrecioMenu (+ ?x  ?y ?z))
+;     )
+
+
+(defrule addmembers-menu
+    ?menu1  <- (object (is-a Menu))
+    ?plato1 <- (object (is-a Plato) (Orden Primero))
+    ?plato2 <- (object (is-a Plato) (Orden Segundo))
+    ?plato3 <- (object (is-a Plato) (Orden Postre))
+    =>
+		(printout t "addmembers-menu" crlf)
+    (bind ?x (send ?plato1 get-Componentes sumapreuComp))
+    (bind ?y  (send ?plato2 get-Componentes sumapreuComp))
+    (bind ?z (send ?plato3 get-Componentes sumapreuComp))
+    (send ?menu1 put-Primero ?plato1)
+    (send ?menu1 put-Segundo ?plato2)
+    (send ?menu1 put-Postre ?plato3)
+    (send ?menu1 put-PrecioMenu (+ ?x (+ ?y ?z)))
+    )
 ;por ahora un Menu es solucion
- (defrule menu-valido
-	 (presupuesto-por-invitado ?x)
-   (object(is-a Menu) (Primero ?p) (Segundo ?s) (Postre ?po))
-   (test(< (+ (send ?p get-Precio) (send ?s get-Precio) (send ?po get-Precio)) ?x ))
-   (menu-nuevo)
-   =>
-   (printout t "fin de Refinamiento" crlf)
-   (focus recomendaciones)
-   )
+ ; (defrule menu-valido
+ ;     (presupuesto-por-invitado ?x)
+ ;   (object(is-a Menu) (Primero ?p) (Segundo ?s) (Postre ?po) (PrecioMenu ?thresh))
+ ;  ; (test(< (+ (send ?p get-Precio) (send ?s get-Precio) (send ?po get-Precio)) ?x ))
+ ;    (test (< ?x ?thesh))
+ ;     (menu-nuevo)
+ ;   =>
+ ;   (printout t "fin de Refinamiento" crlf)
+ ;   (focus recomendaciones)
+ ;   )
+
+ ;por ahora un Menu es solucion
+  (defrule menu-valido
+ 	 (presupuesto-por-invitado ?x)
+    (object(is-a Menu) (Primero ?p) (Segundo ?s) (Postre ?po))
+    (test(< (+ (send ?p get-Precio) (send ?s get-Precio) (send ?po get-Precio)) ?x ))
+    (menu-nuevo)
+    =>
+    (printout t "fin de Refinamiento" crlf)
+    (focus recomendaciones)
+    )
 
 
 ;;;------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1547,13 +1603,13 @@
 ;; si hay mas de 6 solcuiones se mostraran las 6 con valor cuantitativo mas alto y
 ;; si hay menos pues se mostraran todas
 
-; (defmodule recomendaciones
-; 	(import MAIN ?ALL)
-; 	(import inferir_datos ?ALL)
-; 	(import filtrado ?ALL)
-; 	(import valorar_preferencias ?ALL)
-; 	(export ?ALL)
-; )
+ (defmodule recomendaciones
+ 	(import MAIN ?ALL)
+ 	(import inferir_datos ?ALL)
+ 	(import filtrado ?ALL)
+ 	(import valorar_preferencias ?ALL)
+ 	(export ?ALL)
+)
 ; (defrule printa-menu
 ;   (object (is-a Menu) (Primero ?p) (Segundo ?s) (Postre ?po)  (BebidaM ?drink)(PrecioMenu ?preciom))
 ;   (nuevo_menu)
