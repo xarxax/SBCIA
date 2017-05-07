@@ -1511,7 +1511,7 @@
 ;;calcula el precio de un plato
 (deffunction sumapreuComp "" ( $?comp )
   (bind ?x 0)
-	(printout t "suma dels preus ")
+	;(printout t "suma dels preus ")
   (loop-for-count (?i 1 (length ?comp)) do
     (bind ?var (nth$ ?i ?comp))
     (bind ?precio (send ?var get-Precio))
@@ -1531,7 +1531,16 @@
 
   ?x
  )
-
+ (deffunction evaluable "" ( ?menu )
+   (bind ?x TRUE)
+     (bind ?prim (send ?menu get-Primero))
+     (bind ?x (& ?x (eq ?prim nil)))
+     (bind ?seg (send ?menu get-Segundo))
+     (bind ?x (& ?x (eq ?seg nil)))
+     (bind ?postr (send ?menu get-Postre))
+     (bind ?x (& ?x (eq ?postr nil)))
+  ?x
+ )
 ;;ELIMINA DE LA LISTA DE INSTANCIAS AQUELLAS QUE POR EL MULTISLOT SL NO
 ;;;CONTENGAN EL VALOR ?CONST  PAGINA 44 FAQ
 (deffunction filtrar-multi-por (?li ?sl ?const)
@@ -1584,10 +1593,11 @@
     ?plato2 <- (object (is-a Plato) (Orden Segundo))
     ?plato3 <- (object (is-a Plato) (Orden Postre))
     =>
-		(printout t "addmembers-menu" crlf)
-    (bind ?x (send ?plato1 get-Componentes sumapreuComp))
-    (bind ?y  (send ?plato2 get-Componentes sumapreuComp))
-    (bind ?z (send ?plato3 get-Componentes sumapreuComp))
+		;(printout t "addmembers-menu" crlf)
+    (bind ?x (sumapreuComp (send ?plato1 get-Componentes)))
+    (bind ?y  (sumapreuComp (send ?plato2 get-Componentes)))
+    (bind ?z (sumapreuComp (send ?plato3 get-Componentes)))
+		;(printout t "binded" crlf)
     (send ?menu1 put-Primero ?plato1)
     (send ?menu1 put-Segundo ?plato2)
     (send ?menu1 put-Postre ?plato3)
@@ -1617,13 +1627,13 @@
   ;   )
 
 		(defrule menu-valido
-	      (presupuesto-por-invitado ?x)
-	    	?putamierda <- (object(is-a Menu))
-	       (tengomenu)
-	       (test (< ?x (sumapreuMenu ?putamierda)))
-	       (menu-nuevo)
+	     (presupuesto-por-invitado ?x)
+	    ?putamierda <- (object(is-a Menu))
+			(test (evaluable ?putamierda))
+	    (test (< ?x (sumapreuMenu ?putamierda)))
+			;(printout t "test done")
+	    (menu-nuevo)
 	    =>
-
 	    (printout t "fin de Refinamiento" crlf)
 	    (focus recomendaciones)
 	    )
