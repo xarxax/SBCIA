@@ -1462,6 +1462,16 @@
    (bind ?plat (nth$ ?i ?allPlatos))
   )
  )
+
+ (defrule descartando-platos-caros
+   (menu-nuevo)
+   ?miplato <- (object (is-a Plato) )
+   (> (preuplat ?miplato) presupuesto-por-invitado)
+   =>
+   (assert (DescartadoCaro ?miplato))
+   (printout t "eliminado por ser demasiado caro" (instance-name ?miplato) crlf)
+   (send ?miplato delete)
+   )
 ;;calcula el precio de un plato
 (deffunction preuplat (object (is-a Plato) (Componentes $?comp))
   (bind ?x 0)

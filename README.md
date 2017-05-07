@@ -1,14 +1,8 @@
 # MenuMaker
 
 
-Todo :
-{- Preguntar presupuesto al usuario -> (Guillem) He hecho la función 
-pero falta añadir el Slot a presupuesto usuando Protégé} --> Añadido en evento
-
-
-- Preguntar numero de comensales ->(Guillem) hecho, en principio te lo hace con un 
-evento anónimo, me queda descubrir como hacer que ese evento anónimo sea el que busca nuestro main
-- Añadir reglas  de menús validos dados ciertos platos(por precio y complejidad)
-- Añadir regla de crear platos
-- Un Evento tiene que tener tres Menus(Hecho, 3 obligatorios)
-- Un Menú debe tener 2-3 Platos  (Hecho, postre no es obligatorio)
+Guillem:
+- He añadido una funcion que descarta platos caros, descartando-platos-caros
+- He añadido el parámetro PrecioPlato a Plato (Protege)
+- He añadido el parámetro PrecioMenu a Menu (Protege)
+- Falta actualizar la ontologia+ instancias en Clips
