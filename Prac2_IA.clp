@@ -1454,7 +1454,7 @@
     (import inferir_datos ?ALL)
     (export ?ALL))
 
-(defrule obtenerMenus
+(defrule obtener-platos
  (menu-nuevo)
  =>
  (bind $?allPlatos (find-all-instances(?inst Plato) TRUE)))
@@ -1463,6 +1463,8 @@
   )
  )
 
+
+;;si un plato es mas caro que nuestro presupuesto-por-invitado lo descartamos
  (defrule descartando-platos-caros
    (menu-nuevo)
    ?miplato <- (object (is-a Plato) )
@@ -1511,22 +1513,42 @@
 (return ?ins)
 )
 
+;por ahora un Menu es solucion
+(defrule menu-valido
+  ((is-a Menu) (Primero ?p) (Segundo ?s) (Postre ?po))
+  (< (+ (?p get-Precio) (?s get-Precio) (?po get-Precio)) presupuesto-por-invitado)
+  (menu-nuevo)
+  =>
+  (printout t "fin de Refinamiento" crlf)
+  (focus recomendaciones)
+  )
 
-; (defrule determine-presupuesto
-;  (declare (salience 900))
-;  (not (Evento Presupuesto) )
-;  =>
-;  (bind (Evento Presupuesto) (ask-question "Cual es tu presupuesto?")
 
-;   )
-;  )
+;;;------------------------------------------------------------------------------------------------------------------------------------------------------
+;;;-
+---------  				MODULO DE RECOMENDACIONES		---------- 				MODULO DE RECOMENDACIONES
+;;;------------------------------------------------------------------------------------------------------------------------------------------------------
 
-; (defrule menuvalido
-;   ;tener algun presupuesto
-;   (Evento Presupuesto)
-;   ;tener 3 menus
-;   (length$ Menus)
-;
-;   =>
-;   (insert$ <lista><indice><expresión simple o lista>)
-; )
+;; En este modulo se obtendran todas las solcuiones y se mostrara la solcuion
+;; si hay mas de 6 solcuiones se mostraran las 6 con valor cuantitativo mas alto y
+;; si hay menos pues se mostraran todas
+
+(defmodule recomendaciones
+	(import MAIN ?ALL)
+	(import inferir_datos ?ALL)
+	(import filtrado ?ALL)
+	(import valorar_preferencias ?ALL)
+	(export ?ALL)
+)
+(defrule printa-menu
+  (object (is-a Menu) (Primero ?p) (Segundo ?s) (Postre ?po)  (BebidaM ?drink)(PrecioMenu ?preciom))
+  (nuevo_menu)
+  (not (FIN))
+  =>
+  (printout t "Primero: " (?p get-nombrePlato)
+  "Segondo: " (?s get-nombrePlato)
+  "Postre: " (?po get-nombrePlato)
+  "Bebida: " (?drink get-NombreB)
+  "Precio: " (?preciom get-PrecioMenu))
+  (assert (FIN))
+  )
