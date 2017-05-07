@@ -1534,11 +1534,11 @@
  (deffunction evaluable "" ( ?menu )
    (bind ?x TRUE)
      (bind ?prim (send ?menu get-Primero))
-     (bind ?x (& ?x (eq ?prim nil)))
+     (bind ?x (& ?x (not (eq ?prim nil))))
      (bind ?seg (send ?menu get-Segundo))
-     (bind ?x (& ?x (eq ?seg nil)))
+     (bind ?x (& ?x (not (eq ?seg nil))))
      (bind ?postr (send ?menu get-Postre))
-     (bind ?x (& ?x (eq ?postr nil)))
+     (bind ?x (& ?x (not (eq ?postr nil))))
   ?x
  )
 ;;ELIMINA DE LA LISTA DE INSTANCIAS AQUELLAS QUE POR EL MULTISLOT SL NO
