@@ -1,4 +1,4 @@
-; Sun May 07 20:36:00 CEST 2017
+; Sun May 07 22:37:28 CEST 2017
 ; 
 ;+ (version "3.4.8")
 ;+ (build "Build 629")
@@ -70,7 +70,7 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
-([KB_378472_Class3] of  Map
+([KB_232432_Class3] of  Map
 )
 
 ([KB_959621_Class0] of  String
@@ -682,12 +682,12 @@
 
 ([ProtegeMenu_ProjectKB_Class16] of  String
 
-	(name "Alcohol")
+	(name "NoAlcohol")
 	(string_value "NombreB"))
 
 ([ProtegeMenu_ProjectKB_Class17] of  String
 
-	(name "NoAlcohol")
+	(name "Alcohol")
 	(string_value "NombreB"))
 
 ([ProtegeMenu_ProjectKB_Class18] of  String
