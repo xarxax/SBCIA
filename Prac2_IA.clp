@@ -1491,7 +1491,7 @@
  ; (defrule descartando-platos-caros
  ;   (menu-nuevo)
  ;   ?miplato <- (object (is-a Plato) )
- ;   (> (preuplat ?miplato) presupuesto-por-invitado)
+ ;   (> (preuplat ?miplato) presupuesto-por-inv1itado)
  ;   =>
  ;   (assert (DescartadoCaro ?miplato))
  ;   (printout t "eliminado por ser demasiado caro" (instance-name ?miplato) crlf)
@@ -1532,15 +1532,15 @@
   ?x
  )
  (deffunction evaluable "" ( ?menu )
-   (bind ?x TRUE)
-     (bind ?prim (send ?menu get-Primero))
-     (bind ?x (& ?x (not (eq ?prim nil))))
-     (bind ?seg (send ?menu get-Segundo))
-     (bind ?x (& ?x (not (eq ?seg nil))))
-     (bind ?postr (send ?menu get-Postre))
-     (bind ?x (& ?x (not (eq ?postr nil))))
-  ?x
- )
+        (bind ?x TRUE)
+          (bind ?prim (send ?menu get-Primero))
+          (bind ?x (and ?x (not (eq ?prim nil))))
+          (bind ?seg (send ?menu get-Segundo))
+          (bind ?x (and ?x (not (eq ?seg nil))))
+          (bind ?postr (send ?menu get-Postre))
+          (bind ?x (and ?x (not (eq ?postr nil))))
+       ?x
+)
 ;;ELIMINA DE LA LISTA DE INSTANCIAS AQUELLAS QUE POR EL MULTISLOT SL NO
 ;;;CONTENGAN EL VALOR ?CONST  PAGINA 44 FAQ
 (deffunction filtrar-multi-por (?li ?sl ?const)
