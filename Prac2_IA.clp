@@ -1394,8 +1394,8 @@
     4:100000
 >"
      1 2 3 4)
-  (case 1 then (assert (Evento Presupuesto 10000)))
-  (case 2 then (assert (Evento Presupuesto 20000)))
+  (case 1 then (assert (Evento Presupuesto 100)))
+  (case 2 then (assert (Evento Presupuesto 200)))
   (case 3 then (assert (Evento Presupuesto 40000)))
   (case 4 then (assert (Evento Presupuesto 100000)))
   (default (printout t "No te he entendido"))
@@ -1514,10 +1514,10 @@
 (bind ?seg (send ?menu get-Segundo))
 (bind ?postr (send ?menu get-Postre))
 (bind ?prec (send ?menu get-PrecioMenu))
-(printout t ?prim get-NombreP)
-(printout t ?seg get-NombreP)
-(printout t ?postr get-NombreP)
-(printout t ?prec)
+(printout t crlf "Primero: "(send ?prim get-NombreP) crlf)
+(printout t "Segundo: "(send ?seg get-NombreP) crlf)
+(printout t "Postre: "(send ?postr get-NombreP) crlf)
+(printout t ?prec crlf crlf)
 )
 ;;calcula el precio de un plato
 (deffunction sumapreuComp "" ( $?comp )
@@ -1644,8 +1644,8 @@
 			(declare (salience 10))
 	     (presupuesto-por-invitado ?x)
 	    ?putamierda <- (object(is-a Menu) (PrecioMenu ?y))
-			(test (printout t "menuvalidar"))
-			;(test (evaluable ?putamierda))
+			(test (printout t "menuvalidar" crlf))
+			(test (evaluable ?putamierda))
 	    (test (> ?x ?y))
 			;(printout t "test done")
 	    (menu-nuevo)
@@ -1672,13 +1672,30 @@
  	(export ?ALL)
 )
 
-(defrule recomendar-menu
+(defrule recomendar-menu1
 	?mimenu <-(object (is-a Menu))
-	(not (FIN))
+	(not (FIN1))
 	=>
 	(printa-menu ?mimenu)
-	(assert (FIN))
+	(assert (FIN1))
 	)
+(defrule recomendar-menu2
+		?mimenu <-(object (is-a Menu))
+		(not (FIN2))
+		(FIN1)
+		=>
+		(printa-menu ?mimenu)
+		(assert (FIN2))
+		)
+(defrule recomendar-menu3
+				?mimenu <-(object (is-a Menu))
+				(not (FIN3))
+				(FIN2)
+				(FIN1)
+				=>
+				(printa-menu ?mimenu)
+				(assert (FIN3))
+				)
 ; (defrule printa-menu
 ;   (object (is-a Menu) (Primero ?p) (Segundo ?s) (Postre ?po)  (BebidaM ?drink)(PrecioMenu ?preciom))
 ;   (nuevo_menu)
