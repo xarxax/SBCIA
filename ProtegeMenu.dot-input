@@ -1,0 +1,21 @@
+digraph "ProtegeMenu" {
+
+"NoTieneIng" [shape=box, label="NoTieneIng", color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Restriccion"->"NoTieneIng" [dir=back, label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"TieneIng" [shape=box, label="TieneIng", color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Restriccion"->"TieneIng" [dir=back, label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Restriccion" [shape=box, label="Restriccion", color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Estilo" [shape=box, label="Estilo", color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Restriccion"->"Estilo" [dir=back, label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Ingredientes" [shape=box, label="Ingredientes", color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Evento" [shape=box, label="Evento", color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Menu" [shape=box, label="Menu", color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"PrecioR" [shape=box, label="PrecioR", color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Restriccion"->"PrecioR" [dir=back, label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Bebida" [shape=box, label="Bebida", color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Plato" [shape=box, label="Plato", color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"NoAlcohol" [shape=box, label="NoAlcohol", color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Bebida"->"NoAlcohol" [dir=back, label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Alcohol" [shape=box, label="Alcohol", color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Bebida"->"Alcohol" [dir=back, label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+}

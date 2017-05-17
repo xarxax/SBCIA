@@ -1257,7 +1257,7 @@
 ;;*  TEMPLATES   *
 ;;****************
 
-(deftemplate Menuses
+(deftemplate Menuses "Lista menus"
 	(multislot menu (type INSTANCE) (allowed-classes Menu))
 		)
 
@@ -1298,6 +1298,89 @@
 	?respuesta
 )
 
+(deffunction printa-menu "" (?menu)
+(bind ?prim (send ?menu get-Primero))
+(bind ?seg (send ?menu get-Segundo))
+(bind ?postr (send ?menu get-Postre))
+(bind ?prec (send ?menu get-PrecioMenu))
+(printout t crlf "Primero: "(send ?prim get-NombreP) crlf)
+(printout t "Segundo: "(send ?seg get-NombreP) crlf)
+(printout t "Postre: "(send ?postr get-NombreP) crlf)
+(printout t ?prec crlf crlf)
+)
+;;calcula el precio de un plato
+(deffunction sumapreuComp "" ( $?comp )
+  (bind ?x 0)
+	;(printout t "suma dels preus ")
+  (loop-for-count (?i 1 (length ?comp)) do
+    (bind ?var (nth$ ?i ?comp))
+    (bind ?precio (send ?var get-Precio))
+    (bind ?x (+ ?x ?precio))
+  )
+ ?x
+)
+
+ (deffunction sumapreuMenu "" ( ?menu )
+   (bind ?x 0)
+     (bind ?prim (send ?menu get-Primero))
+     (bind ?x (+ ?x (send ?prim get-PrecioPlato)))
+     (bind ?seg (send ?menu get-Segundo))
+     (bind ?x (+ ?x (send ?seg get-PrecioPlato)))
+     (bind ?postr (send ?menu get-Postre))
+     (bind ?x (+ ?x (send ?postr get-PrecioPlato)))
+		 (printout t "precio " ?x crlf)
+
+  ?x
+ )
+ (deffunction evaluable "" ( ?menu )
+        (bind ?x TRUE)
+          (bind ?prim (send ?menu get-Primero))
+          (bind ?x (and ?x (not (eq ?prim nil))))
+          (bind ?seg (send ?menu get-Segundo))
+          (bind ?x (and ?x (not (eq ?seg nil))))
+          (bind ?postr (send ?menu get-Postre))
+          (bind ?x (and ?x (not (eq ?postr nil))))
+					(printout t "evaluable " ?x crlf)
+       ?x
+)
+;;ELIMINA DE LA LISTA DE INSTANCIAS AQUELLAS QUE POR EL MULTISLOT SL NO
+;;;CONTENGAN EL VALOR ?CONST  PAGINA 44 FAQ
+(deffunction filtrar-multi-por (?li ?sl ?const)
+ (bind ?encontrado FALSE)
+ (if (neq ?li FALSE) then
+
+ 	(bind ?li (create$ ?li))
+
+ 	(if (> (length ?li) 0) then
+ 		(loop-for-count (?i 1 (length ?li))
+ 			(bind $?v (send (nth$ ?i ?li) ?sl))
+
+ 				(if (member$ ?const $?v) then
+ 					(if (eq ?encontrado FALSE) then
+ 						(bind ?encontrado TRUE)
+ 						(bind ?ins (nth$ ?i ?li))
+ 						else
+ 						(bind ?ins (create$ ?ins (nth$ ?i ?li)))
+ 					)
+ 				)
+ 			)
+ 		)
+ 	)
+ 	(if (eq ?encontrado FALSE) then
+ 		(bind ?ins FALSE)
+ 	)
+	(return ?ins)
+)
+
+(deffunction menus-nombre (?menu)
+	(bind ?prim (send ?menu get-Primero))
+	(bind ?seg (send ?menu get-Segundo))
+	(bind ?pos (send ?menu get-Postre))
+	(bind ?p1 (send ?prim get-NombreP))
+	(bind ?p2  (send ?seg get-NombreP))
+	(bind ?p3 (send ?pos get-NombreP))
+	(str-cat ?p1 " " ?p2 " " ?p3 " " clrf)
+)
 
 ;;;**************************************
 ;;;
@@ -1414,7 +1497,9 @@
     (menu-nuevo)
     =>
     (printout t "fin de las preguntas" crlf)
-    (focus inferir_datos))
+    (focus inferir_datos)
+		(assert (menusGenerar))
+		)
 
 
 
@@ -1426,19 +1511,67 @@
 
 (defmodule inferir_datos
     (import MAIN ?ALL)
-    ;(printout t "inferiendo" crlf)
     (import make-questions ?ALL)
     (export ?ALL)
 )
 
+
+(defrule insertaManuses
+	(declare (salience 10))
+		(not (Menuses))
+		=>
+		(assert (Menuses))
+		)
+
 (defrule presupuesto-por-invitado "regla para establecer el presupuesto-por-invitado maximo"
-   (Evento Num_com ?numcom)
-   (Evento Presupuesto  ?presu)
-   (not (presupuesto-por-invitado))
-   =>
-   (assert (presupuesto-por-invitado (/ ?presu ?numcom)))
-   (assert (inference end))
+		  (Evento Num_com ?numcom)
+		  (Evento Presupuesto  ?presu)
+		  (not (presupuesto-por-invitado))
+		  =>
+		  (assert (presupuesto-por-invitado (/ ?presu ?numcom)))
+		  (assert (inference end))
 )
+
+(defrule make_menu
+ (declare (salience 1))
+ (menu-nuevo)
+ ?mG <-(menusGenerar)
+ =>
+ (printout t "creando menu " crlf)
+ (make-instance  (gensym*) of Menu)
+ (printout t "menu creado " crlf)
+ (retract ?mG)
+
+ )
+ (defrule addmembers-menu
+	 	 ?men <- (Menuses)
+		 ?menu1  <- (object (is-a Menu))
+		 ?plato1 <- (object (is-a Plato) (Orden Primero))
+		 ?plato2 <- (object (is-a Plato) (Orden Segundo))
+		 ?plato3 <- (object (is-a Plato) (Orden Postre))
+		 =>
+		 (printout t "addmembers-menu" crlf)
+
+
+		 ;(bind ?men (assert (Menuses)))
+
+		 (bind ?x (sumapreuComp (send ?plato1 get-Componentes)))
+		 (bind ?y  (sumapreuComp (send ?plato2 get-Componentes)))
+		 (bind ?z (sumapreuComp (send ?plato3 get-Componentes)))
+
+		 ;(printout t "binded" crlf)
+		 (send ?menu1 put-Primero ?plato1)
+		 (send ?menu1 put-Segundo ?plato2)
+		 (send ?menu1 put-Postre ?plato3)
+		 (send ?menu1 put-PrecioMenu (+ ?x (+ ?y ?z)))
+
+		 (printout t  crlf (menus-nombre ?menu1) crlf)
+		 ;(modify ?men (menu ?menu1))
+		 (slot-insert$ ?men menu 1 ?menu1)
+
+
+		 ;(printa-menu ?menu1)
+		 )
 
 (defrule finInferir "regla para pasar al modulo siguiente"
       (inference end)
@@ -1447,7 +1580,6 @@
 	  (printout t "Inferencia de datos hecha" crlf)
 			(assert (Menuses))
 			(focus filtrado)
-			(assert (menusGenerar))
 )
 
 
@@ -1463,30 +1595,8 @@
     (import inferir_datos ?ALL)
     (export ?ALL))
 
-; (defrule obtener-platos
-; 	(declare (salience 2))
-;  (menu-nuevo)
-;  =>
-;  (printout t "platos" crlf)
-;  (bind $?allPlatos (find-all-instances((?inst Plato)) TRUE))
-;  (loop-for-count (?i 1 (length$ ?allPlatos)) do
-;    (bind ?plat (nth$ ?i ?allPlatos))
-;   )
-; (assert (platosAssert))
-;  )
 
- (defrule make_menu
- 	(declare (salience 1))
- 	(menu-nuevo)
-	?mG <-(menusGenerar)
- 	=>
-	(printout t "creando menu " crlf)
- 	(bind ?newMenu (make-instance  newMenu of Menu))
-	(assert (generarmenuses))
- 	(printout t "menu creado " crlf)
-	(retract ?mG)
 
- 	)
 
 
 ;;si un plato es mas caro que nuestro presupuesto-por-invitado lo descartamos
@@ -1511,124 +1621,17 @@
 ; )
 
 ;crea menuses
-(defrule addmenuses
-	?putamierda <- (object(is-a Menu) (PrecioMenu ?y))
-	(test (evaluable ?putamierda))
-	(Menuses (menu $?x))
-  =>
-	(slot-insert  (send ?putamierda get) 1 ?putamierda)
-)
+; (defrule addmenuses
+; 	?putamierda <- (object(is-a Menu) (PrecioMenu ?y))
+; 	(test (evaluable ?putamierda))
+; 	(Menuses (menu $?x))
+;   =>
+; 	(slot-insert  (send ?putamierda get) 1 ?putamierda)
+; )
 
 
 
-(deffunction printa-menu "" (?menu)
-(bind ?prim (send ?menu get-Primero))
-(bind ?seg (send ?menu get-Segundo))
-(bind ?postr (send ?menu get-Postre))
-(bind ?prec (send ?menu get-PrecioMenu))
-(printout t crlf "Primero: "(send ?prim get-NombreP) crlf)
-(printout t "Segundo: "(send ?seg get-NombreP) crlf)
-(printout t "Postre: "(send ?postr get-NombreP) crlf)
-(printout t ?prec crlf crlf)
-)
-;;calcula el precio de un plato
-(deffunction sumapreuComp "" ( $?comp )
-  (bind ?x 0)
-	;(printout t "suma dels preus ")
-  (loop-for-count (?i 1 (length ?comp)) do
-    (bind ?var (nth$ ?i ?comp))
-    (bind ?precio (send ?var get-Precio))
-    (bind ?x (+ ?x ?precio))
-  )
- ?x
-)
 
- (deffunction sumapreuMenu "" ( ?menu )
-   (bind ?x 0)
-     (bind ?prim (send ?menu get-Primero))
-     (bind ?x (+ ?x (send ?prim get-PrecioPlato)))
-     (bind ?seg (send ?menu get-Segundo))
-     (bind ?x (+ ?x (send ?seg get-PrecioPlato)))
-     (bind ?postr (send ?menu get-Postre))
-     (bind ?x (+ ?x (send ?postr get-PrecioPlato)))
-		 (printout t "precio " ?x crlf)
-
-  ?x
- )
- (deffunction evaluable "" ( ?menu )
-        (bind ?x TRUE)
-          (bind ?prim (send ?menu get-Primero))
-          (bind ?x (and ?x (not (eq ?prim nil))))
-          (bind ?seg (send ?menu get-Segundo))
-          (bind ?x (and ?x (not (eq ?seg nil))))
-          (bind ?postr (send ?menu get-Postre))
-          (bind ?x (and ?x (not (eq ?postr nil))))
-					(printout t "evaluable " ?x crlf)
-       ?x
-)
-;;ELIMINA DE LA LISTA DE INSTANCIAS AQUELLAS QUE POR EL MULTISLOT SL NO
-;;;CONTENGAN EL VALOR ?CONST  PAGINA 44 FAQ
-(deffunction filtrar-multi-por (?li ?sl ?const)
- (bind ?encontrado FALSE)
- (if (neq ?li FALSE) then
-
- 	(bind ?li (create$ ?li))
-
- 	(if (> (length ?li) 0) then
- 		(loop-for-count (?i 1 (length ?li))
- 			(bind $?v (send (nth$ ?i ?li) ?sl))
-
- 				(if (member$ ?const $?v) then
- 					(if (eq ?encontrado FALSE) then
- 						(bind ?encontrado TRUE)
- 						(bind ?ins (nth$ ?i ?li))
- 						else
- 						(bind ?ins (create$ ?ins (nth$ ?i ?li)))
- 					)
- 				)
- 			)
- 		)
- 	)
- 	(if (eq ?encontrado FALSE) then
- 		(bind ?ins FALSE)
- 	)
-	(return ?ins)
-)
-
-
-; (defrule addmembers-menu ""
-;     ?menu1  <- (object (is-a Menu))
-;     ?plato1 <- (object (is-a Plato) (Orden Primero))
-;     ?plato2 <- (object (is-a Plato) (Orden Segundo))
-;     ?plato3 <- (object (is-a Plato) (Orden Postre))
-;     ?x <- (sumapreuComp Plato ?plato1)
-;     ?y <- (sumapreuComp ?plato2 get-Componentes)
-;     ?z <- (sumapreuComp ?plato3 get-Componentes)
-;     =>
-;     (send ?menu1 put-Primero ?plato1)
-;     (send ?menu1 put-Segundo ?plato2)
-;     (send ?menu1 put-Postre ?plato3)
-;     (send ?menu1 put-PrecioMenu (+ ?x  ?y ?z))
-;     )
-
-
-(defrule addmembers-menu
-    ?menu1  <- (object (is-a Menu))
-    ?plato1 <- (object (is-a Plato) (Orden Primero))
-    ?plato2 <- (object (is-a Plato) (Orden Segundo))
-    ?plato3 <- (object (is-a Plato) (Orden Postre))
-    =>
-		(printout t "addmembers-menu" crlf)
-     (bind ?x (sumapreuComp (send ?plato1 get-Componentes)))
-    (bind ?y  (sumapreuComp (send ?plato2 get-Componentes)))
-    (bind ?z (sumapreuComp (send ?plato3 get-Componentes)))
-		;(printout t "binded" crlf)
-    (send ?menu1 put-Primero ?plato1)
-    (send ?menu1 put-Segundo ?plato2)
-    (send ?menu1 put-Postre ?plato3)
-    (send ?menu1 put-PrecioMenu (+ ?x (+ ?y ?z)))
-		;(printa-menu ?menu1)
-    )
 ;por ahora un Menu es solucion
  ; (defrule menu-valido
  ;     (presupuesto-por-invitado ?x)
