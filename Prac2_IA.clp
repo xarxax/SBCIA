@@ -1134,6 +1134,8 @@
  ?x
 )
 
+;(deffunction get)
+
  (deffunction sumapreuMenu "" ( ?menu )
    (bind ?x 0)
      (bind ?prim (send ?menu get-Primero))
@@ -1190,10 +1192,13 @@
 	(bind ?prim (send ?menu get-Primero))
 	(bind ?seg (send ?menu get-Segundo))
 	(bind ?pos (send ?menu get-Postre))
+	(bind ?beb (send ?menu get-BebidaM))
+
 	(bind ?p1 (send ?prim get-NombreP))
-	(bind ?p2  (send ?seg get-NombreP))
+	(bind ?p2 (send ?seg get-NombreP))
 	(bind ?p3 (send ?pos get-NombreP))
-	(str-cat ?p1 " " ?p2 " " ?p3 " " clrf)
+	(bind ?p4 (send ?beb get-NombreB))
+	(str-cat ?p1 "," ?p2 "," ?p3 "," ?p4 "," clrf)
 )
 
 ;;;**************************************
@@ -1381,6 +1386,7 @@
 		 ?plato1 <- (object (is-a Plato) (Orden Primero))
 		 ?plato2 <- (object (is-a Plato) (Orden Segundo))
 		 ?plato3 <- (object (is-a Plato) (Orden Postre))
+		 ?bebida <- (object (is-a Bebida))
 		 =>
 		 (printout t "creando menu " crlf)
 		 (bind ?menu1 (make-instance  (gensym*) of Menu))
@@ -1396,6 +1402,7 @@
 		 (send ?menu1 put-Primero ?plato1)
 		 (send ?menu1 put-Segundo ?plato2)
 		 (send ?menu1 put-Postre ?plato3)
+		 (send ?menu1 put-BebidaM ?bebida)
 		 (send ?menu1 put-PrecioMenu (+ ?x (+ ?y ?z)))
 
 		 (printout t  crlf (menus-nombre ?menu1) crlf)
@@ -1482,15 +1489,23 @@
  ;   (focus recomendaciones)
  ;   )
 
+; (defrule eliminar-por-presupuesto ""
+; 	(presupuesto-por-invitado ?x)
+; 	?lmenu <- (object(is a allMenu))
+; 	(menu-nuevo)
+; 	=>
+; 	(printout t "eliminar-menus-fuera-presupuesto" crlf)
+; 	(if (test ()))
+; )
 
 		(defrule menu-valido
-			(declare (salience 10))
-	     (presupuesto-por-invitado ?x)
-	    ?putamierda <- (object(is-a Menu) (PrecioMenu ?y))
-			(test (printout t "menuvalidar" crlf))
-			(test (evaluable ?putamierda))
-	    (test (> ?x ?y))
-			;(printout t "test done")
+			(declare (salience -1))
+	      (presupuesto-por-invitado ?x)
+	     ?putamierda <- (object(is-a Menu) (PrecioMenu ?y))
+			 (test (printout t "menuvalidar" crlf))
+			 (test (evaluable ?putamierda))
+	     (test (> ?x ?y))
+			(printout t "test done")
 	    (menu-nuevo)
 	    =>
 	    (printout t "fin de Refinamiento" crlf)
