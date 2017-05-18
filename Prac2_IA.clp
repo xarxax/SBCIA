@@ -6,6 +6,7 @@
 ;;; Defclass (.pont)
 ;;;
 ;;;**************************************
+
 (defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
 	(is-a USER)
 	(role abstract)
@@ -31,13 +32,13 @@
 		(type INTEGER)
 		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
-	(multislot Presupuesto
-		(type INTEGER)
-		(cardinality 1 ?VARIABLE)
-		(create-accessor read-write))
 	(multislot Especiales
 		(type SYMBOL)
 		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero)
+		(create-accessor read-write))
+	(multislot Presupuesto
+		(type INTEGER)
+		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
 	(single-slot Calidad
 		(type INTEGER)
@@ -63,14 +64,14 @@
 ;+		(allowed-parents Plato)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(multislot Ingrediente
-		(type SYMBOL)
-;+		(allowed-parents Ingredientes)
-		(create-accessor read-write))
 	(multislot Componentes
 		(type INSTANCE)
 ;+		(allowed-classes Ingredientes)
 		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(multislot Ingrediente
+		(type SYMBOL)
+;+		(allowed-parents Ingredientes)
 		(create-accessor read-write))
 	(single-slot Complejidad
 ;+		(comment "0 to 5")
@@ -86,41 +87,45 @@
 		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot N
-		(type INTEGER)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(single-slot NombreB
 		(type STRING)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot N
+		(type INTEGER)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(multislot MenuEvento
 		(type SYMBOL)
 ;+		(allowed-parents Menu)
 		(cardinality 0 3)
 		(create-accessor read-write))
-	(single-slot TipoE
-;+		(comment "Deberia ser Symbol")
-		(type STRING)
-;+		(cardinality 1 1)
+	(multislot MenuP
+		(type SYMBOL)
+;+		(allowed-parents Menu)
 		(create-accessor read-write))
 	(single-slot MayorQue
 		(type SYMBOL)
 		(allowed-values FALSE TRUE)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
+	(single-slot TipoE
+;+		(comment "Deberia ser Symbol")
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(single-slot CalidadR
 		(type INTEGER)
 ;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot NombreI
-		(type STRING)
-;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot Gama
 		(type SYMBOL)
 		(allowed-values baja media alta)
 ;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot NombreI
+		(type STRING)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot Restricciones
 		(type SYMBOL)
@@ -132,14 +137,14 @@
 		(default todas)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot PrecioMenu
-		(type FLOAT)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(single-slot Caliente
 		(type SYMBOL)
 		(allowed-values FALSE TRUE)
 ;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot PrecioMenu
+		(type FLOAT)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot Refresco
 		(type SYMBOL)
@@ -186,14 +191,14 @@
 		(type INTEGER)
 		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
-	(multislot Presupuesto
-		(type INTEGER)
-		(cardinality 1 ?VARIABLE)
-		(create-accessor read-write))
 	(multislot MenuEvento
 		(type SYMBOL)
 ;+		(allowed-parents Menu)
 		(cardinality 0 3)
+		(create-accessor read-write))
+	(multislot Presupuesto
+		(type INTEGER)
+		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
 	(single-slot TipoE
 ;+		(comment "Deberia ser Symbol")
@@ -209,8 +214,9 @@
 ;+		(allowed-parents Bebida)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot PrecioMenu
-		(type FLOAT)
+	(single-slot Primero
+		(type SYMBOL)
+;+		(allowed-parents Plato)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot Postre
@@ -218,9 +224,8 @@
 ;+		(allowed-parents Plato)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot Primero
-		(type SYMBOL)
-;+		(allowed-parents Plato)
+	(single-slot PrecioMenu
+		(type FLOAT)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot Segundo
@@ -232,13 +237,13 @@
 (defclass Plato
 	(is-a USER)
 	(role concrete)
-	(single-slot NombreP
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(multislot Especiales
 		(type SYMBOL)
 		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero)
+		(create-accessor read-write))
+	(single-slot NombreP
+		(type STRING)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot Orden
 		(type SYMBOL)
@@ -305,24 +310,24 @@
 (defclass Ingredientes
 	(is-a USER)
 	(role concrete)
+	(single-slot Precio
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(single-slot Temporada
 		(type SYMBOL)
 		(allowed-values todas primavera verano oto%C3%B1o invierno)
 		(default todas)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot Precio
-		(type FLOAT)
+	(single-slot TipoI
+		(type SYMBOL)
+		(allowed-values lacteos proteina_animal hidratos fruta%2Fverdura grasas condimentos otros dulces legumbre carne pescado huevos marisco)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot Calidad
 		(type INTEGER)
 		(range 0 5)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot TipoI
-		(type SYMBOL)
-		(allowed-values lacteos proteina_animal hidratos fruta%2Fverdura grasas condimentos otros dulces legumbre carne pescado huevos marisco)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot NombreI
@@ -357,13 +362,13 @@
 		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot CalidadR
-		(type INTEGER)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(single-slot TipoEst
 ;+		(comment "???")
 		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot CalidadR
+		(type INTEGER)
 ;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
@@ -380,7 +385,13 @@
 ;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
-
+(defclass AllMenus
+	(is-a USER)
+	(role concrete)
+	(multislot MenuP
+		(type SYMBOL)
+;+		(allowed-parents Menu)
+		(create-accessor read-write)))
 
 
 ;;;***************************************
@@ -389,6 +400,7 @@
 ;;;
 ;;;***************************************
 (definstances instancies
+
 	([Proyect2_Class0] of  Plato
 
 		(Clasificacion bocadillo)
@@ -1257,9 +1269,6 @@
 ;;*  TEMPLATES   *
 ;;****************
 
-(deftemplate Menuses "Lista menus"
-	(multislot menu (type INSTANCE) (allowed-classes Menu))
-		)
 
 ; )
 
@@ -1286,6 +1295,25 @@
        then TRUE
        else FALSE))
 
+(deffunction cuanto (?question)
+	(printout t ?question)
+	(bind ?answer (read))
+	(if (lexemep ?answer)
+		then (bind ?answer (lowcase ?answer))
+		)
+	;(if (test (or (!= ?answer "no") (!= ?answer "n")))
+		; (bind $?ingredientes (find-all-instances ((?inst Ingredientes get-NombreI)) TRUE))
+		; (while (not (member ?answer ?ingredientes)) do
+		; 	(printout t "Ingrediente desconocido")
+		; 	(printout t ?question)
+		; 	(bind ?answer (read))
+		; 	(if (lexemep ?answer)
+		; 		then (bind ?answer (lowcase ?answer))
+		; 		)
+		; )
+	;)
+		?answer
+ )
 
 ;;; Funcion para hacer una pregunta con respuesta en un rango dado
 (deffunction pregunta-numerica (?pregunta ?rangini ?rangfi)
@@ -1421,6 +1449,22 @@
     (export ?ALL)
 )
 
+; (defrule ingrediente "regla para restringir un ingrediente"
+; 	(not (Evento Ingrediente ?))
+; 	=>
+;
+; 	(if (yes-or-no-p "Hay algun ingrediente que desea restringir?")
+;   	then (
+; 		(bind ?ing (cuanto "Diganos cual:"))
+; 		(assert (Evento Ingrediente ?ing))
+; 		(printout t "Ingrediente agnadido" crlf)
+; 		)
+;
+;    else (assert (Evento Ingrediente no))
+;   )
+
+
+
 (defrule tipoEvento "regla para saber el tipo de evento"
   (not (Evento Tipo ?))
   =>
@@ -1433,10 +1477,10 @@
     >"
       1 2 3 4 5)
     (case 1 then (assert (Evento Tipo Boda)))
-    (case 2 then (assert (Evento Tipo Cumpleaños)))
+    (case 2 then (assert (Evento Tipo Cumpleagnos)))
     (case 3 then (assert (Evento Tipo Fiesta_Infantil)))
     (case 4 then (assert (Evento Tipo Cena_empresa)))
-    (case 5 then (assert (Evento Tipo Fin_año)))
+    (case 5 then (assert (Evento Tipo Fin_agno)))
     (default (printout t "No te he entendido"))
     )
 )
@@ -1516,10 +1560,11 @@
 )
 
 
-(defrule insertaManuses
+(defrule insertaMenuses
 	(declare (salience 10))
 		(not (Menuses))
 		=>
+		(make-instance (gensym*) of AllMenus)
 		(assert (Menuses))
 		)
 
@@ -1532,28 +1577,30 @@
 		  (assert (inference end))
 )
 
-(defrule make_menu
- (declare (salience 1))
- (menu-nuevo)
- ?mG <-(menusGenerar)
- =>
- (printout t "creando menu " crlf)
- (make-instance  (gensym*) of Menu)
- (printout t "menu creado " crlf)
- (retract ?mG)
-
- )
+; (defrule make_menu
+;  (declare (salience 1))
+;  (menu-nuevo)
+;  ?mG <-(menusGenerar)
+;  =>
+;  (printout t "creando menu " crlf)
+;  (make-instance  (gensym*) of Menu)
+;  (printout t "menu creado " crlf)
+;  (retract ?mG)
+;
+;  )
  (defrule addmembers-menu
-	 	 ?men <- (Menuses)
-		 ?menu1  <- (object (is-a Menu))
+	 	 (Menuses)
+		 ?men <- (object (is-a AllMenus) )
+		;  ?menu1  <- (object (is-a Menu))
 		 ?plato1 <- (object (is-a Plato) (Orden Primero))
 		 ?plato2 <- (object (is-a Plato) (Orden Segundo))
 		 ?plato3 <- (object (is-a Plato) (Orden Postre))
 		 =>
+		 (printout t "creando menu " crlf)
+		 (bind ?menu1 (make-instance  (gensym*) of Menu))
+		 (printout t "menu creado " crlf)
+
 		 (printout t "addmembers-menu" crlf)
-
-
-		 ;(bind ?men (assert (Menuses)))
 
 		 (bind ?x (sumapreuComp (send ?plato1 get-Componentes)))
 		 (bind ?y  (sumapreuComp (send ?plato2 get-Componentes)))
@@ -1566,8 +1613,13 @@
 		 (send ?menu1 put-PrecioMenu (+ ?x (+ ?y ?z)))
 
 		 (printout t  crlf (menus-nombre ?menu1) crlf)
+
+		 ;(bind $?M (send ?mem get-MenuP))
+		 ;(bind $?M (insert$ ?M 1 ?menu1 ) )
+		 ;(modify ?mem (menu $?M) )
 		 ;(modify ?men (menu ?menu1))
-		 (slot-insert$ ?men menu 1 ?menu1)
+		 (slot-insert$ ?men MenuP 1 ?menu1)
+		 ;(assert (menusGenerar))
 
 
 		 ;(printa-menu ?menu1)

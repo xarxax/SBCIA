@@ -1,4 +1,4 @@
-; Tue May 16 16:29:17 CEST 2017
+; Thu May 18 16:19:58 CEST 2017
 ; 
 ;+ (version "3.4.8")
 ;+ (build "Build 629")
@@ -29,13 +29,13 @@
 		(type INTEGER)
 		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
-	(multislot Presupuesto
-		(type INTEGER)
-		(cardinality 1 ?VARIABLE)
-		(create-accessor read-write))
 	(multislot Especiales
 		(type SYMBOL)
 		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero)
+		(create-accessor read-write))
+	(multislot Presupuesto
+		(type INTEGER)
+		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
 	(single-slot Calidad
 		(type INTEGER)
@@ -61,14 +61,14 @@
 ;+		(allowed-parents Plato)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(multislot Ingrediente
-		(type SYMBOL)
-;+		(allowed-parents Ingredientes)
-		(create-accessor read-write))
 	(multislot Componentes
 		(type INSTANCE)
 ;+		(allowed-classes Ingredientes)
 		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(multislot Ingrediente
+		(type SYMBOL)
+;+		(allowed-parents Ingredientes)
 		(create-accessor read-write))
 	(single-slot Complejidad
 ;+		(comment "0 to 5")
@@ -84,41 +84,45 @@
 		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot N
-		(type INTEGER)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(single-slot NombreB
 		(type STRING)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot N
+		(type INTEGER)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(multislot MenuEvento
 		(type SYMBOL)
 ;+		(allowed-parents Menu)
 		(cardinality 0 3)
 		(create-accessor read-write))
-	(single-slot TipoE
-;+		(comment "Deberia ser Symbol")
-		(type STRING)
-;+		(cardinality 1 1)
+	(multislot MenuP
+		(type SYMBOL)
+;+		(allowed-parents Menu)
 		(create-accessor read-write))
 	(single-slot MayorQue
 		(type SYMBOL)
 		(allowed-values FALSE TRUE)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
+	(single-slot TipoE
+;+		(comment "Deberia ser Symbol")
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(single-slot CalidadR
 		(type INTEGER)
 ;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot NombreI
-		(type STRING)
-;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot Gama
 		(type SYMBOL)
 		(allowed-values baja media alta)
 ;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot NombreI
+		(type STRING)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot Restricciones
 		(type SYMBOL)
@@ -130,14 +134,14 @@
 		(default todas)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot PrecioMenu
-		(type FLOAT)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(single-slot Caliente
 		(type SYMBOL)
 		(allowed-values FALSE TRUE)
 ;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot PrecioMenu
+		(type FLOAT)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot Refresco
 		(type SYMBOL)
@@ -184,14 +188,14 @@
 		(type INTEGER)
 		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
-	(multislot Presupuesto
-		(type INTEGER)
-		(cardinality 1 ?VARIABLE)
-		(create-accessor read-write))
 	(multislot MenuEvento
 		(type SYMBOL)
 ;+		(allowed-parents Menu)
 		(cardinality 0 3)
+		(create-accessor read-write))
+	(multislot Presupuesto
+		(type INTEGER)
+		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
 	(single-slot TipoE
 ;+		(comment "Deberia ser Symbol")
@@ -207,8 +211,9 @@
 ;+		(allowed-parents Bebida)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot PrecioMenu
-		(type FLOAT)
+	(single-slot Primero
+		(type SYMBOL)
+;+		(allowed-parents Plato)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot Postre
@@ -216,9 +221,8 @@
 ;+		(allowed-parents Plato)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot Primero
-		(type SYMBOL)
-;+		(allowed-parents Plato)
+	(single-slot PrecioMenu
+		(type FLOAT)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot Segundo
@@ -230,13 +234,13 @@
 (defclass Plato
 	(is-a USER)
 	(role concrete)
-	(single-slot NombreP
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(multislot Especiales
 		(type SYMBOL)
 		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero)
+		(create-accessor read-write))
+	(single-slot NombreP
+		(type STRING)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot Orden
 		(type SYMBOL)
@@ -303,24 +307,24 @@
 (defclass Ingredientes
 	(is-a USER)
 	(role concrete)
+	(single-slot Precio
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(single-slot Temporada
 		(type SYMBOL)
 		(allowed-values todas primavera verano oto%C3%B1o invierno)
 		(default todas)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot Precio
-		(type FLOAT)
+	(single-slot TipoI
+		(type SYMBOL)
+		(allowed-values lacteos proteina_animal hidratos fruta%2Fverdura grasas condimentos otros dulces legumbre carne pescado huevos marisco)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot Calidad
 		(type INTEGER)
 		(range 0 5)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot TipoI
-		(type SYMBOL)
-		(allowed-values lacteos proteina_animal hidratos fruta%2Fverdura grasas condimentos otros dulces legumbre carne pescado huevos marisco)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot NombreI
@@ -355,13 +359,13 @@
 		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot CalidadR
-		(type INTEGER)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(single-slot TipoEst
 ;+		(comment "???")
 		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot CalidadR
+		(type INTEGER)
 ;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
@@ -376,4 +380,12 @@
 	(single-slot N
 		(type INTEGER)
 ;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass AllMenus
+	(is-a USER)
+	(role concrete)
+	(multislot MenuP
+		(type SYMBOL)
+;+		(allowed-parents Menu)
 		(create-accessor read-write)))
