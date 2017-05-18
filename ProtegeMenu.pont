@@ -1,4 +1,4 @@
-; Thu May 18 16:19:58 CEST 2017
+; Thu May 18 19:54:59 CEST 2017
 ; 
 ;+ (version "3.4.8")
 ;+ (build "Build 629")
@@ -40,6 +40,7 @@
 	(single-slot Calidad
 		(type INTEGER)
 		(range 0 5)
+		(default 0)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot TipoA
@@ -49,6 +50,11 @@
 		(create-accessor read-write))
 	(single-slot Precio
 		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot CalidadM
+		(type INTEGER)
+		(range 0 5)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot Primero
@@ -111,6 +117,10 @@
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
+	(single-slot EspecialM
+		(type SYMBOL)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
 	(single-slot CalidadR
 		(type INTEGER)
 ;+		(cardinality 0 1)
@@ -130,9 +140,9 @@
 		(create-accessor read-write))
 	(single-slot Temporada
 		(type SYMBOL)
-		(allowed-values todas primavera verano oto%C3%B1o invierno)
+		(allowed-values verano todas primavera oto%C3%B1o invierno)
 		(default todas)
-;+		(cardinality 1 1)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot Caliente
 		(type SYMBOL)
@@ -157,10 +167,10 @@
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(multislot Orden
+	(single-slot Orden
 		(type SYMBOL)
-		(allowed-values Primero Segundo Postre PlatoCombinado)
-		(cardinality 1 ?VARIABLE)
+		(allowed-values Primero Segundo Postre)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot TipoEst
 ;+		(comment "???")
@@ -211,6 +221,11 @@
 ;+		(allowed-parents Bebida)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
+	(single-slot CalidadM
+		(type INTEGER)
+		(range 0 5)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(single-slot Primero
 		(type SYMBOL)
 ;+		(allowed-parents Plato)
@@ -229,11 +244,21 @@
 		(type SYMBOL)
 ;+		(allowed-parents Plato)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot EspecialM
+		(type SYMBOL)
+;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
 (defclass Plato
 	(is-a USER)
 	(role concrete)
+	(single-slot Temporada
+		(type SYMBOL)
+		(allowed-values verano todas primavera oto%C3%B1o invierno)
+		(default todas)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
 	(multislot Especiales
 		(type SYMBOL)
 		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero)
@@ -242,20 +267,15 @@
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(multislot Orden
+	(single-slot Orden
 		(type SYMBOL)
-		(allowed-values Primero Segundo Postre PlatoCombinado)
-		(cardinality 1 ?VARIABLE)
+		(allowed-values Primero Segundo Postre)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot Caliente
 		(type SYMBOL)
 		(allowed-values FALSE TRUE)
 ;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(multislot Clasificacion
-		(type SYMBOL)
-		(allowed-values sopa ensalada bocadillo tapa asado plancha frito fruta reposteria pasta)
-		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
 	(single-slot PrecioP
 		(type FLOAT)
@@ -265,6 +285,12 @@
 		(type INSTANCE)
 ;+		(allowed-classes Ingredientes)
 		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(single-slot Calidad
+		(type INTEGER)
+		(range 0 5)
+		(default 0)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot Complejidad
 ;+		(comment "0 to 5")
@@ -309,22 +335,6 @@
 	(role concrete)
 	(single-slot Precio
 		(type FLOAT)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot Temporada
-		(type SYMBOL)
-		(allowed-values todas primavera verano oto%C3%B1o invierno)
-		(default todas)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot TipoI
-		(type SYMBOL)
-		(allowed-values lacteos proteina_animal hidratos fruta%2Fverdura grasas condimentos otros dulces legumbre carne pescado huevos marisco)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot Calidad
-		(type INTEGER)
-		(range 0 5)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot NombreI
