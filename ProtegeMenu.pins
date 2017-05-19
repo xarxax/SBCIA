@@ -1,7 +1,7 @@
-; Thu May 18 19:54:59 CEST 2017
+; Fri May 19 16:04:25 GST 2017
 ; 
-;+ (version "3.4.8")
-;+ (build "Build 629")
+;+ (version "3.5")
+;+ (build "Build 663")
 
 ([Proyect2_Class0] of  Plato
 
@@ -345,7 +345,8 @@
 
 ([Proyect2_Class30000] of  NoAlcohol
 
-	(NombreB "agua"))
+	(NombreB "agua")
+	(PrecioB 0.0))
 
 ([Proyect2_Class30008] of  Plato
 
@@ -398,39 +399,47 @@
 
 	(Gama baja)
 	(NombreB "sanmiguel")
+	(PrecioB 0.7)
 	(TipoA cerveza))
 
 ([Proyect2_Class40001] of  NoAlcohol
 
 	(NombreB "cocacola")
+	(PrecioB 0.7)
 	(Refresco TRUE))
 
 ([Proyect2_Class40002] of  NoAlcohol
 
 	(NombreB "fanta naranja")
+	(PrecioB 0.7)
 	(Refresco TRUE))
 
 ([Proyect2_Class40003] of  NoAlcohol
 
 	(NombreB "fanta limon")
+	(PrecioB 0.7)
 	(Refresco TRUE))
 
 ([Proyect2_Class40004] of  NoAlcohol
 
 	(NombreB "acuarius")
+	(PrecioB 0.9)
 	(Refresco TRUE))
 
 ([Proyect2_Class40005] of  NoAlcohol
 
-	(NombreB "zumo de naranja"))
+	(NombreB "zumo de naranja")
+	(PrecioB 1.0))
 
 ([Proyect2_Class40006] of  NoAlcohol
 
-	(NombreB "limonada"))
+	(NombreB "limonada")
+	(PrecioB 0.9))
 
 ([Proyect2_Class40007] of  NoAlcohol
 
-	(NombreB "camomila"))
+	(NombreB "camomila")
+	(PrecioB 0.5))
 
 ([Proyect2_Class5] of  Plato
 
@@ -448,84 +457,98 @@
 
 	(Gama media)
 	(NombreB "estrelladam")
+	(PrecioB 0.9)
 	(TipoA cerveza))
 
 ([Proyect2_Class50004] of  Alcohol
 
 	(Gama alta)
 	(NombreB "taramay")
+	(PrecioB 1.5)
 	(TipoA cerveza))
 
 ([Proyect2_Class50005] of  Alcohol
 
 	(Gama baja)
-	(NombreB "eroski")
+	(NombreB "cava eroski")
+	(PrecioB 1.0)
 	(TipoA cava))
 
 ([Proyect2_Class50006] of  Alcohol
 
 	(Gama media)
 	(NombreB "codorniu brut")
+	(PrecioB 6.0)
 	(TipoA cava))
 
 ([Proyect2_Class50007] of  Alcohol
 
 	(Gama alta)
 	(NombreB "codorniu gran reserva")
+	(PrecioB 13.0)
 	(TipoA cava))
 
 ([Proyect2_Class50008] of  Alcohol
 
 	(Gama baja)
-	(NombreB "don simon")
+	(NombreB "don simon blanco")
+	(PrecioB 0.7)
 	(TipoA vino_blanco))
 
 ([Proyect2_Class50009] of  Alcohol
 
 	(Gama baja)
-	(NombreB "don simon")
+	(NombreB "don simon tinto")
+	(PrecioB 1.0)
 	(TipoA vino_tinto))
 
 ([Proyect2_Class50010] of  Alcohol
 
 	(Gama baja)
-	(NombreB "don simon")
+	(NombreB "don simon negro")
+	(PrecioB 1.0)
 	(TipoA vino_negro))
 
 ([Proyect2_Class50011] of  Alcohol
 
 	(Gama media)
 	(NombreB "blanc pescador")
+	(PrecioB 7.0)
 	(TipoA vino_blanco))
 
 ([Proyect2_Class50012] of  Alcohol
 
 	(Gama alta)
 	(NombreB "perro verde")
+	(PrecioB 20.0)
 	(TipoA vino_blanco))
 
 ([Proyect2_Class50013] of  Alcohol
 
 	(Gama media)
-	(NombreB "bodegas vivanco")
+	(NombreB "bodegas vivanco tinto")
+	(PrecioB 7.0)
 	(TipoA vino_tinto))
 
 ([Proyect2_Class50014] of  Alcohol
 
 	(Gama media)
-	(NombreB "bodegas vivanco")
+	(NombreB "bodegas vivanco negro")
+	(PrecioB 7.0)
 	(TipoA vino_negro))
 
 ([Proyect2_Class50015] of  Alcohol
 
 	(Gama alta)
-	(NombreB "alabaster gran reserva")
+	(NombreB "alabaster gran reserva tinto")
+	(PrecioB 15.0)
 	(TipoA vino_tinto))
 
 ([Proyect2_Class50016] of  Alcohol
 
 	(Gama alta)
-	(NombreB "alabaster gran reserva")
+	(NombreB "alabaster gran reserva negro")
+	(PrecioB 15.0)
 	(TipoA vino_negro))
 
 ([Proyect2_Class50017] of  Plato

@@ -1,13 +1,12 @@
 # MenuMaker
 
+never forgetti : 
+ - git add -A
+ - git commit -m "whatever"
+ - git push //si esto no funciona, implica que no estas al dia con la ultima version del repo
+//prueba a hacer git pull y avisa por el grupo
 
-Guillem:
-- He añadido una funcion que descarta platos caros, descartando-platos-caros
-- He añadido el parámetro PrecioPlato a Plato (Protege)
-- He añadido el parámetro PrecioMenu a Menu (Protege)
-- Falta actualizar la ontologia+ instancias en Clips
-- Estaria nice unificar nuestros nombres de variables, tenemos Num_com,BebidaM,PrecioPlato, y probablemente otras combinaciones
+TODO : 
+- Falta cargar las nuevas instancias(con Precio de Bebida) de Protege al archivo CLIPS, 
+en la misma linea hará falta modificar la función que calcule el precio de un menú para que también sume el precio de la bebida
 
-
-- He añadido un par de defrule sin testear, las más importantes menu-valido, printa-menu
-- He añadido deffunction preuplat,sería guay tener otro igual para Menu

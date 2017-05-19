@@ -1,7 +1,7 @@
-; Thu May 18 19:54:59 CEST 2017
+; Fri May 19 16:04:25 GST 2017
 ; 
-;+ (version "3.4.8")
-;+ (build "Build 629")
+;+ (version "3.5")
+;+ (build "Build 663")
 
 ([ANNOTATED_INSTANCE_WIDGET] of  Widget
 
@@ -20,13 +20,13 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[ProtegeMenu_ProjectKB_Class82]
-		[ProtegeMenu_ProjectKB_Class83]
-		[ProtegeMenu_ProjectKB_Class84]
-		[ProtegeMenu_ProjectKB_Class85]
-		[ProtegeMenu_ProjectKB_Class86]
-		[ProtegeMenu_ProjectKB_Class87]
-		[ProtegeMenu_ProjectKB_Class88]))
+		[ProtegeMenu_ProjectKB_Class13]
+		[ProtegeMenu_ProjectKB_Class14]
+		[ProtegeMenu_ProjectKB_Class15]
+		[ProtegeMenu_ProjectKB_Class16]
+		[ProtegeMenu_ProjectKB_Class17]
+		[ProtegeMenu_ProjectKB_Class18]
+		[ProtegeMenu_ProjectKB_Class19]))
 
 ([CLSES_TAB] of  Widget
 
@@ -70,7 +70,7 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
-([KB_250605_Class3] of  Map
+([KB_440731_Class3] of  Map
 )
 
 ([KB_959621_Class0] of  String
@@ -81,9 +81,9 @@
 ([KB_959621_Class1] of  Map
 
 	(entries
-		[ProtegeMenu_ProjectKB_Class89]
-		[ProtegeMenu_ProjectKB_Class90]
-		[ProtegeMenu_ProjectKB_Class91]))
+		[ProtegeMenu_ProjectKB_Class20]
+		[ProtegeMenu_ProjectKB_Class21]
+		[ProtegeMenu_ProjectKB_Class22]))
 
 ([KB_959621_Class10] of  Property_List
 )
@@ -594,10 +594,10 @@
 	(browser_slot_names [BROWSER_SLOT_NAMES])
 	(customized_instance_widgets
 		[INSTANCE_ANNOTATION_FORM_WIDGET]
-		[STANDARD_FACET_FORM_WIDGET]
 		[STANDARD_SLOT_FORM_WIDGET]
-		[STANDARD_CLASS_FORM_WIDGET]
-		[PAL_FORM_WIDGET])
+		[STANDARD_FACET_FORM_WIDGET]
+		[PAL_FORM_WIDGET]
+		[STANDARD_CLASS_FORM_WIDGET])
 	(default_cls_metaclass ":STANDARD-CLASS")
 	(default_facet_metaclass ":STANDARD-FACET")
 	(default_instance_widget_class_name "edu.stanford.smi.protege.widget.FormWidget")
@@ -651,94 +651,58 @@
 		[KB_959621_Class63]
 		[KB_959621_Class15]))
 
-([ProtegeMenu_ProjectKB_Class10] of  Widget
-
-	(is_hidden TRUE)
-	(property_list [ProtegeMenu_ProjectKB_Class11])
-	(widget_class_name "org.protege.owl.mm.protege3.MappingMasterTab"))
-
-([ProtegeMenu_ProjectKB_Class11] of  Property_List
-)
-
-([ProtegeMenu_ProjectKB_Class4] of  Widget
-
-	(is_hidden TRUE)
-	(property_list [ProtegeMenu_ProjectKB_Class5])
-	(widget_class_name "edu.stanford.smi.RemoteKBTab.WordNetTab"))
-
-([ProtegeMenu_ProjectKB_Class5] of  Property_List
-)
-
-([ProtegeMenu_ProjectKB_Class6] of  Widget
-
-	(is_hidden TRUE)
-	(property_list [ProtegeMenu_ProjectKB_Class7])
-	(widget_class_name "org.algernon.kb.okbc.protege.plugins.AlgernonTab"))
-
-([ProtegeMenu_ProjectKB_Class7] of  Property_List
-)
-
-([ProtegeMenu_ProjectKB_Class8] of  Widget
-
-	(is_hidden TRUE)
-	(property_list [ProtegeMenu_ProjectKB_Class9])
-	(widget_class_name "edu.stanford.smi.RemoteKBTab.UMLSTab"))
-
-([ProtegeMenu_ProjectKB_Class82] of  String
+([ProtegeMenu_ProjectKB_Class13] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([ProtegeMenu_ProjectKB_Class83] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([ProtegeMenu_ProjectKB_Class84] of  String
-
-	(name "Ingredientes")
-	(string_value "NombreI"))
-
-([ProtegeMenu_ProjectKB_Class85] of  String
+([ProtegeMenu_ProjectKB_Class14] of  String
 
 	(name "Plato")
 	(string_value "NombreP"))
 
-([ProtegeMenu_ProjectKB_Class86] of  String
-
-	(name "NoAlcohol")
-	(string_value "NombreB"))
-
-([ProtegeMenu_ProjectKB_Class87] of  String
-
-	(name "Alcohol")
-	(string_value "NombreB"))
-
-([ProtegeMenu_ProjectKB_Class88] of  String
+([ProtegeMenu_ProjectKB_Class15] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([ProtegeMenu_ProjectKB_Class89] of  Map_Entry
+([ProtegeMenu_ProjectKB_Class16] of  String
 
-	(key "suppress_instance_counting")
+	(name "Ingredientes")
+	(string_value "NombreI"))
+
+([ProtegeMenu_ProjectKB_Class17] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([ProtegeMenu_ProjectKB_Class18] of  String
+
+	(name "NoAlcohol")
+	(string_value "NombreB"))
+
+([ProtegeMenu_ProjectKB_Class19] of  String
+
+	(name "Alcohol")
+	(string_value "NombreB"))
+
+([ProtegeMenu_ProjectKB_Class20] of  Map_Entry
+
+	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ProtegeMenu_ProjectKB_Class9] of  Property_List
-)
-
-([ProtegeMenu_ProjectKB_Class90] of  Map_Entry
+([ProtegeMenu_ProjectKB_Class21] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ProtegeMenu_ProjectKB_Class91] of  Map_Entry
+([ProtegeMenu_ProjectKB_Class22] of  Map_Entry
 
-	(key "add_name_on_instance_form")
+	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
