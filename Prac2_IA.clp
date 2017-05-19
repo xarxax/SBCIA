@@ -1428,8 +1428,17 @@
     (import make-questions ?ALL)
     (export ?ALL)
 )
+(defrule presupuesto-por-invitado "regla para establecer el presupuesto-por-invitado maximo"
+			(declare (salience 20))
+			(Evento Num_com ?numcom)
+		  (Evento Presupuesto  ?presu)
+		  (not (presupuesto-por-invitado ?))
+		  =>
+		  (assert (presupuesto-por-invitado (/ ?presu ?numcom)))
+		  (assert (inference end))
+)
 
-(defrule quitar-platos
+(defrule quitar-platos-temporada
 	(declare (salience 15))
   ?plato <- (object (is-a Plato) (Temporada ?x))
 	(Evento Temporada ?temp)
@@ -1437,6 +1446,7 @@
 	;(test (printout t ?x ", " ?temp "= " (eq ?x ?temp) crlf))
   (test (not (eq ?x todas)))
 	;(test (printout t ?x ", " todas "= " (eq ?x todas) crlf))
+
 	=>
 	;(printout t ?x ", " ?temp "= " (eq ?x ?temp) crlf)
 	;(printout t ?x ", " todas "= " (eq ?x todas) crlf)
@@ -1444,6 +1454,15 @@
   (send ?plato delete)
 	)
 
+	(defrule quitar-platos-precio
+		(declare (salience 15))
+    ?plato <- (object (is-a Plato) (PrecioP ?x) )
+		(presupuesto-por-invitado ?prec)
+    (test (> ?x ?prec ))
+    =>
+    (printout t "eliminado por ser demasiado caro" crlf); (instance-name ?miplato) crlf)
+    (send ?plato delete)
+    )
 
 (defrule insertaMenuses
 	(declare (salience 10))
@@ -1453,14 +1472,7 @@
 		(assert (Menuses))
 		)
 
-(defrule presupuesto-por-invitado "regla para establecer el presupuesto-por-invitado maximo"
-		  (Evento Num_com ?numcom)
-		  (Evento Presupuesto  ?presu)
-		  (not (presupuesto-por-invitado))
-		  =>
-		  (assert (presupuesto-por-invitado (/ ?presu ?numcom)))
-		  (assert (inference end))
-)
+
 
 ; (defrule make_menu
 ;  (declare (salience 1))
@@ -1514,6 +1526,7 @@
 
 (defrule finInferir "regla para pasar al modulo siguiente"
       (inference end)
+			;(presupuesto-por-invitado ?)
       (menu-nuevo)
       =>
 	  (printout t "Inferencia de datos hecha" crlf)
