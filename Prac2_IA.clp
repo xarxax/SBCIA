@@ -1388,18 +1388,6 @@
  )
 )
 
-; (defrule vegano "regla para saber si prefiere un menu vegano"
-;   (declare (salience -1))
-;   (not (want-vegan ?))
-;   =>
-;   (if (yes-or-no-p "Prefiere un menu vegano? (yes/no)")
-;   then (assert (want-vegan yes))
-;
-;    else (assert (want-vegan  no))
-;   )
-;   (assert (questions end))
-; )
-
 (defrule end-questions "regla para pasar al siguiente modulo"
     ;(declare (salience -3))
 		(not (questions end))
@@ -1454,15 +1442,6 @@
   (send ?plato delete)
 	)
 
-	(defrule quitar-platos-precio
-		(declare (salience 15))
-    ?plato <- (object (is-a Plato) (PrecioP ?x) )
-		(presupuesto-por-invitado ?prec)
-    (test (> ?x ?prec ))
-    =>
-    (printout t "eliminado por ser demasiado caro" crlf); (instance-name ?miplato) crlf)
-    (send ?plato delete)
-    )
 
 (defrule insertaMenuses
 	(declare (salience 10))
@@ -1473,22 +1452,10 @@
 		)
 
 
-
-; (defrule make_menu
-;  (declare (salience 1))
-;  (menu-nuevo)
-;  ?mG <-(menusGenerar)
-;  =>
-;  (printout t "creando menu " crlf)
-;  (make-instance  (gensym*) of Menu)
-;  (printout t "menu creado " crlf)
-;  (retract ?mG)
-;
-;  )
  (defrule addmembers-menu
+	 (declare (salience 5))
 	 	 (Menuses)
 		 ?men <- (object (is-a AllMenus) )
-		;  ?menu1  <- (object (is-a Menu))
 		 ?plato1 <- (object (is-a Plato) (Orden Primero))
 		 ?plato2 <- (object (is-a Plato) (Orden Segundo))
 		 ?plato3 <- (object (is-a Plato) (Orden Postre))
@@ -1497,13 +1464,10 @@
 		 ;(printout t "creando menu " crlf)
 		 (bind ?menu1 (make-instance  (gensym*) of Menu))
 		 ;(printout t "menu creado " crlf)
-
 		 ;(printout t "addmembers-menu" crlf)
-
 		 (bind ?x (sumapreuComp (send ?plato1 get-Componentes)))
 		 (bind ?y  (sumapreuComp (send ?plato2 get-Componentes)))
 		 (bind ?z (sumapreuComp (send ?plato3 get-Componentes)))
-
 		 ;(printout t "binded" crlf)
 		 (send ?menu1 put-Primero ?plato1)
 		 (send ?menu1 put-Segundo ?plato2)
@@ -1513,31 +1477,40 @@
 
 		 ;(printout t  crlf (menus-nombre ?menu1) crlf)
 
-		 ;(bind $?M (send ?mem get-MenuP))
-		 ;(bind $?M (insert$ ?M 1 ?menu1 ) )
-		 ;(modify ?mem (menu $?M) )
-		 ;(modify ?men (menu ?menu1))
 		 (slot-insert$ ?men MenuP 1 ?menu1)
-		 ;(assert (menusGenerar))
-
-
-		 ;(printa-menu ?menu1)
 		 )
 
+
+(defrule filtrar-por-precio "quitar todos los que se pasan del presupuesto por invitado"
+?putamierda <- (object(is-a Menu) (PrecioMenu ?y))
+(presupuesto-por-invitado ?x)
+(test (evaluable ?putamierda))
+(test (< ?x ?y))
+=>
+(send ?putamierda delete)
+;(printout t "Eliminando menu por precio: " ?y crlf )
+;(printout t ?y crlf )
+
+)
+
+
 (defrule finInferir "regla para pasar al modulo siguiente"
+	(declare (salience -1))
       (inference end)
 			;(presupuesto-por-invitado ?)
       (menu-nuevo)
+			(not (filtrado-2))
       =>
 	  (printout t "Inferencia de datos hecha" crlf)
-			(assert (Menuses))
+			;(assert (Menuses))
+			(assert (filtrado-2))
 			(focus filtrado)
 )
 
 
 ;;;****************************
 ;;;
-;;;***** Filtrade Module *****
+;;;***** Filtering Module *****
 ;;;
 ;;;****************************
 
@@ -1549,61 +1522,19 @@
 
 
 
+		; (defrule vegano "regla para saber si prefiere un menu vegano"
+		;   (declare (salience -1))
+		;   (not (want-vegan ?))
+		;   =>
+		;   (if (yes-or-no-p "Prefiere un menu vegano? (yes/no)")
+		;   then (assert (want-vegan yes))
+		;
+		;    else (assert (want-vegan  no))
+		;   )
+		;   (assert (questions end))
+		; )
 
 
-;;si un plato es mas caro que nuestro presupuesto-por-invitado lo descartamos
- ; (defrule descartando-platos-caros
- ;   (menu-nuevo)
- ;   ?miplato <- (object (is-a Plato) )
- ;   (> (preuplat ?miplato) presupuesto-por-inv1itado)
- ;   =>
- ;   (assert (DescartadoCaro ?miplato))
- ;   (printout t "eliminado por ser demasiado caro" (instance-name ?miplato) crlf)
- ;   (send ?miplato delete)
- ;   )
-;;calcula el precio de un plato
-; (deffunction preuplat (object (is-a Plato) (Componentes $?comp))
-;   (bind ?x 0)
-;   (loop-for-count (?i 1 (length$ ?comp)) do
-;     (bind ?var (nth$ ?i ?comp))
-;     (bind ?precio (?var get-Precio))
-;     (bind ?x (+ ?x ?precio))
-;   )
-;  ?x
-; )
-
-;crea menuses
-; (defrule addmenuses
-; 	?putamierda <- (object(is-a Menu) (PrecioMenu ?y))
-; 	(test (evaluable ?putamierda))
-; 	(Menuses (menu $?x))
-;   =>
-; 	(slot-insert  (send ?putamierda get) 1 ?putamierda)
-; )
-
-
-
-
-;por ahora un Menu es solucion
- ; (defrule menu-valido
- ;     (presupuesto-por-invitado ?x)
- ;   (object(is-a Menu) (Primero ?p) (Segundo ?s) (Postre ?po) (PrecioMenu ?thresh))
- ;  ; (test(< (+ (send ?p get-Precio) (send ?s get-Precio) (send ?po get-Precio)) ?x ))
- ;    (test (< ?x ?thesh))
- ;     (menu-nuevo)
- ;   =>
- ;   (printout t "fin de Refinamiento" crlf)
- ;   (focus recomendaciones)
- ;   )
-
-; (defrule eliminar-por-presupuesto ""
-; 	(presupuesto-por-invitado ?x)
-; 	?lmenu <- (object(is a allMenu))
-; 	(menu-nuevo)
-; 	=>
-; 	(printout t "eliminar-menus-fuera-presupuesto" crlf)
-; 	(if (test ()))
-; )
 
 		(defrule menu-valido
 			(declare (salience -1))
