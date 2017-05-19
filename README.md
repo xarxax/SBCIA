@@ -10,3 +10,4 @@ TODO :
 - Falta cargar las nuevas instancias(con Precio de Bebida) de Protege al archivo CLIPS, 
 en la misma linea hará falta modificar la función que calcule el precio de un menú para que también sume el precio de la bebida
 
+- Falta quitar las ñ en todo (hacen coas feas) cambiadlas por n

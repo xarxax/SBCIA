@@ -1,39 +1,129 @@
+; Fri May 19 17:00:52 GST 2017
+;
+;+ (version "3.5")
+;+ (build "Build 663")
 
-;;;-------------------------------------------------------------------------------------------------
 
-;;;**************************************
-;;;
-;;; Defclass (.pont)
-;;;
-;;;**************************************
 (defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
 	(is-a USER)
 	(role abstract)
-	(single-slot BebidaM
+	(single-slot Gama
 		(type SYMBOL)
-;+		(allowed-parents Bebida)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot Postre
-		(type SYMBOL)
-;+		(allowed-parents Plato)
+		(allowed-values baja media alta)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot PrecioP
+	(single-slot PrecioB
 		(type FLOAT)
+		(default 0.0)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot Clasificacion
+		(type SYMBOL)
+		(allowed-values sopa ensalada bocadillo tapa asado plancha frito fruta reposteria pasta)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(single-slot TipoEst
+;+		(comment "???")
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot CalidadM
+		(type INTEGER)
+		(range 0 5)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot Tiene
 		(type SYMBOL)
 ;+		(allowed-parents Ingredientes)
 		(create-accessor read-write))
+	(multislot Especiales
+		(type SYMBOL)
+		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero)
+		(create-accessor read-write))
+	(single-slot PrecioP
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot MenuP
+		(type SYMBOL)
+;+		(allowed-parents Menu)
+		(create-accessor read-write))
+	(single-slot CalidadR
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot Refresco
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
 	(multislot Num_com
 		(type INTEGER)
 		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
-	(multislot Especiales
+	(single-slot Temporada
 		(type SYMBOL)
-		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero)
+		(allowed-values verano todas primavera otono invierno)
+		(default todas)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot Restricciones
+		(type SYMBOL)
+;+		(allowed-parents Restriccion)
+		(create-accessor read-write))
+	(single-slot NombreP
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot Segundo
+		(type SYMBOL)
+;+		(allowed-parents Plato)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot NombreB
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot NoTiene
+		(type SYMBOL)
+;+		(allowed-parents Ingredientes)
+		(create-accessor read-write))
+	(single-slot Orden
+		(type SYMBOL)
+		(allowed-values Primero Segundo Postre)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot Complejidad
+;+		(comment "0 to 5")
+		(type INTEGER)
+		(range 0 5)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot NombreI
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot EspecialM
+		(type SYMBOL)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot Precio
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot Primero
+		(type SYMBOL)
+;+		(allowed-parents Plato)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot CantidadR
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot MenuEvento
+		(type SYMBOL)
+;+		(allowed-parents Menu)
+		(cardinality 0 3)
 		(create-accessor read-write))
 	(multislot Presupuesto
 		(type INTEGER)
@@ -45,117 +135,30 @@
 		(default 0)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot TipoA
-		(type SYMBOL)
-		(allowed-values cerveza cava vino_blanco vino_tinto vino_negro)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot Precio
-		(type FLOAT)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot CalidadM
-		(type INTEGER)
-		(range 0 5)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot Primero
-		(type SYMBOL)
-;+		(allowed-parents Plato)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot Segundo
-		(type SYMBOL)
-;+		(allowed-parents Plato)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(multislot Componentes
 		(type INSTANCE)
 ;+		(allowed-classes Ingredientes)
 		(cardinality 1 ?VARIABLE)
-		(create-accessor read-write))
-	(multislot Ingrediente
-		(type SYMBOL)
-;+		(allowed-parents Ingredientes)
-		(create-accessor read-write))
-	(single-slot Complejidad
-;+		(comment "0 to 5")
-		(type INTEGER)
-		(range 0 5)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(multislot NoTiene
-		(type SYMBOL)
-;+		(allowed-parents Ingredientes)
-		(create-accessor read-write))
-	(single-slot CantidadR
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot NombreB
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot N
-		(type INTEGER)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(multislot MenuEvento
-		(type SYMBOL)
-;+		(allowed-parents Menu)
-		(cardinality 0 3)
-		(create-accessor read-write))
-	(multislot MenuP
-		(type SYMBOL)
-;+		(allowed-parents Menu)
-		(create-accessor read-write))
-	(single-slot MayorQue
-		(type SYMBOL)
-		(allowed-values FALSE TRUE)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot TipoE
-;+		(comment "Deberia ser Symbol")
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot EspecialM
-		(type SYMBOL)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot CalidadR
-		(type INTEGER)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot Gama
-		(type SYMBOL)
-		(allowed-values baja media alta)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot NombreI
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot Restricciones
-		(type SYMBOL)
-;+		(allowed-parents Restriccion)
-		(create-accessor read-write))
-	(single-slot Temporada
-		(type SYMBOL)
-		(allowed-values verano todas primavera oto%C3%B1o invierno)
-		(default todas)
-;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot Caliente
 		(type SYMBOL)
 		(allowed-values FALSE TRUE)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
+	(single-slot Postre
+		(type SYMBOL)
+;+		(allowed-parents Plato)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot Ingrediente
+		(type SYMBOL)
+;+		(allowed-parents Ingredientes)
+		(create-accessor read-write))
 	(single-slot PrecioMenu
 		(type FLOAT)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot Refresco
+	(single-slot MayorQue
 		(type SYMBOL)
 		(allowed-values FALSE TRUE)
 ;+		(cardinality 0 1)
@@ -165,24 +168,24 @@
 		(allowed-values lacteos proteina_animal hidratos fruta%2Fverdura grasas condimentos otros dulces legumbre carne pescado huevos marisco)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot NombreP
+	(single-slot TipoE
+;+		(comment "Deberia ser Symbol")
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot Orden
+	(single-slot BebidaM
 		(type SYMBOL)
-		(allowed-values Primero Segundo Postre)
+;+		(allowed-parents Bebida)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot TipoEst
-;+		(comment "???")
-		(type STRING)
+	(single-slot TipoA
+		(type SYMBOL)
+		(allowed-values cerveza cava vino_blanco vino_tinto vino_negro)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(multislot Clasificacion
-		(type SYMBOL)
-		(allowed-values sopa ensalada bocadillo tapa asado plancha frito fruta reposteria pasta)
-		(cardinality 1 ?VARIABLE)
+	(single-slot N
+		(type INTEGER)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(multislot NoIngrediente
 		(type SYMBOL)
@@ -196,6 +199,11 @@
 		(type SYMBOL)
 ;+		(allowed-parents Restriccion)
 		(create-accessor read-write))
+	(single-slot TipoE
+;+		(comment "Deberia ser Symbol")
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(multislot Num_com
 		(type INTEGER)
 		(cardinality 1 ?VARIABLE)
@@ -208,19 +216,28 @@
 	(multislot Presupuesto
 		(type INTEGER)
 		(cardinality 1 ?VARIABLE)
-		(create-accessor read-write))
-	(single-slot TipoE
-;+		(comment "Deberia ser Symbol")
-		(type STRING)
-;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
 (defclass Menu
 	(is-a USER)
 	(role concrete)
+	(single-slot Primero
+		(type SYMBOL)
+;+		(allowed-parents Plato)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot Segundo
+		(type SYMBOL)
+;+		(allowed-parents Plato)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(single-slot BebidaM
 		(type SYMBOL)
 ;+		(allowed-parents Bebida)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot PrecioMenu
+		(type FLOAT)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot CalidadM
@@ -228,24 +245,10 @@
 		(range 0 5)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot Primero
-		(type SYMBOL)
-;+		(allowed-parents Plato)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(single-slot Postre
 		(type SYMBOL)
 ;+		(allowed-parents Plato)
 ;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot PrecioMenu
-		(type FLOAT)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot Segundo
-		(type SYMBOL)
-;+		(allowed-parents Plato)
-;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot EspecialM
 		(type SYMBOL)
@@ -255,15 +258,18 @@
 (defclass Plato
 	(is-a USER)
 	(role concrete)
-	(single-slot Temporada
-		(type SYMBOL)
-		(allowed-values verano todas primavera oto%C3%B1o invierno)
-		(default todas)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(multislot Especiales
 		(type SYMBOL)
 		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero)
+		(create-accessor read-write))
+	(multislot Componentes
+		(type INSTANCE)
+;+		(allowed-classes Ingredientes)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(single-slot PrecioP
+		(type FLOAT)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot NombreP
 		(type STRING)
@@ -274,19 +280,16 @@
 		(allowed-values Primero Segundo Postre)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
+	(single-slot Complejidad
+;+		(comment "0 to 5")
+		(type INTEGER)
+		(range 0 5)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
 	(single-slot Caliente
 		(type SYMBOL)
 		(allowed-values FALSE TRUE)
 ;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot PrecioP
-		(type FLOAT)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot Componentes
-		(type INSTANCE)
-;+		(allowed-classes Ingredientes)
-		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
 	(single-slot Calidad
 		(type INTEGER)
@@ -294,10 +297,10 @@
 		(default 0)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot Complejidad
-;+		(comment "0 to 5")
-		(type INTEGER)
-		(range 0 5)
+	(single-slot Temporada
+		(type SYMBOL)
+		(allowed-values verano todas primavera otono invierno)
+		(default todas)
 ;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
@@ -307,19 +310,24 @@
 	(single-slot NombreB
 		(type STRING)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot PrecioB
+		(type FLOAT)
+		(default 0.0)
+;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
 (defclass Alcohol
 	(is-a Bebida)
 	(role concrete)
-	(single-slot TipoA
-		(type SYMBOL)
-		(allowed-values cerveza cava vino_blanco vino_tinto vino_negro)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(single-slot Gama
 		(type SYMBOL)
 		(allowed-values baja media alta)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot TipoA
+		(type SYMBOL)
+		(allowed-values cerveza cava vino_blanco vino_tinto vino_negro)
 ;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
@@ -371,13 +379,13 @@
 		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
+	(single-slot CalidadR
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
 	(single-slot TipoEst
 ;+		(comment "???")
 		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot CalidadR
-		(type INTEGER)
 ;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
@@ -402,12 +410,14 @@
 ;+		(allowed-parents Menu)
 		(create-accessor read-write)))
 
-;;;***************************************
-;;;
-;;; Definstances (.pins)
-;;;
-;;;***************************************
+
+
 (definstances instancies
+	; Fri May 19 17:00:53 GST 2017
+	;
+	;+ (version "3.5")
+	;+ (build "Build 663")
+
 	([Proyect2_Class0] of  Plato
 
 		(Calidad 1)
@@ -750,7 +760,8 @@
 
 	([Proyect2_Class30000] of  NoAlcohol
 
-		(NombreB "agua"))
+		(NombreB "agua")
+		(PrecioB 0.0))
 
 	([Proyect2_Class30008] of  Plato
 
@@ -777,7 +788,8 @@
 			[Proyect2_Class20004])
 		(Especiales pesado vegano vegetariano sin_gluten sin_lactosa)
 		(NombreP "arroz con lentejas")
-		(Orden Primero))
+		(Orden Primero)
+		(Temporada todas))
 
 	([Proyect2_Class30012] of  Ingredientes
 
@@ -803,39 +815,47 @@
 
 		(Gama baja)
 		(NombreB "sanmiguel")
+		(PrecioB 0.7)
 		(TipoA cerveza))
 
 	([Proyect2_Class40001] of  NoAlcohol
 
 		(NombreB "cocacola")
+		(PrecioB 0.7)
 		(Refresco TRUE))
 
 	([Proyect2_Class40002] of  NoAlcohol
 
 		(NombreB "fanta naranja")
+		(PrecioB 0.7)
 		(Refresco TRUE))
 
 	([Proyect2_Class40003] of  NoAlcohol
 
 		(NombreB "fanta limon")
+		(PrecioB 0.7)
 		(Refresco TRUE))
 
 	([Proyect2_Class40004] of  NoAlcohol
 
 		(NombreB "acuarius")
+		(PrecioB 0.9)
 		(Refresco TRUE))
 
 	([Proyect2_Class40005] of  NoAlcohol
 
-		(NombreB "zumo de naranja"))
+		(NombreB "zumo de naranja")
+		(PrecioB 1.0))
 
 	([Proyect2_Class40006] of  NoAlcohol
 
-		(NombreB "limonada"))
+		(NombreB "limonada")
+		(PrecioB 0.9))
 
 	([Proyect2_Class40007] of  NoAlcohol
 
-		(NombreB "camomila"))
+		(NombreB "camomila")
+		(PrecioB 0.5))
 
 	([Proyect2_Class5] of  Plato
 
@@ -853,84 +873,98 @@
 
 		(Gama media)
 		(NombreB "estrelladam")
+		(PrecioB 0.9)
 		(TipoA cerveza))
 
 	([Proyect2_Class50004] of  Alcohol
 
 		(Gama alta)
 		(NombreB "taramay")
+		(PrecioB 1.5)
 		(TipoA cerveza))
 
 	([Proyect2_Class50005] of  Alcohol
 
 		(Gama baja)
-		(NombreB "eroski")
+		(NombreB "cava eroski")
+		(PrecioB 1.0)
 		(TipoA cava))
 
 	([Proyect2_Class50006] of  Alcohol
 
 		(Gama media)
 		(NombreB "codorniu brut")
+		(PrecioB 6.0)
 		(TipoA cava))
 
 	([Proyect2_Class50007] of  Alcohol
 
 		(Gama alta)
 		(NombreB "codorniu gran reserva")
+		(PrecioB 13.0)
 		(TipoA cava))
 
 	([Proyect2_Class50008] of  Alcohol
 
 		(Gama baja)
-		(NombreB "don simon")
+		(NombreB "don simon blanco")
+		(PrecioB 0.7)
 		(TipoA vino_blanco))
 
 	([Proyect2_Class50009] of  Alcohol
 
 		(Gama baja)
-		(NombreB "don simon")
+		(NombreB "don simon tinto")
+		(PrecioB 1.0)
 		(TipoA vino_tinto))
 
 	([Proyect2_Class50010] of  Alcohol
 
 		(Gama baja)
-		(NombreB "don simon")
+		(NombreB "don simon negro")
+		(PrecioB 1.0)
 		(TipoA vino_negro))
 
 	([Proyect2_Class50011] of  Alcohol
 
 		(Gama media)
 		(NombreB "blanc pescador")
+		(PrecioB 7.0)
 		(TipoA vino_blanco))
 
 	([Proyect2_Class50012] of  Alcohol
 
 		(Gama alta)
 		(NombreB "perro verde")
+		(PrecioB 20.0)
 		(TipoA vino_blanco))
 
 	([Proyect2_Class50013] of  Alcohol
 
 		(Gama media)
-		(NombreB "bodegas vivanco")
+		(NombreB "bodegas vivanco tinto")
+		(PrecioB 7.0)
 		(TipoA vino_tinto))
 
 	([Proyect2_Class50014] of  Alcohol
 
 		(Gama media)
-		(NombreB "bodegas vivanco")
+		(NombreB "bodegas vivanco negro")
+		(PrecioB 7.0)
 		(TipoA vino_negro))
 
 	([Proyect2_Class50015] of  Alcohol
 
 		(Gama alta)
-		(NombreB "alabaster gran reserva")
+		(NombreB "alabaster gran reserva tinto")
+		(PrecioB 15.0)
 		(TipoA vino_tinto))
 
 	([Proyect2_Class50016] of  Alcohol
 
 		(Gama alta)
-		(NombreB "alabaster gran reserva")
+		(NombreB "alabaster gran reserva negro")
+		(PrecioB 15.0)
 		(TipoA vino_negro))
 
 	([Proyect2_Class50017] of  Plato
@@ -954,7 +988,8 @@
 		(Componentes [Proyect2_Class20015])
 		(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
 		(NombreP "sandia")
-		(Orden Postre))
+		(Orden Postre)
+		(Temporada verano))
 
 	([Proyect2_Class50019] of  Plato
 
@@ -964,7 +999,8 @@
 		(Componentes [Proyect2_Class20012])
 		(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
 		(NombreP "fresas")
-		(Orden Postre))
+		(Orden Postre)
+		(Temporada primavera))
 
 	([Proyect2_Class50020] of  Plato
 
@@ -974,7 +1010,8 @@
 		(Componentes [Proyect2_Class20008])
 		(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
 		(NombreP "manzana")
-		(Orden Postre))
+		(Orden Postre)
+		(Temporada otono))
 
 	([Proyect2_Class50021] of  Plato
 
@@ -984,7 +1021,8 @@
 		(Componentes [Proyect2_Class20009])
 		(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
 		(NombreP "pera")
-		(Orden Postre))
+		(Orden Postre)
+		(Temporada otono))
 
 	([Proyect2_Class50022] of  Plato
 
@@ -994,7 +1032,8 @@
 		(Componentes [Proyect2_Class20013])
 		(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
 		(NombreP "melon")
-		(Orden Postre))
+		(Orden Postre)
+		(Temporada verano))
 
 	([Proyect2_Class50023] of  Plato
 
@@ -1004,7 +1043,8 @@
 		(Componentes [Proyect2_Class20010])
 		(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
 		(NombreP "naranja")
-		(Orden Postre))
+		(Orden Postre)
+		(Temporada invierno))
 
 	([Proyect2_Class50024] of  Plato
 
@@ -1014,7 +1054,8 @@
 		(Componentes [Proyect2_Class20011])
 		(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
 		(NombreP "kiwi")
-		(Orden Postre))
+		(Orden Postre)
+		(Temporada invierno))
 
 	([Proyect2_Class50025] of  Plato
 
@@ -1048,8 +1089,17 @@
 			[Proyect2_Class30012])
 		(Especiales sin_gluten sin_lactosa ligero)
 		(NombreP "melon con jamon")
-		(Orden Primero))
+		(Orden Primero)
+		(Temporada verano))
+
+
 	)
+
+
+
+
+
+
 
 ;;****************
 ;;*  TEMPLATES   *
@@ -1156,7 +1206,7 @@
           (bind ?x (and ?x (not (eq ?seg nil))))
           (bind ?postr (send ?menu get-Postre))
           (bind ?x (and ?x (not (eq ?postr nil))))
-					(printout t "evaluable " ?x crlf)
+					;(printout t "evaluable " ?x crlf)
        ?x
 )
 ;;ELIMINA DE LA LISTA DE INSTANCIAS AQUELLAS QUE POR EL MULTISLOT SL NO
@@ -1257,6 +1307,7 @@
 
 
 (defrule tipoEvento "regla para saber el tipo de evento"
+(not (questions end))
   (not (Evento Tipo ?))
   =>
   (switch (ask-question "Elija el tipo de evento:
@@ -1278,6 +1329,7 @@
 
 
 (defrule determine-num-com "regla para saber el numero aproximado de invitados"
+(not (questions end))
  ;(declare (salience 900))
  (not (Evento Num_com ?) )
  =>
@@ -1298,7 +1350,9 @@
 )
 
 (defrule pregunta-presupuesto "regla para saber el presupuesto"
+(not (questions end))
 (not (Evento Presupuesto ?) )
+;(declare (salience 1))
 =>
 (switch   (ask-question "Cuanta presupuesto tienes?
     1:10000
@@ -1315,25 +1369,50 @@
  )
 )
 
-(defrule vegano "regla para saber si prefiere un menu vegano"
-  (declare (salience -1))
-  (not (want-vegan ?))
-  =>
-  (if (yes-or-no-p "Prefiere un menu vegano? (yes/no)")
-  then (assert (want-vegan yes))
-
-   else (assert (want-vegan  no))
-  )
-  (assert (questions end))
+(defrule pregunta-temporada "regla para saber el presupuesto"
+(not (questions end))
+(not (Evento Temporada ?) )
+=>
+(switch   (ask-question "En que estacion se produce el evento?
+    1:Primavera
+    2:Verano
+    3:Otono
+    4:Invierno
+>"
+     1 2 3 4)
+  (case 1 then (assert (Evento Temporada primavera)))
+  (case 2 then (assert (Evento Temporada verano )))
+  (case 3 then (assert (Evento Temporada otono)))
+  (case 4 then (assert (Evento Temporada invierno)))
+  (default (printout t "No te he entendido"))
+ )
 )
 
+; (defrule vegano "regla para saber si prefiere un menu vegano"
+;   (declare (salience -1))
+;   (not (want-vegan ?))
+;   =>
+;   (if (yes-or-no-p "Prefiere un menu vegano? (yes/no)")
+;   then (assert (want-vegan yes))
+;
+;    else (assert (want-vegan  no))
+;   )
+;   (assert (questions end))
+; )
+
 (defrule end-questions "regla para pasar al siguiente modulo"
-    (questions end)
-    (menu-nuevo)
+    ;(declare (salience -3))
+		(not (questions end))
+		(Evento Presupuesto ?)
+		(Evento Num_com ?)
+		(Evento Tipo ?)
+		(Evento Temporada ?)
+    ;(menu-nuevo)
     =>
     (printout t "fin de las preguntas" crlf)
     (focus inferir_datos)
 		(assert (menusGenerar))
+		(assert (questions end))
 		)
 
 
@@ -1349,6 +1428,21 @@
     (import make-questions ?ALL)
     (export ?ALL)
 )
+
+(defrule quitar-platos
+	(declare (salience 15))
+  ?plato <- (object (is-a Plato) (Temporada ?x))
+	(Evento Temporada ?temp)
+	(test (not (eq ?x ?temp)))
+	;(test (printout t ?x ", " ?temp "= " (eq ?x ?temp) crlf))
+  (test (not (eq ?x todas)))
+	;(test (printout t ?x ", " todas "= " (eq ?x todas) crlf))
+	=>
+	;(printout t ?x ", " ?temp "= " (eq ?x ?temp) crlf)
+	;(printout t ?x ", " todas "= " (eq ?x todas) crlf)
+	(printout t "Eliminando plato por estacion" crlf)
+  (send ?plato delete)
+	)
 
 
 (defrule insertaMenuses
@@ -1388,11 +1482,11 @@
 		 ?plato3 <- (object (is-a Plato) (Orden Postre))
 		 ?bebida <- (object (is-a Bebida))
 		 =>
-		 (printout t "creando menu " crlf)
+		 ;(printout t "creando menu " crlf)
 		 (bind ?menu1 (make-instance  (gensym*) of Menu))
-		 (printout t "menu creado " crlf)
+		 ;(printout t "menu creado " crlf)
 
-		 (printout t "addmembers-menu" crlf)
+		 ;(printout t "addmembers-menu" crlf)
 
 		 (bind ?x (sumapreuComp (send ?plato1 get-Componentes)))
 		 (bind ?y  (sumapreuComp (send ?plato2 get-Componentes)))
@@ -1405,7 +1499,7 @@
 		 (send ?menu1 put-BebidaM ?bebida)
 		 (send ?menu1 put-PrecioMenu (+ ?x (+ ?y ?z)))
 
-		 (printout t  crlf (menus-nombre ?menu1) crlf)
+		 ;(printout t  crlf (menus-nombre ?menu1) crlf)
 
 		 ;(bind $?M (send ?mem get-MenuP))
 		 ;(bind $?M (insert$ ?M 1 ?menu1 ) )
@@ -1502,7 +1596,7 @@
 			(declare (salience -1))
 	      (presupuesto-por-invitado ?x)
 	     ?putamierda <- (object(is-a Menu) (PrecioMenu ?y))
-			 (test (printout t "menuvalidar" crlf))
+			 ;(test (printout t "menuvalidar" crlf))
 			 (test (evaluable ?putamierda))
 	     (test (> ?x ?y))
 			(printout t "test done")
