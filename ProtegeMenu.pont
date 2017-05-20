@@ -1,4 +1,4 @@
-; Sat May 20 14:59:05 CEST 2017
+; Sat May 20 15:09:21 CEST 2017
 ; 
 ;+ (version "3.4.8")
 ;+ (build "Build 629")
@@ -35,7 +35,7 @@
 		(create-accessor read-write))
 	(multislot Especiales
 		(type SYMBOL)
-		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero japon%C3%A9s)
+		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero japon%C3%A9s italiano)
 		(create-accessor read-write))
 	(single-slot Calidad
 		(type INTEGER)
@@ -270,7 +270,7 @@
 		(create-accessor read-write))
 	(multislot Especiales
 		(type SYMBOL)
-		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero japon%C3%A9s)
+		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero japon%C3%A9s italiano)
 		(create-accessor read-write))
 	(single-slot Orden
 		(type SYMBOL)

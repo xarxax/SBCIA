@@ -1,4 +1,4 @@
-; Sat May 20 14:59:05 CEST 2017
+; Sat May 20 15:09:21 CEST 2017
 ; 
 ;+ (version "3.4.8")
 ;+ (build "Build 629")
@@ -35,9 +35,36 @@
 
 ([ProtegeMenu_Class13] of  Plato
 
-	(Calidad 0)
+	(Calidad 3)
+	(Caliente TRUE)
+	(Complejidad 4)
+	(Componentes
+		[ProtegeMenu_Class14]
+		[ProtegeMenu_Class15]
+		[Proyect2_Class10030]
+		[Proyect2_Class10011]
+		[ProtegeMenu_Class11]
+		[Proyect2_Class10024]
+		[ProtegeMenu_Class10]
+		[Proyect2_Class20016]
+		[Proyect2_Class20004])
+	(Especiales italiano)
 	(NombreP "canelones")
+	(Orden Segundo)
 	(Temporada todas))
+
+([ProtegeMenu_Class14] of  Ingredientes
+
+	(NombreI "tomate frito")
+	(Precio 1.0))
+
+([ProtegeMenu_Class15] of  Ingredientes
+
+	(NombreI "carne picada")
+	(Precio 3.0))
+
+([ProtegeMenu_Class16] of  Ingredientes
+)
 
 ([ProtegeMenu_Class2] of  Ingredientes
 
@@ -134,7 +161,7 @@
 ([Proyect2_Class10002] of  Ingredientes
 
 	(NombreI "cerdo")
-	(Precio 2.0))
+	(Precio 3.0))
 
 ([Proyect2_Class10003] of  Ingredientes
 
