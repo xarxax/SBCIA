@@ -1,7 +1,70 @@
-; Fri May 19 17:18:38 GST 2017
+; Sat May 20 14:52:04 CEST 2017
 ; 
-;+ (version "3.5")
-;+ (build "Build 663")
+;+ (version "3.4.8")
+;+ (build "Build 629")
+
+([ProtegeMenu_Class0] of  Plato
+
+	(Calidad 2)
+	(Caliente TRUE)
+	(Complejidad 1)
+	(Componentes
+		[ProtegeMenu_Class3]
+		[ProtegeMenu_Class2]
+		[Proyect2_Class20016]
+		[Proyect2_Class1])
+	(Especiales vegetariano)
+	(NombreP "patatas con alioli")
+	(Orden Primero)
+	(Temporada todas))
+
+([ProtegeMenu_Class2] of  Ingredientes
+
+	(NombreI "patata")
+	(Precio 0.5))
+
+([ProtegeMenu_Class3] of  Ingredientes
+
+	(NombreI "alioli")
+	(Precio 0.1))
+
+([ProtegeMenu_Class4] of  Plato
+
+	(Calidad 2)
+	(Complejidad 3)
+	(Componentes
+		[ProtegeMenu_Class5]
+		[Proyect2_Class10000]
+		[ProtegeMenu_Class6]
+		[ProtegeMenu_Class7]
+		[Proyect2_Class10028]
+		[Proyect2_Class10022]
+		[Proyect2_Class10014]
+		[ProtegeMenu_Class8])
+	(Especiales japon%C3%A9s ligero)
+	(NombreP "sushi")
+	(Orden Segundo)
+	(Temporada todas))
+
+([ProtegeMenu_Class5] of  Ingredientes
+
+	(NombreI "alga")
+	(Precio 0.6))
+
+([ProtegeMenu_Class6] of  Ingredientes
+
+	(NombreI "vinagre arroz")
+	(Precio 0.2))
+
+([ProtegeMenu_Class7] of  Ingredientes
+
+	(NombreI "pepino")
+	(Precio 0.4))
+
+([ProtegeMenu_Class8] of  Ingredientes
+
+	(NombreI "aguacate")
+	(Precio 0.5))
 
 ([Proyect2_Class0] of  Plato
 
