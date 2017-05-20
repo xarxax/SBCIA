@@ -1,147 +1,65 @@
-; Sat May 20 15:09:21 CEST 2017
+; Sat May 20 15:59:12 GST 2017
 ; 
-;+ (version "3.4.8")
-;+ (build "Build 629")
+;+ (version "3.5")
+;+ (build "Build 663")
 
 
 (defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
 	(is-a USER)
 	(role abstract)
-	(single-slot BebidaM
+	(single-slot Gama
 		(type SYMBOL)
-;+		(allowed-parents Bebida)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot Postre
-		(type SYMBOL)
-;+		(allowed-parents Plato)
+		(allowed-values baja media alta)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot PrecioP
-		(type FLOAT)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot Tiene
+	(multislot Clasificacion
 		(type SYMBOL)
-;+		(allowed-parents Ingredientes)
-		(create-accessor read-write))
-	(multislot Num_com
-		(type INTEGER)
+		(allowed-values sopa ensalada bocadillo tapa asado plancha frito fruta reposteria pasta)
 		(cardinality 1 ?VARIABLE)
-		(create-accessor read-write))
-	(multislot Presupuesto
-		(type INTEGER)
-		(cardinality 1 ?VARIABLE)
-		(create-accessor read-write))
-	(multislot Especiales
-		(type SYMBOL)
-		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero japon%C3%A9s italiano)
-		(create-accessor read-write))
-	(single-slot Calidad
-		(type INTEGER)
-		(range 0 5)
-		(default 0)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot TipoA
-		(type SYMBOL)
-		(allowed-values cerveza cava vino_blanco vino_tinto vino_negro)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot Precio
-		(type FLOAT)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot CalidadM
-		(type INTEGER)
-		(range 0 5)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot Primero
-		(type SYMBOL)
-;+		(allowed-parents Plato)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot Segundo
-		(type SYMBOL)
-;+		(allowed-parents Plato)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot Ingrediente
-		(type SYMBOL)
-;+		(allowed-parents Ingredientes)
-		(create-accessor read-write))
-	(multislot Componentes
-		(type INSTANCE)
-;+		(allowed-classes Ingredientes)
-		(cardinality 1 ?VARIABLE)
-		(create-accessor read-write))
-	(single-slot Complejidad
-;+		(comment "0 to 5")
-		(type INTEGER)
-		(range 0 5)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(multislot NoTiene
-		(type SYMBOL)
-;+		(allowed-parents Ingredientes)
-		(create-accessor read-write))
-	(single-slot CantidadR
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot N
-		(type INTEGER)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot NombreB
-		(type STRING)
-;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot PrecioB
 		(type FLOAT)
 		(default 0.0)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(multislot MenuEvento
-		(type SYMBOL)
-;+		(allowed-parents Menu)
-		(cardinality 0 3)
-		(create-accessor read-write))
-	(multislot MenuP
-		(type SYMBOL)
-;+		(allowed-parents Menu)
-		(create-accessor read-write))
-	(single-slot TipoE
-;+		(comment "Deberia ser Symbol")
+	(single-slot TipoEst
+;+		(comment "???")
 		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot MayorQue
-		(type SYMBOL)
-		(allowed-values FALSE TRUE)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot EspecialM
+	(single-slot CalidadM
+		(type INTEGER)
+		(range 0 5)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot Tiene
 		(type SYMBOL)
+;+		(allowed-parents Ingredientes)
+		(create-accessor read-write))
+	(multislot Especiales
+		(type SYMBOL)
+		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero japones italiano)
+		(create-accessor read-write))
+	(single-slot PrecioP
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot Refresco
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot CalidadR
 		(type INTEGER)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot NombreI
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot Gama
+	(multislot MenuP
 		(type SYMBOL)
-		(allowed-values baja media alta)
-;+		(cardinality 0 1)
+;+		(allowed-parents Menu)
 		(create-accessor read-write))
-	(multislot Restricciones
-		(type SYMBOL)
-;+		(allowed-parents Restriccion)
+	(multislot Num_com
+		(type INTEGER)
+		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
 	(single-slot Temporada
 		(type SYMBOL)
@@ -149,16 +67,98 @@
 		(default todas)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot PrecioMenu
+	(multislot Restricciones
+		(type SYMBOL)
+;+		(allowed-parents Restriccion)
+		(create-accessor read-write))
+	(single-slot NombreP
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot Segundo
+		(type SYMBOL)
+;+		(allowed-parents Plato)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot NombreB
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot NoTiene
+		(type SYMBOL)
+;+		(allowed-parents Ingredientes)
+		(create-accessor read-write))
+	(single-slot Orden
+		(type SYMBOL)
+		(allowed-values Primero Segundo Postre)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot Complejidad
+;+		(comment "0 to 5")
+		(type INTEGER)
+		(range 0 5)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot NombreI
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot EspecialM
+		(type SYMBOL)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot CantidadR
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot Primero
+		(type SYMBOL)
+;+		(allowed-parents Plato)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot Precio
 		(type FLOAT)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot MenuEvento
+		(type SYMBOL)
+;+		(allowed-parents Menu)
+		(cardinality 0 3)
+		(create-accessor read-write))
+	(multislot Presupuesto
+		(type INTEGER)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(single-slot Calidad
+		(type INTEGER)
+		(range 0 5)
+		(default 0)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot Componentes
+		(type INSTANCE)
+;+		(allowed-classes Ingredientes)
+		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
 	(single-slot Caliente
 		(type SYMBOL)
 		(allowed-values FALSE TRUE)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot Refresco
+	(single-slot Postre
+		(type SYMBOL)
+;+		(allowed-parents Plato)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot Ingrediente
+		(type SYMBOL)
+;+		(allowed-parents Ingredientes)
+		(create-accessor read-write))
+	(single-slot PrecioMenu
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot MayorQue
 		(type SYMBOL)
 		(allowed-values FALSE TRUE)
 ;+		(cardinality 0 1)
@@ -168,28 +168,28 @@
 		(allowed-values lacteos proteina_animal hidratos fruta%2Fverdura grasas condimentos otros dulces legumbre carne pescado huevos marisco)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot NombreP
+	(single-slot TipoE
+;+		(comment "Deberia ser Symbol")
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot Orden
+	(single-slot BebidaM
 		(type SYMBOL)
-		(allowed-values Primero Segundo Postre)
+;+		(allowed-parents Bebida)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot TipoEst
-;+		(comment "???")
-		(type STRING)
+	(single-slot TipoA
+		(type SYMBOL)
+		(allowed-values cerveza cava vino_blanco vino_tinto vino_negro)
 ;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(multislot Clasificacion
-		(type SYMBOL)
-		(allowed-values sopa ensalada bocadillo tapa asado plancha frito fruta reposteria pasta)
-		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
 	(multislot NoIngrediente
 		(type SYMBOL)
 ;+		(allowed-parents Ingredientes)
+		(create-accessor read-write))
+	(single-slot N
+		(type INTEGER)
+;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
 (defclass Evento
@@ -199,11 +199,12 @@
 		(type SYMBOL)
 ;+		(allowed-parents Restriccion)
 		(create-accessor read-write))
-	(multislot Num_com
-		(type INTEGER)
-		(cardinality 1 ?VARIABLE)
+	(single-slot TipoE
+;+		(comment "Deberia ser Symbol")
+		(type STRING)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(multislot Presupuesto
+	(multislot Num_com
 		(type INTEGER)
 		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
@@ -212,15 +213,28 @@
 ;+		(allowed-parents Menu)
 		(cardinality 0 3)
 		(create-accessor read-write))
-	(single-slot TipoE
-;+		(comment "Deberia ser Symbol")
-		(type STRING)
-;+		(cardinality 1 1)
+	(multislot Presupuesto
+		(type INTEGER)
+		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write)))
 
 (defclass Menu
 	(is-a USER)
 	(role concrete)
+	(single-slot Primero
+		(type SYMBOL)
+;+		(allowed-parents Plato)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot Segundo
+		(type SYMBOL)
+;+		(allowed-parents Plato)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot PrecioMenu
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(single-slot BebidaM
 		(type SYMBOL)
 ;+		(allowed-parents Bebida)
@@ -236,20 +250,6 @@
 ;+		(allowed-parents Plato)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot PrecioMenu
-		(type FLOAT)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot Primero
-		(type SYMBOL)
-;+		(allowed-parents Plato)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot Segundo
-		(type SYMBOL)
-;+		(allowed-parents Plato)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(single-slot EspecialM
 		(type SYMBOL)
 ;+		(cardinality 0 1)
@@ -258,43 +258,26 @@
 (defclass Plato
 	(is-a USER)
 	(role concrete)
-	(single-slot Temporada
-		(type SYMBOL)
-		(allowed-values verano todas primavera otono invierno)
-		(default todas)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot NombreP
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot Especiales
-		(type SYMBOL)
-		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero japon%C3%A9s italiano)
-		(create-accessor read-write))
-	(single-slot Orden
-		(type SYMBOL)
-		(allowed-values Primero Segundo Postre)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot Caliente
-		(type SYMBOL)
-		(allowed-values FALSE TRUE)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot PrecioP
-		(type FLOAT)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(multislot Componentes
 		(type INSTANCE)
 ;+		(allowed-classes Ingredientes)
 		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
-	(single-slot Calidad
-		(type INTEGER)
-		(range 0 5)
-		(default 0)
+	(multislot Especiales
+		(type SYMBOL)
+		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero japones italiano)
+		(create-accessor read-write))
+	(single-slot PrecioP
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot NombreP
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot Orden
+		(type SYMBOL)
+		(allowed-values Primero Segundo Postre)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot Complejidad
@@ -302,32 +285,49 @@
 		(type INTEGER)
 		(range 0 5)
 ;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot Caliente
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot Calidad
+		(type INTEGER)
+		(range 0 5)
+		(default 0)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot Temporada
+		(type SYMBOL)
+		(allowed-values verano todas primavera otono invierno)
+		(default todas)
+;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
 (defclass Bebida
 	(is-a USER)
 	(role concrete)
+	(single-slot NombreB
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(single-slot PrecioB
 		(type FLOAT)
 		(default 0.0)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot NombreB
-		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
 (defclass Alcohol
 	(is-a Bebida)
 	(role concrete)
-	(single-slot TipoA
-		(type SYMBOL)
-		(allowed-values cerveza cava vino_blanco vino_tinto vino_negro)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(single-slot Gama
 		(type SYMBOL)
 		(allowed-values baja media alta)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot TipoA
+		(type SYMBOL)
+		(allowed-values cerveza cava vino_blanco vino_tinto vino_negro)
 ;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
@@ -379,13 +379,13 @@
 		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
+	(single-slot CalidadR
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
 	(single-slot TipoEst
 ;+		(comment "???")
 		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot CalidadR
-		(type INTEGER)
 ;+		(cardinality 0 1)
 		(create-accessor read-write)))
 

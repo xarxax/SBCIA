@@ -1184,31 +1184,57 @@
  ?x
 )
 
-;(deffunction get)
-
- (deffunction sumapreuMenu "" ( ?menu )
-   (bind ?x 0)
-     (bind ?prim (send ?menu get-Primero))
-     (bind ?x (+ ?x (send ?prim get-PrecioPlato)))
-     (bind ?seg (send ?menu get-Segundo))
-     (bind ?x (+ ?x (send ?seg get-PrecioPlato)))
-     (bind ?postr (send ?menu get-Postre))
-     (bind ?x (+ ?x (send ?postr get-PrecioPlato)))
-		 (printout t "precio " ?x crlf)
-
+(deffunction evaluable "" ( ?menu )
+  (bind ?x TRUE)
+  (bind ?prim (send ?menu get-Primero))
+  (bind ?x (and ?x (not (eq ?prim nil))))
+  (bind ?seg (send ?menu get-Segundo))
+  (bind ?x (and ?x (not (eq ?seg nil))))
+  (bind ?postr (send ?menu get-Postre))
+  (bind ?x (and ?x (not (eq ?postr nil))))
+	;(printout t "evaluable " ?x crlf)
   ?x
- )
- (deffunction evaluable "" ( ?menu )
-        (bind ?x TRUE)
-          (bind ?prim (send ?menu get-Primero))
-          (bind ?x (and ?x (not (eq ?prim nil))))
-          (bind ?seg (send ?menu get-Segundo))
-          (bind ?x (and ?x (not (eq ?seg nil))))
-          (bind ?postr (send ?menu get-Postre))
-          (bind ?x (and ?x (not (eq ?postr nil))))
-					;(printout t "evaluable " ?x crlf)
-       ?x
 )
+
+
+(deffunction tiene-especial (?plato ?simbolo)
+	(bind $?especiales (send ?plato get-Especiales))
+	(bind ?ans FALSE)
+	(if (> (length$ ?especiales ) 0)
+		then (loop-for-count (?i 1  (length$ ?especiales)) do
+			(bind ?cur (nth$ ?i ?especiales))
+			(bind ?ans (or ?ans (eq ?simbolo ?cur)) )
+		)
+	)
+	?ans
+)
+
+;menu es japones tiene un plato japones
+(deffunction japones-menu  (?menu)
+	(bind ?ans FALSE)
+	(bind ?prim (send ?menu get-Primero))
+	(bind ?seg (send ?menu get-Segundo))
+	(bind ?post (send ?menu get-Postre))
+	(bind ?ans (or (tiene-especial ?prim japones) ?ans))
+	(bind ?ans (or (tiene-especial ?seg japones) ?ans))
+	(bind ?ans (or (tiene-especial ?post japones) ?ans))
+	?ans
+)
+
+
+; ;;NUMERO DE MENUS QUE CUMPLAN LA PROPIEDAD
+; QUE DEVUELVE LA FUNCION ?foo
+(deffunction numero-propiedad (?foo)
+   (bind ?x 0)
+	 (bind $?allmenus (find-all-instances ((?inst Menu)) TRUE))
+	 (loop-for-count (?i 1 (length$ ?allmenus)) do
+			(bind ?menu (nth$ ?i ?allmenus))
+			(if (funcall ?foo ?menu) then (bind ?x (+ ?x 1)))
+		)
+		?x
+)
+
+
 ;;ELIMINA DE LA LISTA DE INSTANCIAS AQUELLAS QUE POR EL MULTISLOT SL NO
 ;;;CONTENGAN EL VALOR ?CONST  PAGINA 44 FAQ
 (deffunction filtrar-multi-por (?li ?sl ?const)
@@ -1476,7 +1502,7 @@
 		 (send ?menu1 put-PrecioMenu (+ ?x (+ ?y ?z)))
 
 		 ;(printout t  crlf (menus-nombre ?menu1) crlf)
-
+		 (if (japones-menu ?menu1) then (printout t "tengo un menu japo" crlf))
 		 (slot-insert$ ?men MenuP 1 ?menu1)
 		 )
 
@@ -1521,6 +1547,55 @@
     (export ?ALL))
 
 
+
+
+
+;;;ELIMINA DE LA LISTA DE INSTANCIAS AQUELLAS QUE POR EL MULTISLOT SL NO
+;;;CONTENGAN EL VALOR ?CONST  PAGINA 44 FAQ
+;  (bind ?encontrado FALSE)
+;  (if (neq ?li FALSE) then
+;
+;  	(bind ?li (create$ ?li))
+;
+;  	(if (> (length ?li) 0) then
+;  		(loop-for-count (?i 1 (length ?li))
+;  			(bind $?v (send (nth$ ?i ?li) ?sl))
+;
+;  				(if (member$ ?const $?v) then
+;  					(if (eq ?encontrado FALSE) then
+;  						(bind ?encontrado TRUE)
+;  						(bind ?ins (nth$ ?i ?li))
+;  						else
+;  						(bind ?ins (create$ ?ins (nth$ ?i ?li)))
+;  					)
+;  				)
+;  			)
+;  		)
+;  	)
+;  	(if (eq ?encontrado FALSE) then
+;  		(bind ?ins FALSE)
+;  	)
+; 	(return ?ins)
+; )
+
+		; (defrule pregunta-temporada "regla para saber el presupuesto"
+		; (not (questions end))
+		; (not (Evento Temporada ?) )
+		; =>
+		; (switch   (ask-question "En que estacion se produce el evento?
+		;     1:Primavera
+		;     2:Verano
+		;     3:Otono
+		;     4:Invierno
+		; >"
+		;      1 2 3 4)
+		;   (case 1 then (assert (Evento Temporada primavera)))
+		;   (case 2 then (assert (Evento Temporada verano )))
+		;   (case 3 then (assert (Evento Temporada otono)))
+		;   (case 4 then (assert (Evento Temporada invierno)))
+		;   (default (printout t "No te he entendido"))
+		;  )
+		; )
 
 		; (defrule vegano "regla para saber si prefiere un menu vegano"
 		;   (declare (salience -1))

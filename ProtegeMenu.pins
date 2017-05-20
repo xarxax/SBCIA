@@ -1,7 +1,7 @@
-; Sat May 20 15:09:21 CEST 2017
+; Sat May 20 15:59:12 GST 2017
 ; 
-;+ (version "3.4.8")
-;+ (build "Build 629")
+;+ (version "3.5")
+;+ (build "Build 663")
 
 ([ProtegeMenu_Class0] of  Plato
 
@@ -89,7 +89,7 @@
 		[Proyect2_Class10022]
 		[Proyect2_Class10014]
 		[ProtegeMenu_Class8])
-	(Especiales japon%C3%A9s ligero)
+	(Especiales japones ligero)
 	(NombreP "sushi")
 	(Orden Segundo)
 	(Temporada todas))
