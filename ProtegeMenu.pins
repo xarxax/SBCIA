@@ -1,4 +1,4 @@
-; Sat May 20 14:52:04 CEST 2017
+; Sat May 20 14:59:05 CEST 2017
 ; 
 ;+ (version "3.4.8")
 ;+ (build "Build 629")
@@ -16,6 +16,27 @@
 	(Especiales vegetariano)
 	(NombreP "patatas con alioli")
 	(Orden Primero)
+	(Temporada todas))
+
+([ProtegeMenu_Class10] of  Ingredientes
+
+	(NombreI "harina")
+	(Precio 0.1))
+
+([ProtegeMenu_Class11] of  Ingredientes
+
+	(NombreI "queso parmesano")
+	(Precio 3.0))
+
+([ProtegeMenu_Class12] of  Ingredientes
+
+	(NombreI "espinacas")
+	(Precio 1.8))
+
+([ProtegeMenu_Class13] of  Plato
+
+	(Calidad 0)
+	(NombreP "canelones")
 	(Temporada todas))
 
 ([ProtegeMenu_Class2] of  Ingredientes
@@ -65,6 +86,23 @@
 
 	(NombreI "aguacate")
 	(Precio 0.5))
+
+([ProtegeMenu_Class9] of  Plato
+
+	(Calidad 3)
+	(Caliente TRUE)
+	(Complejidad 3)
+	(Componentes
+		[ProtegeMenu_Class10]
+		[Proyect2_Class20020]
+		[Proyect2_Class10024]
+		[Proyect2_Class10011]
+		[ProtegeMenu_Class11]
+		[ProtegeMenu_Class12])
+	(Especiales vegetariano)
+	(NombreP "canelones con espinacas")
+	(Orden Segundo)
+	(Temporada todas))
 
 ([Proyect2_Class0] of  Plato
 
