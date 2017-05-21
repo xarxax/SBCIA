@@ -1293,7 +1293,7 @@
 (printout t crlf "Primero: "(send ?prim get-NombreP) crlf)
 (printout t "Segundo: "(send ?seg get-NombreP) crlf)
 (printout t "Postre: "(send ?postr get-NombreP) crlf)
-(printout t ?prec crlf crlf)
+(printout t "Precio: "?prec crlf crlf)
 )
 ;;calcula el precio de un plato
 (deffunction sumapreuComp "" ( $?comp )
@@ -1679,8 +1679,8 @@
 		 (send ?menu1 put-PrecioMenu (+ ?x (+ ?y (+ ?z ?w))))
 
 		 ;(printout t  crlf (menus-nombre ?menu1) crlf)
-		 (if (japones-menu ?menu1) then (printout t "tengo un menu japo" crlf))
-		 (slot-insert$ ?men MenuP 1 ?menu1)
+		 ;(if (japones-menu ?menu1) then (printout t "tengo un menu japo" crlf))
+		 ;(slot-insert$ ?men MenuP 1 ?menu1)
 		 )
 
 
@@ -1730,9 +1730,10 @@
 	(not (preguntar-japones))
 	(filtrado-2)
 	(test (< 4 (numero-propiedad japones-menu)))
-	(test (> 4
-		 (- (numero-propiedad japones-menu) (numero-menus))))
+	(test (< 4
+		 (- (numero-menus) (numero-propiedad japones-menu) )))
 	(test (printout t "pregunta a los japos" crlf))
+	(test (< 10 (numero-menus)))
 	=>
 	(switch   (ask-question "Prefieres comida japonesa?(1/2/3)
 	    1:Si
@@ -1750,15 +1751,15 @@
 
 
 (defrule preguntar-italiano
-	(declare ( salience 21))
+	(declare ( salience 20))
 	(not (filtrado end))
 	(not (preguntar-italiano))
 	(filtrado-2)
 	(test (< 4 (numero-propiedad italiano-menu)))
 	(test (printout t "pregunta a los italianos" crlf))
-	(test (> 4
-		 (- (numero-propiedad italiano-menu) (numero-menus))))
-
+	(test (< 4
+		 (-  (numero-menus) (numero-propiedad italiano-menu) )))
+	(test (< 10 (numero-menus)))
 	=>
 	(switch   (ask-question "Prefieres comida italiana?(1/2/3)
 	    1:Si
@@ -1792,13 +1793,6 @@
     (not (filtrado end))
     (filtrado-2)
     (test (printout t "testeando fin filtrado, Japo:" preguntar-japones "  Ita:" preguntar-italiano crlf (numero-menus) crlf))
-    (or
-        (test (< 10 (numero-menus)))
-        (and
-            (preguntar-italiano)
-            (preguntar-japones)
-        )
-    )
   =>
   (printout t "fin de Refinamiento,quedan " (numero-menus) "Menus" crlf)
   (focus recomendaciones)
