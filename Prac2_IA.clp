@@ -1400,6 +1400,12 @@
 	(str-cat ?p1 "," ?p2 "," ?p3 "," ?p4 "," clrf)
 )
 
+(deffunction numero-platos ()
+    (bind $?allmenus (find-all-instances ((?inst Menu)) TRUE))
+    (bind ?x (length$ ?allmenus))
+    ?x
+)
+
 ;;;**************************************
 ;;;
 ;;;---------      MAIN       -----------
@@ -1460,18 +1466,18 @@
   (not (Evento Tipo ?))
   =>
   (switch (ask-question "Elija el tipo de evento:
-    1:Boda
+    1:Fiesta Infantil
     2:Cumpleagnos
-    3:Fiesta Infantil
+    3:Fin de agno
     4:Cena de empresa
-    5:Fin de agno
+    5:Boda
     >"
       1 2 3 4 5)
-    (case 1 then (assert (Evento Tipo Boda)))
-    (case 2 then (assert (Evento Tipo Cumpleagnos)))
-    (case 3 then (assert (Evento Tipo Fiesta_Infantil)))
-    (case 4 then (assert (Evento Tipo Cena_empresa)))
-    (case 5 then (assert (Evento Tipo Fin_agno)))
+			(case 1 then (assert (Evento Calidad 1)) (assert (Evento SinAlcohol)) )
+	    (case 2 then (assert (Evento Calidad 2)))
+	    (case 3 then (assert (Evento Calidad 3)))
+	    (case 4 then (assert (Evento Calidad 4)))
+	    (case 5 then (assert (Evento Calidad 5)))
     (default (printout t "No te he entendido"))
     )
 )
@@ -1542,7 +1548,7 @@
 		(not (questions end))
 		(Evento Presupuesto ?)
 		(Evento Num_com ?)
-		(Evento Tipo ?)
+		(Evento Calidad ?)
 		(Evento Temporada ?)
     ;(menu-nuevo)
     =>
@@ -1583,13 +1589,35 @@
 	;(test (printout t ?x ", " ?temp "= " (eq ?x ?temp) crlf))
   (test (not (eq ?x todas)))
 	;(test (printout t ?x ", " todas "= " (eq ?x todas) crlf))
-
 	=>
 	;(printout t ?x ", " ?temp "= " (eq ?x ?temp) crlf)
 	;(printout t ?x ", " todas "= " (eq ?x todas) crlf)
-	(printout t "Eliminando plato por estacion" crlf)
+	(printout t "Eliminando plato por estacion: ")
+	(printout t (send ?plato get-NombreP)crlf)
   (send ?plato delete)
 	)
+
+	(defrule quitar-bebidas-alcohol
+	   (declare (salience 15))
+	   ?beb <- (object (is-a Alcohol))
+	   (Evento SinAlcohol)
+	   =>
+	   (printout t "Eliminando bebidas alcoholicas: ")
+		 (printout t (send ?beb get-NombreB) crlf)
+	   (send ?beb delete)
+	 )
+
+(defrule quitar-platos-calidad
+	(declare (salience 15))
+	?plato <- (object (is-a Plato) (Calidad ?x))
+	(Evento Calidad ?c)
+	(test ( < ?x ?c))
+	=>
+	(printout t "Eliminando plato por calidad: ")
+	(printout t (send ?plato get-NombreP) crlf)
+	(send ?plato delete)
+)
+
 
 
 (defrule insertaMenuses
