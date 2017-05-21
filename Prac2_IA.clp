@@ -1476,18 +1476,18 @@
   (not (Evento Tipo ?))
   =>
   (switch (ask-question "Elija el tipo de evento:
-    1:Boda
+    1:Fiesta Infantil
     2:Cumpleagnos
-    3:Fiesta Infantil
+    3:Fin de agno
     4:Cena de empresa
-    5:Fin de agno
+    5:Boda
     >"
       1 2 3 4 5)
-    (case 1 then (assert (Evento Tipo Boda)))
-    (case 2 then (assert (Evento Tipo Cumpleagnos)))
-    (case 3 then (assert (Evento Tipo Fiesta_Infantil)))
-    (case 4 then (assert (Evento Tipo Cena_empresa)))
-    (case 5 then (assert (Evento Tipo Fin_agno)))
+			(case 1 then (assert (Evento Calidad 1)) (assert (Evento SinAlcohol)) )
+	    (case 2 then (assert (Evento Calidad 2)))
+	    (case 3 then (assert (Evento Calidad 3)))
+	    (case 4 then (assert (Evento Calidad 4)))
+	    (case 5 then (assert (Evento Calidad 5)))
     (default (printout t "No te he entendido"))
     )
 )
@@ -1499,17 +1499,18 @@
  (not (Evento Num_com ?) )
  =>
  (switch   (ask-question "Cuanta gente calculas tener?
-     1:10-20
-     2:20-50
-     3:50-100
-     4:100 o mas
+     1:10
+     2:25
+     3:50
+     4:75
+		    5:100 o mas
 >"
       1 2 3 4 5)
-   (case 1 then (assert (Evento Num_com 10)))
-   (case 2 then (assert (Evento Num_com 30)))
-   (case 3 then (assert (Evento Num_com 70)))
-   (case 4 then (assert (Evento Num_com 100)))
-	 (case 5 then (assert (Evento Num_com 150)))
+   (case 1 then (assert (Evento Num_com 10)) (assert (Evento Complejidad 5)) )
+   (case 2 then (assert (Evento Num_com 25)) (assert (Evento Complejidad 4)) )
+   (case 3 then (assert (Evento Num_com 50)) (assert (Evento Complejidad 3)) )
+   (case 4 then (assert (Evento Num_com 75)) (assert (Evento Complejidad 2)) )
+	 (case 5 then (assert (Evento Num_com 100)) (assert (Evento Complejidad 1)))
    (default (printout t "No te he entendido"))
   )
 )
@@ -1522,13 +1523,13 @@
 (switch   (ask-question "Cuanta presupuesto tienes?
     1:100
     2:200
-    3:400
-    4:TODO
+    3:40000
+    4:100000
 >"
      1 2 3 4)
   (case 1 then (assert (Evento Presupuesto 100)))
   (case 2 then (assert (Evento Presupuesto 200)))
-  (case 3 then (assert (Evento Presupuesto 400)))
+  (case 3 then (assert (Evento Presupuesto 40000)))
   (case 4 then (assert (Evento Presupuesto 100000)))
   (default (printout t "No te he entendido"))
  )
@@ -1558,7 +1559,7 @@
 		(not (questions end))
 		(Evento Presupuesto ?)
 		(Evento Num_com ?)
-		(Evento Tipo ?)
+		(Evento Calidad ?)
 		(Evento Temporada ?)
     ;(menu-nuevo)
     =>
@@ -1592,17 +1593,6 @@
 		  (assert (inference end))
 )
 
-(defrule quitar-platos-complejidad
-	(declare (salience 15))
-	(not (filtrado-2))
-  ?plato <- (object (is-a Plato) (Complejidad ?x))
-	(Evento Complejidad ?temp)
-	(test (> ?x ?temp))
-	=>
-	(printout t "Eliminando plato por estacion" crlf)
-  (send ?plato delete)
-	)
-
 (defrule quitar-platos-temporada
 	(declare (salience 15))
 	(not (filtrado-2))
@@ -1621,14 +1611,36 @@
 	)
 
 (defrule quitar-bebidas-alcohol
-	(declare (salience 15))
-	(not (filtrado-2))
-	?beb <- (object (is-a Alcohol))
-	(Evento Calidad 1)
-	=>
-	(printout t "Eliminando bebidas alcoholicas" crlf)
-	(send ?beb delete)
-	)
+		 (declare (salience 15))
+		 ?beb <- (object (is-a Alcohol))
+		 (Evento SinAlcohol)
+		 =>
+		 (printout t "Eliminando bebidas alcoholicas: ")
+		 (printout t (send ?beb get-NombreB) crlf)
+		 (send ?beb delete)
+	 )
+
+(defrule quitar-platos-calidad
+	 	(declare (salience 15))
+	 	?plato <- (object (is-a Plato) (Calidad ?x))
+	 	(Evento Calidad ?c)
+	 	(test ( < ?x ?c))
+	 	=>
+	 	(printout t "Eliminando plato por calidad: ")
+	 	(printout t (send ?plato get-NombreP) crlf)
+	 	(send ?plato delete)
+	 )
+
+(defrule quitar-platos-complejidad
+	 	(declare (salience 15))
+	 	?plato <- (object (is-a Plato) (Complejidad ?x))
+	 	(Evento Complejidad ?c)
+	 	(test ( > ?x ?c))
+	 	=>
+	 	(printout t "Eliminando plato por complejidad: ")
+	 	(printout t (send ?plato get-NombreP) crlf)
+	 	(send ?plato delete)
+	 	)
 
 (defrule insertaMenuses
 	(declare (salience 10))
