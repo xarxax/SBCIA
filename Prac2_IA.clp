@@ -1356,15 +1356,28 @@
 		)
 		?x
 )
-
+;;elimina los platos para los que la función foo da cierto
 (deffunction eliminar-propiedad (?foo)
-    (bind $?allmenus (find-all-instances ((?inst Menu)) TRUE))
-    (loop-for-count (?i 1 (length$ ?allmenus)) do
-         (bind ?menu (nth$ ?i ?allmenus))
-         (if (funcall ?foo ?menu) then (send ?menu delete))
-     )
+	(bind $?allmenus (find-all-instances ((?inst Menu)) TRUE))
+	(loop-for-count (?i 1 (length$ ?allmenus)) do
+		 (bind ?menu (nth$ ?i ?allmenus))
+		 (if (funcall ?foo ?menu) then (send ?menu delete))
+	 )
+)
+;;elimina los platos para los que la función foo da false
+(deffunction eliminar-propiedad-not (?foo)
+	(bind $?allmenus (find-all-instances ((?inst Menu)) TRUE))
+	(loop-for-count (?i 1 (length$ ?allmenus)) do
+		 (bind ?menu (nth$ ?i ?allmenus))
+		 (if (not (funcall ?foo ?menu)) then (send ?menu delete))
+	 )
 )
 
+(deffunction numero-menus ()
+	(bind $?allmenus (find-all-instances ((?inst Menu)) TRUE))
+	(bind ?x (length$ ?allmenus))
+	?x
+)
 
 ;;ELIMINA DE LA LISTA DE INSTANCIAS AQUELLAS QUE POR EL MULTISLOT SL NO
 ;;;CONTENGAN EL VALOR ?CONST  PAGINA 44 FAQ
@@ -1406,12 +1419,6 @@
 	(bind ?p3 (send ?pos get-NombreP))
 	(bind ?p4 (send ?beb get-NombreB))
 	(str-cat ?p1 "," ?p2 "," ?p3 "," ?p4 "," clrf)
-)
-
-(deffunction numero-menus ()
-    (bind $?allmenus (find-all-instances ((?inst Menu)) TRUE))
-    (bind ?x (length$ ?allmenus))
-    ?x
 )
 
 ;;;**************************************
@@ -1474,18 +1481,18 @@
   (not (Evento Tipo ?))
   =>
   (switch (ask-question "Elija el tipo de evento:
-    1:Fiesta Infantil
+    1:Boda
     2:Cumpleagnos
-    3:Fin de agno
+    3:Fiesta Infantil
     4:Cena de empresa
-    5:Boda
+    5:Fin de agno
     >"
       1 2 3 4 5)
-			(case 1 then (assert (Evento Calidad 1)) (assert (Evento SinAlcohol)) )
-	    (case 2 then (assert (Evento Calidad 2)))
-	    (case 3 then (assert (Evento Calidad 3)))
-	    (case 4 then (assert (Evento Calidad 4)))
-	    (case 5 then (assert (Evento Calidad 5)))
+    (case 1 then (assert (Evento Tipo Boda)))
+    (case 2 then (assert (Evento Tipo Cumpleagnos)))
+    (case 3 then (assert (Evento Tipo Fiesta_Infantil)))
+    (case 4 then (assert (Evento Tipo Cena_empresa)))
+    (case 5 then (assert (Evento Tipo Fin_agno)))
     (default (printout t "No te he entendido"))
     )
 )
@@ -1497,18 +1504,17 @@
  (not (Evento Num_com ?) )
  =>
  (switch   (ask-question "Cuanta gente calculas tener?
-     1:10
-     2:25
-     3:50
-     4:75
-		  5:100 o mas
+     1:10-20
+     2:20-50
+     3:50-100
+     4:100 o mas
 >"
       1 2 3 4 5)
-   (case 1 then (assert (Evento Num_com 10)) (assert (Evento Complejidad 5)) )
-   (case 2 then (assert (Evento Num_com 25)) (assert (Evento Complejidad 4)) )
-   (case 3 then (assert (Evento Num_com 50)) (assert (Evento Complejidad 3)) )
-   (case 4 then (assert (Evento Num_com 75)) (assert (Evento Complejidad 2)) )
-	 (case 5 then (assert (Evento Num_com 100)) (assert (Evento Complejidad 1)))
+   (case 1 then (assert (Evento Num_com 10)))
+   (case 2 then (assert (Evento Num_com 30)))
+   (case 3 then (assert (Evento Num_com 70)))
+   (case 4 then (assert (Evento Num_com 100)))
+	 (case 5 then (assert (Evento Num_com 150)))
    (default (printout t "No te he entendido"))
   )
 )
@@ -1557,7 +1563,7 @@
 		(not (questions end))
 		(Evento Presupuesto ?)
 		(Evento Num_com ?)
-		(Evento Calidad ?)
+		(Evento Tipo ?)
 		(Evento Temporada ?)
     ;(menu-nuevo)
     =>
@@ -1590,6 +1596,16 @@
 		  (assert (inference end))
 )
 
+(defrule quitar-platos-complejidad
+	(declare (salience 15))
+  ?plato <- (object (is-a Plato) (Complejidad ?x))
+	(Evento Complejidad ?temp)
+	(test (> ?x ?temp))
+	=>
+	(printout t "Eliminando plato por estacion" crlf)
+  (send ?plato delete)
+	)
+
 (defrule quitar-platos-temporada
 	(declare (salience 15))
   ?plato <- (object (is-a Plato) (Temporada ?x))
@@ -1598,58 +1614,22 @@
 	;(test (printout t ?x ", " ?temp "= " (eq ?x ?temp) crlf))
   (test (not (eq ?x todas)))
 	;(test (printout t ?x ", " todas "= " (eq ?x todas) crlf))
+
 	=>
 	;(printout t ?x ", " ?temp "= " (eq ?x ?temp) crlf)
 	;(printout t ?x ", " todas "= " (eq ?x todas) crlf)
-	(printout t "Eliminando plato por estacion: ")
-	(printout t (send ?plato get-NombreP)crlf)
+	(printout t "Eliminando plato por estacion" crlf)
   (send ?plato delete)
 	)
 
-	(defrule quitar-bebidas-alcohol
-	   (declare (salience 15))
-	   ?beb <- (object (is-a Alcohol))
-	   (Evento SinAlcohol)
-	   =>
-	   (printout t "Eliminando bebidas alcoholicas: ")
-		 (printout t (send ?beb get-NombreB) crlf)
-	   (send ?beb delete)
-	 )
-
-(defrule quitar-platos-calidad
+(defrule quitar-bebidas-alcohol
 	(declare (salience 15))
-	?plato <- (object (is-a Plato) (Calidad ?x))
-	(Evento Calidad ?c)
-	(test ( < ?x ?c))
+	?beb <- (object (is-a Alcohol))
+	(Evento Calidad 1)
 	=>
-	(printout t "Eliminando plato por calidad: ")
-	(printout t (send ?plato get-NombreP) crlf)
-	(send ?plato delete)
-)
-
-(defrule quitar-platos-complejidad
-	(declare (salience 15))
-	?plato <- (object (is-a Plato) (Complejidad ?x))
-	(Evento Complejidad ?c)
-	(test ( > ?x ?c))
-	=>
-	(printout t "Eliminando plato por complejidad: ")
-	(printout t (send ?plato get-NombreP) crlf)
-	(send ?plato delete)
+	(printout t "Eliminando bebidas alcoholicas" crlf)
+	(send ?beb delete)
 	)
-
-
-; (defrile quitar-bebidas-calidad
-; 	(declare (salience 15))
-; 	?beb <- (object (is-a Bebida))
-; 	(Evento Calidad ?c)
-; 	=>
-; 	(printout t "--------------" crlf)
-; 	(printout t (send ?beb get-NombreB) crlf)
-; 	(printout t (send ?beb get-) crlf)
-; 	)
-
-
 
 (defrule insertaMenuses
 	(declare (salience 10))
@@ -1729,114 +1709,70 @@
     (import inferir_datos ?ALL)
     (export ?ALL))
 
-	(defrule preguntar-japones
-		   (declare ( salience 20))
-		   (not (preguntar-japones))
-		   (test (> 4 (numero-propiedad japones-menu)))
-		   (test (> 4
-		        (- (numero-propiedad japones-menu) (numero-menus))))
-		   =>
-		   (switch   (ask-question "Prefieres comida japonesa?(1/2/3)
-		        1:Si
-		        2:No
-		        3:Es indiferente
-		    >"
-		         1 2 3)
-		      (case 1 then (eliminar-propiedad (not japones-menu)))
-		      (case 2 then (eliminar-propiedad japones-menu))
-		      (case 3 then (- 1 1))
-		      (default (printout t "No te he entendido"))
-		   )
-		  (assert (preguntar-japones))
-		)
+(defrule preguntar-japones
+	(declare ( salience 20))
+	(not (preguntar-japones))
+	(test (> 4 (numero-propiedad japones-menu)))
+	(test (> 4
+		 (- (numero-propiedad japones-menu) (numero-menus))))
+	=>
+	(switch   (ask-question "Prefieres comida japonesa?(1/2/3)
+	    1:Si
+	    2:No
+	    3:Es indiferente
+	>"
+	     1 2 3)
+	  (case 1 then (eliminar-propiedad-not japones-menu))
+	  (case 2 then (eliminar-propiedad japones-menu))
+	  (case 3 then (- 1 1))
+	  (default (printout t "No te he entendido"))
+	 )
+	(assert (preguntar-japones))
+)
 
 
-
-
-;;;ELIMINA DE LA LISTA DE INSTANCIAS AQUELLAS QUE POR EL MULTISLOT SL NO
-;;;CONTENGAN EL VALOR ?CONST  PAGINA 44 FAQ
-;  (bind ?encontrado FALSE)
-;  (if (neq ?li FALSE) then
+; (defrule pregunta-temporada "regla para saber el presupuesto"
+; (not (questions end))
+; (not (Evento Temporada ?) )
+; =>
+; (switch   (ask-question "En que estacion se produce el evento?
+;     1:Primavera
+;     2:Verano
+;     3:Otono
+;     4:Invierno
+; >"
+;      1 2 3 4)
+;   (case 1 then (assert (Evento Temporada primavera)))
+;   (case 2 then (assert (Evento Temporada verano )))
+;   (case 3 then (assert (Evento Temporada otono)))
+;   (case 4 then (assert (Evento Temporada invierno)))
+;   (default (printout t "No te he entendido"))
+;  )
+; )
+; (defrule vegano "regla para saber si prefiere un menu vegano"
+;   (declare (salience -1))
+;   (not (want-vegan ?))
+;   =>
+;   (if (yes-or-no-p "Prefiere un menu vegano? (yes/no)")
+;   then (assert (want-vegan yes))
 ;
-;  	(bind ?li (create$ ?li))
-;
-;  	(if (> (length ?li) 0) then
-;  		(loop-for-count (?i 1 (length ?li))
-;  			(bind $?v (send (nth$ ?i ?li) ?sl))
-;
-;  				(if (member$ ?const $?v) then
-;  					(if (eq ?encontrado FALSE) then
-;  						(bind ?encontrado TRUE)
-;  						(bind ?ins (nth$ ?i ?li))
-;  						else
-;  						(bind ?ins (create$ ?ins (nth$ ?i ?li)))
-;  					)
-;  				)
-;  			)
-;  		)
-;  	)
-;  	(if (eq ?encontrado FALSE) then
-;  		(bind ?ins FALSE)
-;  	)
-; 	(return ?ins)
+;    else (assert (want-vegan  no))
+;   )
+;   (assert (questions end))
 ; )
 
-		; (defrule pregunta-temporada "regla para saber el presupuesto"
-		; (not (questions end))
-		; (not (Evento Temporada ?) )
-		; =>
-		; (switch   (ask-question "En que estacion se produce el evento?
-		;     1:Primavera
-		;     2:Verano
-		;     3:Otono
-		;     4:Invierno
-		; >"
-		;      1 2 3 4)
-		;   (case 1 then (assert (Evento Temporada primavera)))
-		;   (case 2 then (assert (Evento Temporada verano )))
-		;   (case 3 then (assert (Evento Temporada otono)))
-		;   (case 4 then (assert (Evento Temporada invierno)))
-		;   (default (printout t "No te he entendido"))
-		;  )
-		; )
 
-		; (defrule vegano "regla para saber si prefiere un menu vegano"
-		;   (declare (salience -1))
-		;   (not (want-vegan ?))
-		;   =>
-		;   (if (yes-or-no-p "Prefiere un menu vegano? (yes/no)")
-		;   then (assert (want-vegan yes))
-		;
-		;    else (assert (want-vegan  no))
-		;   )
-		;   (assert (questions end))
-		; )
-
-
-
-		; (defrule menu-valido
-		; 	(declare (salience -1))
-	  ;     (presupuesto-por-invitado ?x)
-	  ;    ?putamierda <- (object(is-a Menu) (PrecioMenu ?y))
-		; 	 ;(test (printout t "menuvalidar" crlf))
-		; 	 (test (evaluable ?putamierda))
-	  ;    (test (> ?x ?y))
-		; 	(printout t "test done")
-	  ;   (menu-nuevo)
-	  ;   =>
-	  ;   (printout t "fin de Refinamiento" crlf)
-	  ;   (focus recomendaciones)
-	  ;   )
 
 		(defrule fin-filtrado
-		        (declare (salience 100))
-						(test (< 10 (numero-menus)))
-		        (printout t "test done")
-		        (menu-nuevo)
-		        =>
-		        (printout t "fin de Refinamiento" crlf)
-		        (focus recomendaciones)
-		        )
+			(declare (salience 100))
+			(test (< 10 (numero-menus)))
+			(printout t "test done")
+	    (menu-nuevo)
+	    =>
+	    (printout t "fin de Refinamiento,quedan " (numero-menus) "Menus" crlf)
+	    (focus recomendaciones)
+	    )
+
 
 ;;;------------------------------------------------------------------------------------------------------------------------------------------------------
 ;;;-
