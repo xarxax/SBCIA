@@ -1356,12 +1356,20 @@
 		)
 		?x
 )
+(deffunction numero-menus ()
+	(bind $?allmenus (find-all-instances ((?inst Menu)) TRUE))
+	(bind ?x (length$ ?allmenus))
+	?x
+)
+
 ;;elimina los platos para los que la función foo da cierto
 (deffunction eliminar-propiedad (?foo)
 	(bind $?allmenus (find-all-instances ((?inst Menu)) TRUE))
 	(loop-for-count (?i 1 (length$ ?allmenus)) do
 		 (bind ?menu (nth$ ?i ?allmenus))
-		 (if (funcall ?foo ?menu) then (send ?menu delete))
+		 (if (funcall ?foo ?menu) then (send ?menu delete)
+		 (printout t "Eliminando menu1 " (numero-menus) "restantes" crlf )
+		 )
 	 )
 )
 ;;elimina los platos para los que la función foo da false
@@ -1369,15 +1377,13 @@
 	(bind $?allmenus (find-all-instances ((?inst Menu)) TRUE))
 	(loop-for-count (?i 1 (length$ ?allmenus)) do
 		 (bind ?menu (nth$ ?i ?allmenus))
-		 (if (not (funcall ?foo ?menu)) then (send ?menu delete))
+		 (if (not (funcall ?foo ?menu)) then
+		 (send ?menu delete)
+		 (printout t "Eliminando menu2"  (numero-menus) "restantes" crlf ))
 	 )
 )
 
-(deffunction numero-menus ()
-	(bind $?allmenus (find-all-instances ((?inst Menu)) TRUE))
-	(bind ?x (length$ ?allmenus))
-	?x
-)
+
 
 ;;ELIMINA DE LA LISTA DE INSTANCIAS AQUELLAS QUE POR EL MULTISLOT SL NO
 ;;;CONTENGAN EL VALOR ?CONST  PAGINA 44 FAQ
