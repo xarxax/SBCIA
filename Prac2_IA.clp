@@ -1771,8 +1771,14 @@
 
 (defrule fin-filtrado
 	(declare (salience 100))
-	(test (> 10 (numero-menus)))
-	(test (printout t "Fin filtrado"))
+	(test (printout t "testeando fin filtrado, Japo:" preguntar-japones "  Ita:" preguntar-italiano crlf (numero-menus) crlf))
+	(or
+		(test (< 10 (numero-menus)))
+		(and
+			(preguntar-italiano)
+			(preguntar-japones)
+		)
+	)
   (menu-nuevo)
 	(not (filtrado end))
   =>
@@ -1784,7 +1790,7 @@
 (defrule no-platos "norma para si no quedan menus compatibles antes de escojer pref"
 	(declare (salience 110))
 	(not (filtrado end))
-	(test (> 1 (numero-menus)))
+	(test (< 1 (numero-menus)))
 	=>
 	(printout t "No nos quedan menus, desgraciadamente no hay ninguno compatible con
 	tus preferencias basicas" crlf)
