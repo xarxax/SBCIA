@@ -1456,6 +1456,20 @@
 	?x
 )
 
+(deffunction string-menu (?menu)
+	(bind ?prim (send ?menu get-Primero))
+	(bind ?seg (send ?menu get-Segundo))
+	(bind ?postr (send ?menu get-Postre))
+	(bind ?prec (send ?menu get-PrecioMenu))
+	(bind ?x (str-cat "
+	Primero: " (send ?prim get-NombreP)"
+	Segundo: " (send ?seg get-NombreP)"
+	Postre: " (send ?postr get-NombreP)"
+	Precio: "?prec "
+	"))
+	?x
+)
+
 ;;;**************************************
 ;;;
 ;;;---------      MAIN       -----------
