@@ -12,15 +12,15 @@
 		(allowed-values baja media alta)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot PrecioB
-		(type FLOAT)
-		(default 0.0)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(multislot Clasificacion
 		(type SYMBOL)
 		(allowed-values sopa ensalada bocadillo tapa asado plancha frito fruta reposteria pasta)
 		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(single-slot PrecioB
+		(type FLOAT)
+		(default 0.0)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot TipoEst
 ;+		(comment "???")
@@ -38,24 +38,24 @@
 		(create-accessor read-write))
 	(multislot Especiales
 		(type SYMBOL)
-		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero)
+		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero japones italiano)
 		(create-accessor read-write))
 	(single-slot PrecioP
 		(type FLOAT)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(multislot MenuP
+	(single-slot Refresco
 		(type SYMBOL)
-;+		(allowed-parents Menu)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot CalidadR
 		(type INTEGER)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot Refresco
+	(multislot MenuP
 		(type SYMBOL)
-		(allowed-values FALSE TRUE)
-;+		(cardinality 0 1)
+;+		(allowed-parents Menu)
 		(create-accessor read-write))
 	(multislot Num_com
 		(type INTEGER)
@@ -107,18 +107,18 @@
 		(type SYMBOL)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot Precio
-		(type FLOAT)
-;+		(cardinality 1 1)
+	(single-slot CantidadR
+		(type STRING)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot Primero
 		(type SYMBOL)
 ;+		(allowed-parents Plato)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot CantidadR
-		(type STRING)
-;+		(cardinality 0 1)
+	(single-slot Precio
+		(type FLOAT)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot MenuEvento
 		(type SYMBOL)
@@ -183,13 +183,13 @@
 		(allowed-values cerveza cava vino_blanco vino_tinto vino_negro)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot N
-		(type INTEGER)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(multislot NoIngrediente
 		(type SYMBOL)
 ;+		(allowed-parents Ingredientes)
+		(create-accessor read-write))
+	(single-slot N
+		(type INTEGER)
+;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
 (defclass Evento
@@ -231,13 +231,13 @@
 ;+		(allowed-parents Plato)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
+	(single-slot PrecioMenu
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(single-slot BebidaM
 		(type SYMBOL)
 ;+		(allowed-parents Bebida)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot PrecioMenu
-		(type FLOAT)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot CalidadM
@@ -258,14 +258,14 @@
 (defclass Plato
 	(is-a USER)
 	(role concrete)
-	(multislot Especiales
-		(type SYMBOL)
-		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero)
-		(create-accessor read-write))
 	(multislot Componentes
 		(type INSTANCE)
 ;+		(allowed-classes Ingredientes)
 		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(multislot Especiales
+		(type SYMBOL)
+		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero japones italiano)
 		(create-accessor read-write))
 	(single-slot PrecioP
 		(type FLOAT)
@@ -413,10 +413,133 @@
 
 
 (definstances instancies
-	; Fri May 19 17:00:53 GST 2017
-	;
-	;+ (version "3.5")
-	;+ (build "Build 663")
+	([ProtegeMenu_Class0] of  Plato
+
+		(Calidad 2)
+		(Caliente TRUE)
+		(Complejidad 1)
+		(Componentes
+			[ProtegeMenu_Class3]
+			[ProtegeMenu_Class2]
+			[Proyect2_Class20016]
+			[Proyect2_Class1])
+		(Especiales vegetariano)
+		(NombreP "patatas con alioli")
+		(Orden Primero)
+		(Temporada todas))
+
+	([ProtegeMenu_Class10] of  Ingredientes
+
+		(NombreI "harina")
+		(Precio 0.1))
+
+	([ProtegeMenu_Class11] of  Ingredientes
+
+		(NombreI "queso parmesano")
+		(Precio 3.0))
+
+	([ProtegeMenu_Class12] of  Ingredientes
+
+		(NombreI "espinacas")
+		(Precio 1.8))
+
+	([ProtegeMenu_Class13] of  Plato
+
+		(Calidad 3)
+		(Caliente TRUE)
+		(Complejidad 4)
+		(Componentes
+			[ProtegeMenu_Class14]
+			[ProtegeMenu_Class15]
+			[Proyect2_Class10030]
+			[Proyect2_Class10011]
+			[ProtegeMenu_Class11]
+			[Proyect2_Class10024]
+			[ProtegeMenu_Class10]
+			[Proyect2_Class20016]
+			[Proyect2_Class20004])
+		(Especiales italiano)
+		(NombreP "canelones")
+		(Orden Segundo)
+		(Temporada todas))
+
+	([ProtegeMenu_Class14] of  Ingredientes
+
+		(NombreI "tomate frito")
+		(Precio 1.0))
+
+	([ProtegeMenu_Class15] of  Ingredientes
+
+		(NombreI "carne picada")
+		(Precio 3.0))
+
+	([ProtegeMenu_Class16] of  Ingredientes
+	)
+
+	([ProtegeMenu_Class2] of  Ingredientes
+
+		(NombreI "patata")
+		(Precio 0.5))
+
+	([ProtegeMenu_Class3] of  Ingredientes
+
+		(NombreI "alioli")
+		(Precio 0.1))
+
+	([ProtegeMenu_Class4] of  Plato
+
+		(Calidad 2)
+		(Complejidad 3)
+		(Componentes
+			[ProtegeMenu_Class5]
+			[Proyect2_Class10000]
+			[ProtegeMenu_Class6]
+			[ProtegeMenu_Class7]
+			[Proyect2_Class10028]
+			[Proyect2_Class10022]
+			[Proyect2_Class10014]
+			[ProtegeMenu_Class8])
+		(Especiales japones ligero)
+		(NombreP "sushi")
+		(Orden Segundo)
+		(Temporada todas))
+
+	([ProtegeMenu_Class5] of  Ingredientes
+
+		(NombreI "alga")
+		(Precio 0.6))
+
+	([ProtegeMenu_Class6] of  Ingredientes
+
+		(NombreI "vinagre arroz")
+		(Precio 0.2))
+
+	([ProtegeMenu_Class7] of  Ingredientes
+
+		(NombreI "pepino")
+		(Precio 0.4))
+
+	([ProtegeMenu_Class8] of  Ingredientes
+
+		(NombreI "aguacate")
+		(Precio 0.5))
+
+	([ProtegeMenu_Class9] of  Plato
+
+		(Calidad 3)
+		(Caliente TRUE)
+		(Complejidad 3)
+		(Componentes
+			[ProtegeMenu_Class10]
+			[Proyect2_Class20020]
+			[Proyect2_Class10024]
+			[Proyect2_Class10011]
+			[ProtegeMenu_Class11]
+			[ProtegeMenu_Class12])
+		(Especiales vegetariano)
+		(NombreP "canelones con espinacas")
+		(Orden Segundo)
+		(Temporada todas))
 
 	([Proyect2_Class0] of  Plato
 
@@ -448,7 +571,7 @@
 	([Proyect2_Class10002] of  Ingredientes
 
 		(NombreI "cerdo")
-		(Precio 2.0))
+		(Precio 3.0))
 
 	([Proyect2_Class10003] of  Ingredientes
 
@@ -1011,7 +1134,7 @@
 		(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
 		(NombreP "manzana")
 		(Orden Postre)
-		(Temporada otono))
+		(Temporada oto%C3%B1o))
 
 	([Proyect2_Class50021] of  Plato
 
@@ -1022,7 +1145,7 @@
 		(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
 		(NombreP "pera")
 		(Orden Postre)
-		(Temporada otono))
+		(Temporada oto%C3%B1o))
 
 	([Proyect2_Class50022] of  Plato
 
@@ -1338,10 +1461,10 @@
   =>
   (switch (ask-question "Elija el tipo de evento:
     1:Boda
-    2:Cumpleaños
+    2:Cumpleagnos
     3:Fiesta Infantil
     4:Cena de empresa
-    5:Fin de año
+    5:Fin de agno
     >"
       1 2 3 4 5)
     (case 1 then (assert (Evento Tipo Boda)))
