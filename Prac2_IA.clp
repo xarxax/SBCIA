@@ -1438,6 +1438,24 @@
 	(str-cat ?p1 "," ?p2 "," ?p3 "," ?p4 "," clrf)
 )
 
+
+(deffunction menus-iguales (?menu1 ?menu2)
+	(bind ?prim1 (send ?menu1 get-Primero))
+	(bind ?seg1 (send ?menu1 get-Segundo))
+	(bind ?postr1 (send ?menu1 get-Postre))
+	(bind ?beb1 (send ?menu1 get-BebidaM))
+	(bind ?prim2 (send ?menu2 get-Primero))
+	(bind ?seg2 (send ?menu2 get-Segundo))
+	(bind ?postr2 (send ?menu2 get-Postre))
+	(bind ?beb2 (send ?menu2 get-BebidaM))
+	(bind ?x TRUE)
+	(bind ?x (and ?x (eq ?prim1 ?prim2)))
+	(bind ?x (and ?x (eq ?seg1 ?seg2)))
+	(bind ?x (and ?x (eq ?postr1 ?postr2)))
+	(bind ?x (and ?x (eq ?beb1 ?beb2)))
+	?x
+)
+
 ;;;**************************************
 ;;;
 ;;;---------      MAIN       -----------

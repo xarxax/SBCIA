@@ -1,4 +1,4 @@
-; Mon May 22 00:04:26 CEST 2017
+; Mon May 22 00:22:10 CEST 2017
 ; 
 ;+ (version "3.4.8")
 ;+ (build "Build 629")
@@ -69,9 +69,52 @@
 		[Proyect2_Class10028]
 		[Proyect2_Class10034]
 		[ProtegeMenu_Class6])
-	(Especiales vegano japones ligero)
+	(Especiales vegano japones ligero sin_gluten sin_lactosa)
 	(NombreP "tsukemono")
 	(Orden Primero)
+	(Temporada todas))
+
+([ProtegeMenu_Class10005] of  Plato
+
+	(Calidad 2)
+	(Complejidad 0)
+	(Componentes
+		[Proyect2_Class10022]
+		[Proyect2_Class10014]
+		[ProtegeMenu_Class5]
+		[Proyect2_Class20004])
+	(Especiales japones ligero)
+	(NombreP "onigiri")
+	(Orden Primero)
+	(Temporada todas))
+
+([ProtegeMenu_Class10006] of  Plato
+
+	(Calidad 3)
+	(Caliente TRUE)
+	(Complejidad 4)
+	(Componentes
+		[ProtegeMenu_Class10]
+		[Proyect2_Class10032]
+		[Proyect2_Class1]
+		[Proyect2_Class10002]
+		[ProtegeMenu_Class10007])
+	(Especiales japones sin_lactosa)
+	(NombreP "okonomiyaki")
+	(Orden Segundo)
+	(Temporada todas))
+
+([ProtegeMenu_Class10007] of  Ingredientes
+
+	(NombreI "puerro")
+	(Precio 0.6))
+
+([ProtegeMenu_Class10008] of  Plato
+
+	(Calidad 3)
+	(Caliente TRUE)
+	(Complejidad 1)
+	(NombreP "yakisoba")
 	(Temporada todas))
 
 ([ProtegeMenu_Class11] of  Ingredientes
