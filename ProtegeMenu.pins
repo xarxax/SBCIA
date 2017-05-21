@@ -1,7 +1,7 @@
-; Sat May 20 15:59:12 GST 2017
+; Mon May 22 00:04:26 CEST 2017
 ; 
-;+ (version "3.5")
-;+ (build "Build 663")
+;+ (version "3.4.8")
+;+ (build "Build 629")
 
 ([ProtegeMenu_Class0] of  Plato
 
@@ -13,7 +13,7 @@
 		[ProtegeMenu_Class2]
 		[Proyect2_Class20016]
 		[Proyect2_Class1])
-	(Especiales vegetariano)
+	(Especiales vegetariano sin_lactosa)
 	(NombreP "patatas con alioli")
 	(Orden Primero)
 	(Temporada todas))
@@ -22,6 +22,57 @@
 
 	(NombreI "harina")
 	(Precio 0.1))
+
+([ProtegeMenu_Class10000] of  Plato
+
+	(Calidad 2)
+	(Caliente TRUE)
+	(Complejidad 3)
+	(Componentes
+		[ProtegeMenu_Class10001]
+		[Proyect2_Class1]
+		[ProtegeMenu_Class10002]
+		[Proyect2_Class20016]
+		[ProtegeMenu_Class6]
+		[ProtegeMenu_Class10003]
+		[Proyect2_Class10011]
+		[Proyect2_Class10028]
+		[Proyect2_Class10029])
+	(Especiales japones)
+	(NombreP "ramen")
+	(Orden Primero)
+	(Temporada todas))
+
+([ProtegeMenu_Class10001] of  Ingredientes
+
+	(NombreI "panceta cerdo")
+	(Precio 0.5))
+
+([ProtegeMenu_Class10002] of  Ingredientes
+
+	(NombreI "fideos")
+	(Precio 0.7))
+
+([ProtegeMenu_Class10003] of  Ingredientes
+
+	(NombreI "soja")
+	(Precio 0.3))
+
+([ProtegeMenu_Class10004] of  Plato
+
+	(Calidad 2)
+	(Complejidad 2)
+	(Componentes
+		[Proyect2_Class20004]
+		[ProtegeMenu_Class7]
+		[Proyect2_Class10032]
+		[Proyect2_Class10028]
+		[Proyect2_Class10034]
+		[ProtegeMenu_Class6])
+	(Especiales vegano japones ligero)
+	(NombreP "tsukemono")
+	(Orden Primero)
+	(Temporada todas))
 
 ([ProtegeMenu_Class11] of  Ingredientes
 
@@ -56,7 +107,7 @@
 ([ProtegeMenu_Class14] of  Ingredientes
 
 	(NombreI "tomate frito")
-	(Precio 1.0))
+	(Precio 0.8))
 
 ([ProtegeMenu_Class15] of  Ingredientes
 
@@ -126,7 +177,7 @@
 		[Proyect2_Class10011]
 		[ProtegeMenu_Class11]
 		[ProtegeMenu_Class12])
-	(Especiales vegetariano)
+	(Especiales vegetariano italiano)
 	(NombreP "canelones con espinacas")
 	(Orden Segundo)
 	(Temporada todas))
@@ -264,7 +315,7 @@
 ([Proyect2_Class10022] of  Ingredientes
 
 	(NombreI "salmon")
-	(Precio 3.5))
+	(Precio 4.0))
 
 ([Proyect2_Class10023] of  Ingredientes
 
@@ -354,7 +405,7 @@
 ([Proyect2_Class20000] of  Ingredientes
 
 	(NombreI "pan")
-	(Precio 0.2))
+	(Precio 0.3))
 
 ([Proyect2_Class20001] of  Ingredientes
 
@@ -469,7 +520,7 @@
 ([Proyect2_Class3] of  Ingredientes
 
 	(NombreI "mortadela")
-	(Precio 0.5))
+	(Precio 1.0))
 
 ([Proyect2_Class30000] of  NoAlcohol
 
@@ -578,7 +629,7 @@
 	(Componentes
 		[Proyect2_Class20000]
 		[Proyect2_Class2])
-	(Especiales vegano sin_gluten)
+	(Especiales vegano)
 	(NombreP "bocata de nocilla")
 	(Orden Postre))
 
@@ -688,10 +739,14 @@
 	(Componentes
 		[Proyect2_Class10016]
 		[Proyect2_Class10014]
-		[Proyect2_Class20005])
+		[Proyect2_Class20005]
+		[Proyect2_Class20020]
+		[Proyect2_Class20004]
+		[Proyect2_Class10029])
 	(Especiales sin_gluten sin_lactosa)
 	(NombreP "pollo con curry")
-	(Orden Segundo))
+	(Orden Segundo)
+	(Temporada todas))
 
 ([Proyect2_Class50018] of  Plato
 
@@ -724,7 +779,7 @@
 	(Especiales vegano sin_gluten sin_lactosa vegetariano ligero)
 	(NombreP "manzana")
 	(Orden Postre)
-	(Temporada oto%C3%B1o))
+	(Temporada verano))
 
 ([Proyect2_Class50021] of  Plato
 
@@ -775,9 +830,10 @@
 	(Calidad 2)
 	(Complejidad 0)
 	(Componentes [Proyect2_Class20022])
-	(Especiales vegetariano sin_gluten sin_lactosa ligero)
+	(Especiales vegetariano sin_gluten ligero)
 	(NombreP "yogur")
-	(Orden Postre))
+	(Orden Postre)
+	(Temporada todas))
 
 ([Proyect2_Class50026] of  Plato
 
