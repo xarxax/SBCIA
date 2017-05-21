@@ -1837,9 +1837,11 @@
 
 (defrule recomendar-menu1
 	?mimenu <-(object (is-a Menu))
+	(object (is-a AllMenus) (MenuP $?all))
 	(not (FIN1))
 	=>
 	(printa-menu ?mimenu)
+	(printout t "Soluciones: "(length$ ?all) crlf)
 	(assert (FIN1))
 	)
 
