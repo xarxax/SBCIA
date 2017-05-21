@@ -1,4 +1,4 @@
-; Mon May 22 00:22:10 CEST 2017
+; Mon May 22 00:59:07 CEST 2017
 ; 
 ;+ (version "3.4.8")
 ;+ (build "Build 629")
@@ -114,8 +114,133 @@
 	(Calidad 3)
 	(Caliente TRUE)
 	(Complejidad 1)
+	(Componentes
+		[ProtegeMenu_Class10002]
+		[Proyect2_Class20016]
+		[Proyect2_Class10002]
+		[Proyect2_Class10032]
+		[ProtegeMenu_Class10009]
+		[Proyect2_Class20002]
+		[Proyect2_Class10028])
+	(Especiales japones)
 	(NombreP "yakisoba")
+	(Orden Primero)
 	(Temporada todas))
+
+([ProtegeMenu_Class10009] of  Ingredientes
+
+	(NombreI "salsa yakisoba")
+	(Precio 0.2))
+
+([ProtegeMenu_Class10010] of  Ingredientes
+)
+
+([ProtegeMenu_Class10011] of  Plato
+
+	(Calidad 3)
+	(Caliente TRUE)
+	(Complejidad 3)
+	(Componentes
+		[ProtegeMenu_Class10]
+		[Proyect2_Class10000]
+		[Proyect2_Class20004]
+		[Proyect2_Class1]
+		[Proyect2_Class20020]
+		[ProtegeMenu_Class10012]
+		[ProtegeMenu_Class10013]
+		[ProtegeMenu_Class10003]
+		[ProtegeMenu_Class10009]
+		[Proyect2_Class20014])
+	(Especiales japones ligero)
+	(NombreP "takoyaki")
+	(Orden Primero)
+	(Temporada todas))
+
+([ProtegeMenu_Class10012] of  Ingredientes
+
+	(NombreI "pulpo")
+	(Precio 7.5))
+
+([ProtegeMenu_Class10013] of  Ingredientes
+
+	(NombreI "levadura")
+	(Precio 0.1))
+
+([ProtegeMenu_Class10014] of  Plato
+
+	(Calidad 3)
+	(Complejidad 2)
+	(Componentes
+		[ProtegeMenu_Class11]
+		[ProtegeMenu_Class10002]
+		[Proyect2_Class10029]
+		[Proyect2_Class20016]
+		[Proyect2_Class20004]
+		[ProtegeMenu_Class10015])
+	(Especiales italiano)
+	(NombreP "trenette al pesto")
+	(Orden Segundo)
+	(Temporada todas))
+
+([ProtegeMenu_Class10015] of  Ingredientes
+
+	(NombreI "piñon")
+	(Precio 0.3))
+
+([ProtegeMenu_Class10016] of  Plato
+
+	(Calidad 4)
+	(Complejidad 4)
+	(Componentes
+		[Proyect2_Class1]
+		[Proyect2_Class10000]
+		[ProtegeMenu_Class10017]
+		[Proyect2_Class20021]
+		[ProtegeMenu_Class10018]
+		[ProtegeMenu_Class10019])
+	(NombreP "tiramisu de fabio")
+	(Orden Postre)
+	(Temporada todas))
+
+([ProtegeMenu_Class10017] of  Ingredientes
+
+	(NombreI "bizcocho")
+	(Precio 2.0))
+
+([ProtegeMenu_Class10018] of  Ingredientes
+
+	(NombreI "cafe individual")
+	(Precio 0.5))
+
+([ProtegeMenu_Class10019] of  Ingredientes
+
+	(NombreI "cacao")
+	(Precio 0.8))
+
+([ProtegeMenu_Class10020] of  Plato
+
+	(Calidad 1)
+	(Caliente TRUE)
+	(Complejidad 3)
+	(Componentes
+		[ProtegeMenu_Class10]
+		[ProtegeMenu_Class11]
+		[Proyect2_Class20007]
+		[ProtegeMenu_Class10021]
+		[Proyect2_Class20016]
+		[Proyect2_Class20006]
+		[Proyect2_Class20020]
+		[Proyect2_Class20004]
+		[ProtegeMenu_Class10013])
+	(Especiales italiano pesado)
+	(NombreP "pizza")
+	(Orden Segundo)
+	(Temporada todas))
+
+([ProtegeMenu_Class10021] of  Ingredientes
+
+	(NombreI "albahaca")
+	(Precio 0.1))
 
 ([ProtegeMenu_Class11] of  Ingredientes
 
