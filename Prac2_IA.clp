@@ -1344,16 +1344,16 @@
 	?ans
 )
 
-;menu es japones tiene un plato japones
+;menu es italiano tiene un plato japones
 (deffunction italiano-menu  (?menu)
-	(bind ?ans FALSE)
-	(bind ?prim (send ?menu get-Primero))
-	(bind ?seg (send ?menu get-Segundo))
-	(bind ?post (send ?menu get-Postre))
-	(bind ?ans (and (tiene-especial ?prim italiano) ?ans))
-	(bind ?ans (and (tiene-especial ?seg italiano) ?ans))
-	(bind ?ans (and (tiene-especial ?post italiano) ?ans))
-	?ans
+    (bind ?ans FALSE)
+    (bind ?prim (send ?menu get-Primero))
+    (bind ?seg (send ?menu get-Segundo))
+    (bind ?post (send ?menu get-Postre))
+    (bind ?ans (or (tiene-especial ?prim italiano) ?ans))
+    (bind ?ans (or (tiene-especial ?seg italiano) ?ans))
+    (bind ?ans (or (tiene-especial ?post italiano) ?ans))
+    ?ans
 )
 
 ; ;;NUMERO DE MENUS QUE CUMPLAN LA PROPIEDAD
@@ -1378,8 +1378,8 @@
 	(bind $?allmenus (find-all-instances ((?inst Menu)) TRUE))
 	(loop-for-count (?i 1 (length$ ?allmenus)) do
 		 (bind ?menu (nth$ ?i ?allmenus))
-		 (if (funcall ?foo ?menu) then send ?menu delete
-		 ;(send ?menu delete)(printout t "Eliminando menu1 " (numero-menus) "restantes" crlf )
+		 (if (funcall ?foo ?menu) then (send ?menu delete)
+		 ;(printout t "Eliminando menu1 " (numero-menus) " restantes" crlf )
 		 )
 	 )
 )
@@ -1388,8 +1388,8 @@
 	(bind $?allmenus (find-all-instances ((?inst Menu)) TRUE))
 	(loop-for-count (?i 1 (length$ ?allmenus)) do
 		 (bind ?menu (nth$ ?i ?allmenus))
-		 (if (not (funcall ?foo ?menu)) then send ?menu delete
-		 ;(send ?menu delete) (printout t "Eliminando menu2"  (numero-menus) "restantes" crlf )
+		 (if (not (funcall ?foo ?menu)) then (send ?menu delete)
+		 ;(printout t "Eliminando menu2"  (numero-menus) " restantes" crlf )
 		 )
 	 )
 )
@@ -1606,7 +1606,8 @@
 	=>
 	;(printout t ?x ", " ?temp "= " (eq ?x ?temp) crlf)
 	;(printout t ?x ", " todas "= " (eq ?x todas) crlf)
-	(printout t "Eliminando plato por estacion" crlf)
+	(printout t "Eliminando plato por estacion: ")
+	(printout t (send ?plato get-NombreP) crlf)
   (send ?plato delete)
 	)
 
@@ -1727,9 +1728,11 @@
 	(declare ( salience 20))
 	(not (filtrado end))
 	(not (preguntar-japones))
+	(filtrado-2)
 	(test (< 4 (numero-propiedad japones-menu)))
-	(test (< 4
+	(test (> 4
 		 (- (numero-propiedad japones-menu) (numero-menus))))
+	(test (printout t "pregunta a los japos" crlf))
 	=>
 	(switch   (ask-question "Prefieres comida japonesa?(1/2/3)
 	    1:Si
@@ -1747,12 +1750,15 @@
 
 
 (defrule preguntar-italiano
-	(declare ( salience 20))
+	(declare ( salience 21))
 	(not (filtrado end))
 	(not (preguntar-italiano))
+	(filtrado-2)
 	(test (< 4 (numero-propiedad italiano-menu)))
-	(test (< 4
+	(test (printout t "pregunta a los italianos" crlf))
+	(test (> 4
 		 (- (numero-propiedad italiano-menu) (numero-menus))))
+
 	=>
 	(switch   (ask-question "Prefieres comida italiana?(1/2/3)
 	    1:Si
@@ -1782,31 +1788,33 @@
 
 
 (defrule fin-filtrado
-	(declare (salience 100))
-	(test (printout t "testeando fin filtrado, Japo:" preguntar-japones "  Ita:" preguntar-italiano crlf (numero-menus) crlf))
-	(or
-		(test (< 10 (numero-menus)))
-		(and
-			(preguntar-italiano)
-			(preguntar-japones)
-		)
-	)
-  (menu-nuevo)
-	(not (filtrado end))
+    (declare (salience 10))
+    (not (filtrado end))
+    (filtrado-2)
+    (test (printout t "testeando fin filtrado, Japo:" preguntar-japones "  Ita:" preguntar-italiano crlf (numero-menus) crlf))
+    (or
+        (test (< 10 (numero-menus)))
+        (and
+            (preguntar-italiano)
+            (preguntar-japones)
+        )
+    )
   =>
   (printout t "fin de Refinamiento,quedan " (numero-menus) "Menus" crlf)
   (focus recomendaciones)
-	(assert (filtrado end))
+    (assert (filtrado end))
 )
 
 (defrule no-platos "norma para si no quedan menus compatibles antes de escojer pref"
-	(declare (salience 110))
-	(not (filtrado end))
-	(test (< 1 (numero-menus)))
-	=>
-	(printout t "No nos quedan menus, desgraciadamente no hay ninguno compatible con
-	tus preferencias basicas" crlf)
-	(assert (filtrado end))
+    (declare (salience 110))
+    (not (filtrado end))
+    (filtrado-2)
+		(test (printout t "numero de menus: " (numero-menus) crlf))
+    (test (> 1 (numero-menus)))
+    =>
+    (printout t "No nos quedan menus, desgraciadamente no hay ninguno compatible con
+    tus preferencias basicas" crlf)
+    (assert (filtrado end))
 )
 
 
