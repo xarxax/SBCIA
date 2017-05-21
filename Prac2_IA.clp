@@ -1357,6 +1357,14 @@
 		?x
 )
 
+(deffunction eliminar-propiedad (?foo)
+    (bind $?allmenus (find-all-instances ((?inst Menu)) TRUE))
+    (loop-for-count (?i 1 (length$ ?allmenus)) do
+         (bind ?menu (nth$ ?i ?allmenus))
+         (if (funcall ?foo ?menu) then (send ?menu delete))
+     )
+)
+
 
 ;;ELIMINA DE LA LISTA DE INSTANCIAS AQUELLAS QUE POR EL MULTISLOT SL NO
 ;;;CONTENGAN EL VALOR ?CONST  PAGINA 44 FAQ
@@ -1400,7 +1408,7 @@
 	(str-cat ?p1 "," ?p2 "," ?p3 "," ?p4 "," clrf)
 )
 
-(deffunction numero-platos ()
+(deffunction numero-menus ()
     (bind $?allmenus (find-all-instances ((?inst Menu)) TRUE))
     (bind ?x (length$ ?allmenus))
     ?x
@@ -1489,17 +1497,18 @@
  (not (Evento Num_com ?) )
  =>
  (switch   (ask-question "Cuanta gente calculas tener?
-     1:10-20
-     2:20-50
-     3:50-100
-     4:100 o mas
+     1:10
+     2:25
+     3:50
+     4:75
+		  5:100 o mas
 >"
       1 2 3 4 5)
-   (case 1 then (assert (Evento Num_com 10)))
-   (case 2 then (assert (Evento Num_com 30)))
-   (case 3 then (assert (Evento Num_com 70)))
-   (case 4 then (assert (Evento Num_com 100)))
-	 (case 5 then (assert (Evento Num_com 150)))
+   (case 1 then (assert (Evento Num_com 10)) (assert (Evento Complejidad 5)) )
+   (case 2 then (assert (Evento Num_com 25)) (assert (Evento Complejidad 4)) )
+   (case 3 then (assert (Evento Num_com 50)) (assert (Evento Complejidad 3)) )
+   (case 4 then (assert (Evento Num_com 75)) (assert (Evento Complejidad 2)) )
+	 (case 5 then (assert (Evento Num_com 100)) (assert (Evento Complejidad 1)))
    (default (printout t "No te he entendido"))
   )
 )
@@ -1618,6 +1627,28 @@
 	(send ?plato delete)
 )
 
+(defrule quitar-platos-complejidad
+	(declare (salience 15))
+	?plato <- (object (is-a Plato) (Complejidad ?x))
+	(Evento Complejidad ?c)
+	(test ( > ?x ?c))
+	=>
+	(printout t "Eliminando plato por complejidad: ")
+	(printout t (send ?plato get-NombreP) crlf)
+	(send ?plato delete)
+	)
+
+
+; (defrile quitar-bebidas-calidad
+; 	(declare (salience 15))
+; 	?beb <- (object (is-a Bebida))
+; 	(Evento Calidad ?c)
+; 	=>
+; 	(printout t "--------------" crlf)
+; 	(printout t (send ?beb get-NombreB) crlf)
+; 	(printout t (send ?beb get-) crlf)
+; 	)
+
 
 
 (defrule insertaMenuses
@@ -1698,6 +1729,26 @@
     (import inferir_datos ?ALL)
     (export ?ALL))
 
+	(defrule preguntar-japones
+		   (declare ( salience 20))
+		   (not (preguntar-japones))
+		   (test (> 4 (numero-propiedad japones-menu)))
+		   (test (> 4
+		        (- (numero-propiedad japones-menu) (numero-menus))))
+		   =>
+		   (switch   (ask-question "Prefieres comida japonesa?(1/2/3)
+		        1:Si
+		        2:No
+		        3:Es indiferente
+		    >"
+		         1 2 3)
+		      (case 1 then (eliminar-propiedad (not japones-menu)))
+		      (case 2 then (eliminar-propiedad japones-menu))
+		      (case 3 then (- 1 1))
+		      (default (printout t "No te he entendido"))
+		   )
+		  (assert (preguntar-japones))
+		)
 
 
 
@@ -1763,20 +1814,29 @@
 
 
 
-		(defrule menu-valido
-			(declare (salience -1))
-	      (presupuesto-por-invitado ?x)
-	     ?putamierda <- (object(is-a Menu) (PrecioMenu ?y))
-			 ;(test (printout t "menuvalidar" crlf))
-			 (test (evaluable ?putamierda))
-	     (test (> ?x ?y))
-			(printout t "test done")
-	    (menu-nuevo)
-	    =>
-	    (printout t "fin de Refinamiento" crlf)
-	    (focus recomendaciones)
-	    )
+		; (defrule menu-valido
+		; 	(declare (salience -1))
+	  ;     (presupuesto-por-invitado ?x)
+	  ;    ?putamierda <- (object(is-a Menu) (PrecioMenu ?y))
+		; 	 ;(test (printout t "menuvalidar" crlf))
+		; 	 (test (evaluable ?putamierda))
+	  ;    (test (> ?x ?y))
+		; 	(printout t "test done")
+	  ;   (menu-nuevo)
+	  ;   =>
+	  ;   (printout t "fin de Refinamiento" crlf)
+	  ;   (focus recomendaciones)
+	  ;   )
 
+		(defrule fin-filtrado
+		        (declare (salience 100))
+						(test (< 10 (numero-menus)))
+		        (printout t "test done")
+		        (menu-nuevo)
+		        =>
+		        (printout t "fin de Refinamiento" crlf)
+		        (focus recomendaciones)
+		        )
 
 ;;;------------------------------------------------------------------------------------------------------------------------------------------------------
 ;;;-
