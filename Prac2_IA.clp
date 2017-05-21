@@ -1344,6 +1344,17 @@
 	?ans
 )
 
+;menu es japones tiene un plato japones
+(deffunction italiano-menu  (?menu)
+	(bind ?ans FALSE)
+	(bind ?prim (send ?menu get-Primero))
+	(bind ?seg (send ?menu get-Segundo))
+	(bind ?post (send ?menu get-Postre))
+	(bind ?ans (and (tiene-especial ?prim italiano) ?ans))
+	(bind ?ans (and (tiene-especial ?seg italiano) ?ans))
+	(bind ?ans (and (tiene-especial ?post italiano) ?ans))
+	?ans
+)
 
 ; ;;NUMERO DE MENUS QUE CUMPLAN LA PROPIEDAD
 ; QUE DEVUELVE LA FUNCION ?foo
@@ -1367,8 +1378,8 @@
 	(bind $?allmenus (find-all-instances ((?inst Menu)) TRUE))
 	(loop-for-count (?i 1 (length$ ?allmenus)) do
 		 (bind ?menu (nth$ ?i ?allmenus))
-		 (if (funcall ?foo ?menu) then (send ?menu delete)
-		 (printout t "Eliminando menu1 " (numero-menus) "restantes" crlf )
+		 (if (funcall ?foo ?menu) then send ?menu delete
+		 ;(send ?menu delete)(printout t "Eliminando menu1 " (numero-menus) "restantes" crlf )
 		 )
 	 )
 )
@@ -1377,9 +1388,9 @@
 	(bind $?allmenus (find-all-instances ((?inst Menu)) TRUE))
 	(loop-for-count (?i 1 (length$ ?allmenus)) do
 		 (bind ?menu (nth$ ?i ?allmenus))
-		 (if (not (funcall ?foo ?menu)) then
-		 (send ?menu delete)
-		 (printout t "Eliminando menu2"  (numero-menus) "restantes" crlf ))
+		 (if (not (funcall ?foo ?menu)) then send ?menu delete
+		 ;(send ?menu delete) (printout t "Eliminando menu2"  (numero-menus) "restantes" crlf )
+		 )
 	 )
 )
 
@@ -1447,14 +1458,6 @@
   (focus make-questions)
 )
 
-; (defrule answer ""
-;   (declare (salience 1000))
-;   (evento-nuevo ?)
-;   =>
-;   (printout t crlf crlf)
-;   (printout t "Suggested Menu:")
-;   (printout t crlf crlf)
-;   (format t " %s%n%n%n" ?menu-valido))
 
 ;;;****************************
 ;;;
@@ -1465,20 +1468,6 @@
     (import MAIN ?ALL)
     (export ?ALL)
 )
-
-; (defrule ingrediente "regla para restringir un ingrediente"
-; 	(not (Evento Ingrediente ?))
-; 	=>
-;
-; 	(if (yes-or-no-p "Hay algun ingrediente que desea restringir?")
-;   	then (
-; 		(bind ?ing (cuanto "Diganos cual:"))
-; 		(assert (Evento Ingrediente ?ing))
-; 		(printout t "Ingrediente agnadido" crlf)
-; 		)
-;
-;    else (assert (Evento Ingrediente no))
-;   )
 
 
 
@@ -1531,15 +1520,15 @@
 ;(declare (salience 1))
 =>
 (switch   (ask-question "Cuanta presupuesto tienes?
-    1:10000
-    2:20000
-    3:40000
-    4:100000
+    1:100
+    2:200
+    3:400
+    4:TODO
 >"
      1 2 3 4)
   (case 1 then (assert (Evento Presupuesto 100)))
   (case 2 then (assert (Evento Presupuesto 200)))
-  (case 3 then (assert (Evento Presupuesto 40000)))
+  (case 3 then (assert (Evento Presupuesto 400)))
   (case 4 then (assert (Evento Presupuesto 100000)))
   (default (printout t "No te he entendido"))
  )
@@ -1594,6 +1583,7 @@
 )
 (defrule presupuesto-por-invitado "regla para establecer el presupuesto-por-invitado maximo"
 			(declare (salience 20))
+			(not (filtrado-2))
 			(Evento Num_com ?numcom)
 		  (Evento Presupuesto  ?presu)
 		  (not (presupuesto-por-invitado ?))
@@ -1604,6 +1594,7 @@
 
 (defrule quitar-platos-complejidad
 	(declare (salience 15))
+	(not (filtrado-2))
   ?plato <- (object (is-a Plato) (Complejidad ?x))
 	(Evento Complejidad ?temp)
 	(test (> ?x ?temp))
@@ -1614,6 +1605,7 @@
 
 (defrule quitar-platos-temporada
 	(declare (salience 15))
+	(not (filtrado-2))
   ?plato <- (object (is-a Plato) (Temporada ?x))
 	(Evento Temporada ?temp)
 	(test (not (eq ?x ?temp)))
@@ -1630,6 +1622,7 @@
 
 (defrule quitar-bebidas-alcohol
 	(declare (salience 15))
+	(not (filtrado-2))
 	?beb <- (object (is-a Alcohol))
 	(Evento Calidad 1)
 	=>
@@ -1639,6 +1632,7 @@
 
 (defrule insertaMenuses
 	(declare (salience 10))
+	(not (filtrado-2))
 		(not (Menuses))
 		=>
 		(make-instance (gensym*) of AllMenus)
@@ -1648,7 +1642,8 @@
 
  (defrule addmembers-menu
 	 (declare (salience 5))
-	 	 (Menuses)
+	 (not (filtrado-2))
+		 (Menuses)
 		 ?men <- (object (is-a AllMenus) )
 		 ?plato1 <- (object (is-a Plato) (Orden Primero))
 		 ?plato2 <- (object (is-a Plato) (Orden Segundo))
@@ -1677,6 +1672,7 @@
 
 
 (defrule filtrar-por-precio "quitar todos los que se pasan del presupuesto por invitado"
+(not (filtrado-2))
 ?putamierda <- (object(is-a Menu) (PrecioMenu ?y))
 (presupuesto-por-invitado ?x)
 (test (evaluable ?putamierda))
@@ -1696,8 +1692,8 @@
       (menu-nuevo)
 			(not (filtrado-2))
       =>
-	  (printout t "Inferencia de datos hecha" crlf)
-			;(assert (Menuses))
+	  (printout t "Inferencia de datos hecha, pasando al filtrado por preferencias" crlf)
+		(printout t "Menus restantes : "  (numero-menus) crlf)
 			(assert (filtrado-2))
 			(focus filtrado)
 )
@@ -1717,9 +1713,10 @@
 
 (defrule preguntar-japones
 	(declare ( salience 20))
+	(not (filtrado end))
 	(not (preguntar-japones))
-	(test (> 4 (numero-propiedad japones-menu)))
-	(test (> 4
+	(test (< 4 (numero-propiedad japones-menu)))
+	(test (< 4
 		 (- (numero-propiedad japones-menu) (numero-menus))))
 	=>
 	(switch   (ask-question "Prefieres comida japonesa?(1/2/3)
@@ -1737,24 +1734,27 @@
 )
 
 
-; (defrule pregunta-temporada "regla para saber el presupuesto"
-; (not (questions end))
-; (not (Evento Temporada ?) )
-; =>
-; (switch   (ask-question "En que estacion se produce el evento?
-;     1:Primavera
-;     2:Verano
-;     3:Otono
-;     4:Invierno
-; >"
-;      1 2 3 4)
-;   (case 1 then (assert (Evento Temporada primavera)))
-;   (case 2 then (assert (Evento Temporada verano )))
-;   (case 3 then (assert (Evento Temporada otono)))
-;   (case 4 then (assert (Evento Temporada invierno)))
-;   (default (printout t "No te he entendido"))
-;  )
-; )
+(defrule preguntar-italiano
+	(declare ( salience 20))
+	(not (filtrado end))
+	(not (preguntar-italiano))
+	(test (< 4 (numero-propiedad italiano-menu)))
+	(test (< 4
+		 (- (numero-propiedad italiano-menu) (numero-menus))))
+	=>
+	(switch   (ask-question "Prefieres comida italiana?(1/2/3)
+	    1:Si
+	    2:No
+	    3:Es indiferente
+	>"
+	     1 2 3)
+	  (case 1 then (eliminar-propiedad-not italiano-menu))
+	  (case 2 then (eliminar-propiedad italiano-menu))
+	  (case 3 then (- 1 1))
+	  (default (printout t "No te he entendido"))
+	 )
+	(assert (preguntar-italiano))
+)
 ; (defrule vegano "regla para saber si prefiere un menu vegano"
 ;   (declare (salience -1))
 ;   (not (want-vegan ?))
@@ -1769,15 +1769,27 @@
 
 
 
-		(defrule fin-filtrado
-			(declare (salience 100))
-			(test (< 10 (numero-menus)))
-			(printout t "test done")
-	    (menu-nuevo)
-	    =>
-	    (printout t "fin de Refinamiento,quedan " (numero-menus) "Menus" crlf)
-	    (focus recomendaciones)
-	    )
+(defrule fin-filtrado
+	(declare (salience 100))
+	(test (> 10 (numero-menus)))
+	(test (printout t "Fin filtrado"))
+  (menu-nuevo)
+	(not (filtrado end))
+  =>
+  (printout t "fin de Refinamiento,quedan " (numero-menus) "Menus" crlf)
+  (focus recomendaciones)
+	(assert (filtrado end))
+)
+
+(defrule no-platos "norma para si no quedan menus compatibles antes de escojer pref"
+	(declare (salience 110))
+	(not (filtrado end))
+	(test (> 1 (numero-menus)))
+	=>
+	(printout t "No nos quedan menus, desgraciadamente no hay ninguno compatible con
+	tus preferencias basicas" crlf)
+	(assert (filtrado end))
+)
 
 
 ;;;------------------------------------------------------------------------------------------------------------------------------------------------------
