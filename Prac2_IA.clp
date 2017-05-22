@@ -33,7 +33,7 @@
 		(create-accessor read-write))
 	(multislot Especiales
 		(type SYMBOL)
-		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero japones italiano frances)
+		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero japones italiano frances sibarita)
 		(create-accessor read-write))
 	(single-slot Calidad
 		(type INTEGER)
@@ -139,7 +139,7 @@
 		(create-accessor read-write))
 	(multislot Restricciones
 		(type SYMBOL)
-;+		(allowed-parents Restriccion)
+;+		(allowed-parents)
 		(create-accessor read-write))
 	(single-slot Temporada
 		(type SYMBOL)
@@ -190,43 +190,12 @@
 ;+		(allowed-parents Ingredientes)
 		(create-accessor read-write)))
 
-(defclass Evento
-	(is-a USER)
-	(role concrete)
-	(multislot Restricciones
-		(type SYMBOL)
-;+		(allowed-parents Restriccion)
-		(create-accessor read-write))
-	(multislot Num_com
-		(type INTEGER)
-		(cardinality 1 ?VARIABLE)
-		(create-accessor read-write))
-	(multislot Presupuesto
-		(type INTEGER)
-		(cardinality 1 ?VARIABLE)
-		(create-accessor read-write))
-	(multislot MenuEvento
-		(type SYMBOL)
-;+		(allowed-parents Menu)
-		(cardinality 0 3)
-		(create-accessor read-write))
-	(single-slot TipoE
-;+		(comment "Deberia ser Symbol")
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
 (defclass Menu
 	(is-a USER)
 	(role concrete)
 	(single-slot BebidaM
 		(type SYMBOL)
 ;+		(allowed-parents Bebida)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot CalidadM
-		(type INTEGER)
-		(range 0 5)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot Postre
@@ -247,10 +216,6 @@
 		(type SYMBOL)
 ;+		(allowed-parents Plato)
 ;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot EspecialM
-		(type SYMBOL)
-;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
 (defclass Plato
@@ -268,7 +233,7 @@
 		(create-accessor read-write))
 	(multislot Especiales
 		(type SYMBOL)
-		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero japones italiano frances)
+		(allowed-values vegano sin_gluten sin_lactosa vegetariano pesado ligero japones italiano frances sibarita)
 		(create-accessor read-write))
 	(single-slot Orden
 		(type SYMBOL)
@@ -348,56 +313,6 @@
 	(single-slot NombreI
 		(type STRING)
 ;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass Restriccion
-	(is-a USER)
-	(role concrete))
-
-(defclass TieneIng
-	(is-a Restriccion)
-	(role concrete)
-	(multislot Tiene
-		(type SYMBOL)
-;+		(allowed-parents Ingredientes)
-		(create-accessor read-write)))
-
-(defclass NoTieneIng
-	(is-a Restriccion)
-	(role concrete)
-	(multislot NoTiene
-		(type SYMBOL)
-;+		(allowed-parents Ingredientes)
-		(create-accessor read-write)))
-
-(defclass Estilo
-	(is-a Restriccion)
-	(role concrete)
-	(single-slot CantidadR
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot TipoEst
-;+		(comment "???")
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot CalidadR
-		(type INTEGER)
-;+		(cardinality 0 1)
-		(create-accessor read-write)))
-
-(defclass PrecioR
-	(is-a Restriccion)
-	(role concrete)
-	(single-slot MayorQue
-		(type SYMBOL)
-		(allowed-values FALSE TRUE)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot N
-		(type INTEGER)
-;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
 (defclass AllMenus
@@ -540,9 +455,6 @@
 		(NombreI "salsa yakisoba")
 		(Precio 0.2))
 
-	([ProtegeMenu_Class10010] of  Ingredientes
-	)
-
 	([ProtegeMenu_Class10011] of  Plato
 
 		(Calidad 3)
@@ -598,7 +510,7 @@
 	([ProtegeMenu_Class10016] of  Plato
 
 		(Calidad 4)
-		(Complejidad 4)
+		(Complejidad 3)
 		(Componentes
 			[Proyect2_Class1]
 			[Proyect2_Class10000]
@@ -667,7 +579,7 @@
 			[Proyect2_Class20016]
 			[ProtegeMenu_Class11]
 			[ProtegeMenu_Class10002])
-		(Especiales italiano)
+		(Especiales italiano sibarita)
 		(NombreP "spaghetti al ragu alla bolognese")
 		(Orden Segundo)
 		(Temporada todas))
@@ -765,7 +677,8 @@
 
 	([ProtegeMenu_Class10034] of  Plato
 
-		(Calidad 0)
+		(Calidad 2)
+		(Complejidad 1)
 		(Componentes
 			[Proyect2_Class1]
 			[Proyect2_Class10000]
@@ -790,7 +703,7 @@
 			[Proyect2_Class10029]
 			[ProtegeMenu_Class10023]
 			[Proyect2_Class20004])
-		(Especiales frances vegetariano ligero)
+		(Especiales frances vegetariano ligero sibarita)
 		(NombreP "le gratin dauphinois")
 		(Orden Segundo)
 		(Temporada todas))
@@ -825,7 +738,7 @@
 
 	([ProtegeMenu_Class10039] of  Plato
 
-		(Calidad 1)
+		(Calidad 2)
 		(Complejidad 1)
 		(Componentes
 			[Proyect2_Class10014]
@@ -850,7 +763,7 @@
 			[Proyect2_Class10029]
 			[Proyect2_Class10024]
 			[ProtegeMenu_Class10])
-		(Especiales frances vegano)
+		(Especiales frances vegano sibarita vegetariano)
 		(NombreP "la soupe a loignons")
 		(Orden Primero)
 		(Temporada todas))
@@ -858,6 +771,7 @@
 	([ProtegeMenu_Class10041] of  Plato
 
 		(Calidad 3)
+		(Caliente FALSE)
 		(Complejidad 4)
 		(Componentes
 			[Proyect2_Class20007]
@@ -869,7 +783,7 @@
 			[Proyect2_Class20016]
 			[Proyect2_Class20004]
 			[ProtegeMenu_Class6])
-		(Especiales vegano)
+		(Especiales vegano vegetariano sin_lactosa)
 		(NombreP "gaspacho")
 		(Orden Primero)
 		(Temporada verano))
@@ -923,6 +837,244 @@
 
 		(NombreI "patata")
 		(Precio 0.5))
+
+	([ProtegeMenu_Class20000] of  Plato
+
+		(Calidad 1)
+		(Caliente FALSE)
+		(Complejidad 2)
+		(Componentes
+			[ProtegeMenu_Class10]
+			[Proyect2_Class10000]
+			[ProtegeMenu_Class10019]
+			[Proyect2_Class20020]
+			[ProtegeMenu_Class10025]
+			[Proyect2_Class1]
+			[ProtegeMenu_Class10028])
+		(Especiales ligero)
+		(NombreP "pastel de chocolate")
+		(Orden Postre)
+		(Temporada todas))
+
+	([ProtegeMenu_Class20001] of  Plato
+
+		(Calidad 5)
+		(Caliente TRUE)
+		(Complejidad 2)
+		(Componentes
+			[ProtegeMenu_Class20002]
+			[Proyect2_Class10029]
+			[Proyect2_Class20014]
+			[Proyect2_Class20006])
+		(Especiales sin_gluten sibarita)
+		(NombreP "langostinos con ajo y miel")
+		(Orden Segundo)
+		(Temporada todas))
+
+	([ProtegeMenu_Class20002] of  Ingredientes
+
+		(NombreI "langostino")
+		(Precio 10.0))
+
+	([ProtegeMenu_Class20003] of  Plato
+
+		(Calidad 5)
+		(Complejidad 1)
+		(Componentes
+			[ProtegeMenu_Class20004]
+			[ProtegeMenu_Class20005]
+			[Proyect2_Class20020]
+			[Proyect2_Class10000]
+			[ProtegeMenu_Class10025])
+		(Especiales sibarita vegetariano vegano)
+		(NombreP "pigna natural con crema tostada y fresitas silvestres")
+		(Orden Postre)
+		(Temporada todas))
+
+	([ProtegeMenu_Class20004] of  Ingredientes
+
+		(NombreI "piña")
+		(Precio 0.7))
+
+	([ProtegeMenu_Class20005] of  Ingredientes
+
+		(NombreI "frutos del bosque")
+		(Precio 0.8))
+
+	([ProtegeMenu_Class20006] of  Plato
+
+		(Calidad 5)
+		(Complejidad 1)
+		(Componentes
+			[Proyect2_Class10004]
+			[Proyect2_Class10022]
+			[ProtegeMenu_Class10023])
+		(Especiales sibarita sin_gluten ligero)
+		(NombreP "raviolis de  salmon")
+		(Orden Primero)
+		(Temporada todas))
+
+	([ProtegeMenu_Class20007] of  Plato
+
+		(Calidad 5)
+		(Caliente TRUE)
+		(Complejidad 1)
+		(Componentes
+			[Proyect2_Class10018]
+			[Proyect2_Class20004]
+			[Proyect2_Class20002]
+			[Proyect2_Class20016]
+			[ProtegeMenu_Class20008])
+		(Especiales sin_gluten sibarita ligero)
+		(NombreP "gambas con estola")
+		(Orden Primero)
+		(Temporada todas))
+
+	([ProtegeMenu_Class20008] of  Ingredientes
+
+		(NombreI "calabacin")
+		(Precio 0.8))
+
+	([ProtegeMenu_Class20009] of  Plato
+
+		(Calidad 3)
+		(Complejidad 1)
+		(Componentes
+			[ProtegeMenu_Class20010]
+			[ProtegeMenu_Class10]
+			[ProtegeMenu_Class10013]
+			[Proyect2_Class10000]
+			[Proyect2_Class20004])
+		(Especiales vegano vegetariano sin_lactosa ligero)
+		(NombreP "bugnuelo de calabaza")
+		(Orden Postre)
+		(Temporada todas))
+
+	([ProtegeMenu_Class20010] of  Ingredientes
+
+		(NombreI "calabaza")
+		(Precio 0.5))
+
+	([ProtegeMenu_Class20011] of  Plato
+
+		(Calidad 1)
+		(Complejidad 1)
+		(Componentes
+			[ProtegeMenu_Class10030]
+			[Proyect2_Class20001]
+			[ProtegeMenu_Class10037]
+			[ProtegeMenu_Class10023]
+			[ProtegeMenu_Class10026])
+		(Especiales vegano vegetariano ligero sin_lactosa)
+		(NombreP "flan de platano")
+		(Orden Postre)
+		(Temporada todas))
+
+	([ProtegeMenu_Class20012] of  Plato
+
+		(Calidad 4)
+		(Complejidad 1)
+		(Componentes
+			[ProtegeMenu_Class20013]
+			[Proyect2_Class20007]
+			[Proyect2_Class10011]
+			[ProtegeMenu_Class10033]
+			[Proyect2_Class10029]
+			[Proyect2_Class20004]
+			[Proyect2_Class20002]
+			[Proyect2_Class20016])
+		(Especiales vegano sin_lactosa vegetariano)
+		(NombreP "ensaladilla de bulgur")
+		(Orden Primero)
+		(Temporada todas))
+
+	([ProtegeMenu_Class20013] of  Ingredientes
+
+		(NombreI "trigo")
+		(Precio 0.75))
+
+	([ProtegeMenu_Class20014] of  Plato
+
+		(Calidad 2)
+		(Caliente TRUE)
+		(Complejidad 2)
+		(Componentes
+			[ProtegeMenu_Class10]
+			[ProtegeMenu_Class10003]
+			[Proyect2_Class10011]
+			[Proyect2_Class10030]
+			[Proyect2_Class20016]
+			[Proyect2_Class20004]
+			[Proyect2_Class20002])
+		(Especiales vegano vegetariano sibarita)
+		(NombreP "hamburguesa vegana")
+		(Orden Segundo)
+		(Temporada todas))
+
+	([ProtegeMenu_Class20015] of  Plato
+
+		(Calidad 2)
+		(Caliente TRUE)
+		(Complejidad 2)
+		(Componentes
+			[ProtegeMenu_Class10021]
+			[Proyect2_Class20007]
+			[Proyect2_Class20016]
+			[ProtegeMenu_Class10002]
+			[Proyect2_Class20004]
+			[ProtegeMenu_Class20016])
+		(Especiales vegano vegetariano italiano sin_lactosa)
+		(NombreP "espaguetis con tomate y albahaca")
+		(Orden Segundo)
+		(Temporada todas))
+
+	([ProtegeMenu_Class20016] of  Ingredientes
+
+		(NombreI "tomate cherry")
+		(Precio 0.65))
+
+	([ProtegeMenu_Class20017] of  Plato
+
+		(Calidad 2)
+		(Caliente TRUE)
+		(Complejidad 1)
+		(Componentes
+			[Proyect2_Class10013]
+			[Proyect2_Class10029]
+			[Proyect2_Class10011]
+			[ProtegeMenu_Class20018]
+			[Proyect2_Class20003]
+			[Proyect2_Class20004]
+			[Proyect2_Class20002]
+			[Proyect2_Class20007]
+			[ProtegeMenu_Class10])
+		(Especiales vegano vegetariano sin_lactosa)
+		(NombreP "potaje de garbanzos")
+		(Orden Primero)
+		(Temporada todas))
+
+	([ProtegeMenu_Class20018] of  Ingredientes
+
+		(NombreI "laurel")
+		(Precio 0.1))
+
+	([ProtegeMenu_Class20019] of  Plato
+
+		(Calidad 2)
+		(Complejidad 1)
+		(Componentes
+			[ProtegeMenu_Class20008]
+			[Proyect2_Class10011]
+			[Proyect2_Class10030]
+			[ProtegeMenu_Class10007]
+			[Proyect2_Class20007]
+			[Proyect2_Class20004]
+			[Proyect2_Class20016]
+			[ProtegeMenu_Class10021])
+		(Especiales vegano vegetariano sin_gluten sin_lactosa)
+		(NombreP "calabazin relleno")
+		(Orden Primero)
+		(Temporada todas))
 
 	([ProtegeMenu_Class3] of  Ingredientes
 
@@ -994,7 +1146,8 @@
 			[Proyect2_Class20016]
 			[Proyect2_Class20007])
 		(NombreP "bocata de mortadela")
-		(Orden Segundo))
+		(Orden Segundo)
+		(Temporada todas))
 
 	([Proyect2_Class1] of  Ingredientes
 
@@ -1024,7 +1177,7 @@
 	([Proyect2_Class10004] of  Ingredientes
 
 		(NombreI "caviar")
-		(Precio 80.0))
+		(Precio 15.0))
 
 	([Proyect2_Class10005] of  Ingredientes
 
@@ -1047,7 +1200,8 @@
 			[Proyect2_Class10024])
 		(Especiales sin_lactosa ligero)
 		(NombreP "tostadas con caviar")
-		(Orden Primero))
+		(Orden Primero)
+		(Temporada todas))
 
 	([Proyect2_Class10008] of  Ingredientes
 
@@ -1338,9 +1492,10 @@
 			[Proyect2_Class20000]
 			[Proyect2_Class10004]
 			[Proyect2_Class10005])
-		(Especiales sin_lactosa vegetariano ligero)
+		(Especiales sin_lactosa vegetariano ligero sibarita)
 		(NombreP "tostadas con caviar vegetariana")
-		(Orden Primero))
+		(Orden Primero)
+		(Temporada todas))
 
 	([Proyect2_Class30011] of  Plato
 
@@ -1431,9 +1586,10 @@
 		(Componentes
 			[Proyect2_Class20000]
 			[Proyect2_Class2])
-		(Especiales vegano)
+		(Especiales vegano vegetariano)
 		(NombreP "bocata de nocilla")
-		(Orden Postre))
+		(Orden Postre)
+		(Temporada todas))
 
 	([Proyect2_Class50003] of  Alcohol
 
@@ -1663,8 +1819,6 @@
 		(Orden Primero)
 		(Temporada verano))
 
-
-
 	)
 
 
@@ -1673,12 +1827,7 @@
 
 
 
-;;****************
-;;*  TEMPLATES   *
-;;****************
 
-
-; )
 
 
 ;;****************
@@ -1814,6 +1963,29 @@
 	(bind ?ans (or (tiene-especial ?prim frances) ?ans))
 	(bind ?ans (or (tiene-especial ?seg frances) ?ans))
 	(bind ?ans (or (tiene-especial ?post frances) ?ans))
+	?ans
+)
+
+(deffunction vegano-menu  (?menu)
+	;(bind ?ans TRUE)
+	(bind ?prim (send ?menu get-Primero))
+	(bind ?seg (send ?menu get-Segundo))
+	(bind ?post (send ?menu get-Postre))
+	(bind ?ans (and (tiene-especial ?prim vegano) (tiene-especial ?seg vegano)(tiene-especial ?post vegano) ))
+
+	; (bind ?ans (and (tiene-especial ?seg vegano) ?ans))
+	; (bind ?ans (and (tiene-especial ?post vegano) ?ans))
+	?ans
+)
+
+(deffunction vegatariano-menu  (?menu)
+	(bind ?ans FALSE)
+	(bind ?prim (send ?menu get-Primero))
+	(bind ?seg (send ?menu get-Segundo))
+	(bind ?post (send ?menu get-Postre))
+	(bind ?ans (or (tiene-especial ?prim vegetariano) ?ans))
+	(bind ?ans (or (tiene-especial ?seg vegetariano) ?ans))
+	(bind ?ans (or (tiene-especial ?post vegetariano) ?ans))
 	?ans
 )
 
@@ -2001,11 +2173,11 @@
     5:Boda
     >"
       1 2 3 4 5)
-			(case 1 then (assert (Evento Calidad 1)) (assert (Evento SinAlcohol)) )
-	    (case 2 then (assert (Evento Calidad 2)))
-	    (case 3 then (assert (Evento Calidad 3)))
-	    (case 4 then (assert (Evento Calidad 4)))
-	    (case 5 then (assert (Evento Calidad 5)))
+			(case 1 then (assert (Evento Calidad 0)) (assert (Evento SinAlcohol)) )
+	    (case 2 then (assert (Evento Calidad 1)))
+	    (case 3 then (assert (Evento Calidad 2)))
+	    (case 4 then (assert (Evento Calidad 3)))
+	    (case 5 then (assert (Evento Calidad 4)))
     (default (printout t "No te he entendido"))
     )
 )
@@ -2021,14 +2193,14 @@
      2:25
      3:50
      4:75
-		 		5:100 o mas
+		 5:100 o mas
 >"
       1 2 3 4 5)
    (case 1 then (assert (Evento Num_com 10)) (assert (Evento Complejidad 5)) )
-   (case 2 then (assert (Evento Num_com 25)) (assert (Evento Complejidad 4)) )
-   (case 3 then (assert (Evento Num_com 50)) (assert (Evento Complejidad 3)) )
-   (case 4 then (assert (Evento Num_com 75)) (assert (Evento Complejidad 2)) )
-	 (case 5 then (assert (Evento Num_com 100)) (assert (Evento Complejidad 1)))
+   (case 2 then (assert (Evento Num_com 25)) (assert (Evento Complejidad 5)) )
+   (case 3 then (assert (Evento Num_com 50)) (assert (Evento Complejidad 4)) )
+   (case 4 then (assert (Evento Num_com 75)) (assert (Evento Complejidad 3)) )
+	 (case 5 then (assert (Evento Num_com 100)) (assert (Evento Complejidad 2)))
    (default (printout t "No te he entendido"))
   )
 )
@@ -2039,18 +2211,20 @@
 ;(declare (salience 1))
 =>
 (switch   (ask-question "Cuanta presupuesto tienes?
-    1:100
-    2:250
-    3:500
-    4:1000
-				5:1500
+    1:200
+    2:500
+    3:750
+    4:1500
+		5:2500
+		6:5000
 >"
-     1 2 3 4)
-  (case 1 then (assert (Evento Presupuesto 100)))
-  (case 2 then (assert (Evento Presupuesto 250)))
-  (case 3 then (assert (Evento Presupuesto 500)))
-  (case 4 then (assert (Evento Presupuesto 1000)))
-	(case 5 then (assert (Evento Presupuesto 1500)))
+     1 2 3 4 5 6)
+  (case 1 then (assert (Evento Presupuesto 200)))
+  (case 2 then (assert (Evento Presupuesto 500)))
+  (case 3 then (assert (Evento Presupuesto 750)))
+  (case 4 then (assert (Evento Presupuesto 1500)))
+	(case 5 then (assert (Evento Presupuesto 2500)))
+	(case 6 then (assert (Evento Presupuesto 5000)))
   (default (printout t "No te he entendido"))
  )
 )
@@ -2320,53 +2494,53 @@
 	(assert (preguntar-frances))
 )
 
-(defrule preguntar-vegano
-	(declare ( salience 20))
-	(not (filtrado end))
-	(not (preguntar-vegano ?))
-	(filtrado-2)
-	(test (< 4 (numero-propiedad vegano-menu)))
-	(test (< 4
-		 (- (numero-menus) (numero-propiedad vegano-menu) )))
-	(test (printout t "pregunta vegano" crlf))
-	(test (< 10 (numero-menus)))
-	=>
-	(switch   (ask-question "Prefieres comida vegana?(1/2/3)
-	    1:Si
-	    2:No
-	    3:Es indiferente
-	>"
-	     1 2 3)
-	  (case 1 then (eliminar-propiedad-not vegano-menu) (assert (preguntar-vegano Si)))
-	  (case 2 then (eliminar-propiedad veagano-menu) (assert (preguntar-vegano No)))
-	  (case 3 then (- 1 1) (assert (preguntar-vegano)))
-	  (default (printout t "No te he entendido"))
-	 )
-)
-(defrule preguntar-vegetariano
-	(declare ( salience 20))
-	(not (filtrado end))
-	(not (preguntar-vegano ?))
-	(filtrado-2)
-	(test (< 4 (numero-propiedad vegetariano-menu)))
-	(test (< 4
-		 (- (numero-menus) (numero-propiedad vegetariano-menu) )))
-	(test (printout t "pregunta vegano" crlf))
-	(test (< 10 (numero-menus)))
-	=>
-	(switch   (ask-question "Prefieres comida vegana?(1/2/3)
-	    1:Si
-	    2:No
-	    3:Es indiferente
-	>"
-	     1 2 3)
-	  (case 1 then (eliminar-propiedad-not vegano-menu))
-	  (case 2 then (eliminar-propiedad veagano-menu) )
-	  (case 3 then (- 1 1) )
-	  (default (printout t "No te he entendido"))
-	 )
-	 (assert (preguntar-vegetariano))
-)
+ (defrule preguntar-vegano
+ 	(declare ( salience 20))
+ 	(not (filtrado end))
+ 	(not (preguntar-vegano ?))
+ 	(filtrado-2)
+ 	(test (< 4 (numero-propiedad vegano-menu)))
+ 	(test (< 4
+ 		 (- (numero-menus) (numero-propiedad vegano-menu) )))
+ 	(test (printout t "pregunta vegano" crlf))
+ 	(test (< 10 (numero-menus)))
+ 	=>
+ 	(switch   (ask-question "Prefieres comida vegana?(1/2/3)
+ 	    1:Si
+ 	    2:No
+ 	    3:Es indiferente
+ 	>"
+ 	     1 2 3)
+ 	  (case 1 then (eliminar-propiedad-not vegano-menu) (assert (preguntar-vegano Si)))
+ 	  (case 2 then (eliminar-propiedad veagano-menu) (assert (preguntar-vegano No)))
+ 	  (case 3 then (- 1 1) (assert (preguntar-vegano)))
+ 	  (default (printout t "No te he entendido"))
+ 	 )
+ )
+; (defrule preguntar-vegetariano
+; 	(declare ( salience 20))
+; 	(not (filtrado end))
+; 	(not (preguntar-vegano ?))
+; 	(filtrado-2)
+; 	(test (< 4 (numero-propiedad vegetariano-menu)))
+; 	(test (< 4
+; 		 (- (numero-menus) (numero-propiedad vegetariano-menu) )))
+; 	(test (printout t "pregunta vegano" crlf))
+; 	(test (< 10 (numero-menus)))
+; 	=>
+; 	(switch   (ask-question "Prefieres comida vegana?(1/2/3)
+; 	    1:Si
+; 	    2:No
+; 	    3:Es indiferente
+; 	>"
+; 	     1 2 3)
+; 	  (case 1 then (eliminar-propiedad-not vegano-menu))
+; 	  (case 2 then (eliminar-propiedad veagano-menu) )
+; 	  (case 3 then (- 1 1) )
+; 	  (default (printout t "No te he entendido"))
+; 	 )
+; 	 (assert (preguntar-vegetariano))
+; )
 
 ; (defrule vegano "regla para saber si prefiere un menu vegano"
 ;   (declare (salience -1))
@@ -2381,12 +2555,11 @@
 ; )
 
 
-
 (defrule fin-filtrado
     (declare (salience 10))
     (not (filtrado end))
     (filtrado-2)
-    (test (printout t "testeando fin filtrado, Japo:" preguntar-japones "  Ita:" preguntar-italiano crlf (numero-menus) crlf))
+    ;(test (printout t "testeando fin filtrado, Japo:" preguntar-japones "  Ita:" preguntar-italiano crlf (numero-menus) crlf))
   =>
   (printout t "fin de Refinamiento,quedan " (numero-menus) "Menus" crlf)
   (focus recomendaciones)
