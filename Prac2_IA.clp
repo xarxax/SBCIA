@@ -2235,6 +2235,7 @@
  )
 )
 
+
 (defrule pregunta-temporada "regla para saber el presupuesto"
 (not (questions end))
 (not (Evento Temporada ?) )
@@ -2254,6 +2255,25 @@
  )
 )
 
+(defrule pregunta-alergia "regla para saber si existe alguna alergia"
+	(not (questions end))
+	(not (Evento EsAlergia ?))
+	=>
+	(if (yes-or-no-p "Hay algun ingediente que debamos excluir (yes/no)?")
+			then (assert (Evento EsAlergia Si))
+			else (assert (Evento EsAlergia No))
+			)
+)
+
+(defrule pregunta-alergia2 "regla para saber la alergia"
+	(declare (salience 1))
+	(not (questions end))
+	(Evento EsAlergia Si)
+	=>
+	(bind ?ans (cuanto "que ingrediente excluimos?"))
+	(assert (Evento Alergia ?ans))
+)
+
 (defrule end-questions "regla para pasar al siguiente modulo"
     ;(declare (salience -3))
 		(not (questions end))
@@ -2261,6 +2281,7 @@
 		(Evento Num_com ?)
 		(Evento Calidad ?)
 		(Evento Temporada ?)
+		(Evento EsAlergia ?)
     ;(menu-nuevo)
     =>
     (printout t "fin de las preguntas" crlf)
@@ -2343,6 +2364,20 @@
 	 	(send ?plato delete)
 	 	)
 
+(defrule quitar-platos-alergia
+		  (declare (salience 10))
+		  ?plato <- (object (is-a Plato) (Componentes ?x))
+		  (Evento Alergia ?y)
+			(test (printout t "alergia " ?y " x: " (send ?x get-NombreI) " |" ))
+
+			(test (= (str-compare (send ?x get-NombreI) ?y) 0) )
+
+		  =>
+		  (printout t "Eliminando plato por alergia: ")
+		  (printout t (send ?plato get-NombreP) crlf)
+		  (send ?plato delete)
+			)
+
 (defrule insertaMenuses
 	(declare (salience 10))
 	(not (filtrado-2))
@@ -2386,12 +2421,12 @@
 
 (defrule filtrar-por-precio "quitar todos los que se pasan del presupuesto por invitado"
 (not (filtrado-2))
-?putamierda <- (object(is-a Menu) (PrecioMenu ?y))
+?filt <- (object(is-a Menu) (PrecioMenu ?y))
 (presupuesto-por-invitado ?x)
-(test (evaluable ?putamierda))
+(test (evaluable ?filt))
 (test (< ?x ?y))
 =>
-(send ?putamierda delete)
+(send ?filt delete)
 ;(printout t "Eliminando menu por precio: " ?y crlf )
 ;(printout t ?y crlf )
 
@@ -2446,6 +2481,7 @@
 	  (case 3 then (- 1 1))
 	  (default (printout t "No te he entendido"))
 	 )
+	 (printout t "quedan " (numero-menus) "menus" crlf)
 	(assert (preguntar-japones))
 )
 
@@ -2472,6 +2508,7 @@
 	  (case 3 then (- 1 1))
 	  (default (printout t "No te he entendido"))
 	 )
+	  (printout t "quedan " (numero-menus) "menus" crlf)
 	(assert (preguntar-italiano))
 )
 
@@ -2498,6 +2535,7 @@
 	  (default (printout t "No te he entendido"))
 	 )
 	(assert (preguntar-frances))
+	(printout t "quedan " (numero-menus) "menus" crlf)
 )
 
  (defrule preguntar-vegano
@@ -2515,14 +2553,17 @@
  	    1:Si
  	    2:No
  	    3:Es indiferente
- 	>"
+>"
  	     1 2 3)
  	  (case 1 then (eliminar-propiedad-not vegano-menu) (assert (preguntar-vegano Si)))
  	  (case 2 then (eliminar-propiedad vegano-menu) (assert (preguntar-vegano No)))
  	  (case 3 then (- 1 1) (assert (preguntar-vegano)))
  	  (default (printout t "No te he entendido"))
  	 )
+	 (printout t "quedan " (numero-menus) "menus" crlf)
+
  )
+
  (defrule preguntar-vegetariano
  	(declare ( salience 20))
  	(not (filtrado end))
@@ -2547,6 +2588,8 @@
  	  (default (printout t "No te he entendido"))
  	 )
  	 (assert (preguntar-vegetariano))
+	 (printout t "quedan " (numero-menus) "menus" crlf)
+
  )
 
  (defrule preguntar-sibarita
@@ -2572,6 +2615,8 @@
  	  (default (printout t "No te he entendido"))
  	 )
  	(assert (preguntar-sibarita))
+	(printout t "quedan " (numero-menus) "menus" crlf)
+
  )
 
 
@@ -2582,7 +2627,7 @@
     ;(test (printout t "testeando fin filtrado, Japo:" preguntar-japones "  Ita:" preguntar-italiano crlf (numero-menus) crlf))
   =>
   (printout t "fin de Refinamiento,quedan " (numero-menus) "Menus" crlf)
-   (if ( > (numero-menus) 4)
+   (if ( < (numero-menus) 4)
 	 		then (focus recomendaciones)
 			else (printout t "No nos quedan menus, desgraciadamente no hay ninguno compatible con
 	    tus preferencias" crlf))
