@@ -1,4 +1,4 @@
-; Mon May 22 00:59:07 CEST 2017
+; Mon May 22 02:17:42 CEST 2017
 ; 
 ;+ (version "3.4.8")
 ;+ (build "Build 629")
@@ -198,6 +198,7 @@
 		[Proyect2_Class20021]
 		[ProtegeMenu_Class10018]
 		[ProtegeMenu_Class10019])
+	(Especiales italiano vegetariano)
 	(NombreP "tiramisu de fabio")
 	(Orden Postre)
 	(Temporada todas))
@@ -242,6 +243,229 @@
 	(NombreI "albahaca")
 	(Precio 0.1))
 
+([ProtegeMenu_Class10022] of  Plato
+
+	(Calidad 3)
+	(Complejidad 2)
+	(Componentes
+		[Proyect2_Class10028]
+		[ProtegeMenu_Class15]
+		[Proyect2_Class10011]
+		[Proyect2_Class20020]
+		[ProtegeMenu_Class10023]
+		[ProtegeMenu_Class14]
+		[Proyect2_Class20002]
+		[Proyect2_Class20004]
+		[Proyect2_Class20016]
+		[ProtegeMenu_Class11]
+		[ProtegeMenu_Class10002])
+	(Especiales italiano)
+	(NombreP "spaghetti al ragu alla bolognese")
+	(Orden Segundo)
+	(Temporada todas))
+
+([ProtegeMenu_Class10023] of  Ingredientes
+
+	(NombreI "nuez")
+	(Precio 0.35))
+
+([ProtegeMenu_Class10024] of  Plato
+
+	(Calidad 1)
+	(Complejidad 0)
+	(Componentes
+		[Proyect2_Class1]
+		[Proyect2_Class10000]
+		[Proyect2_Class20001]
+		[Proyect2_Class20020]
+		[ProtegeMenu_Class10025]
+		[ProtegeMenu_Class10026])
+	(Especiales frances vegetariano sin_gluten ligero)
+	(NombreP "flan")
+	(Orden Postre)
+	(Temporada todas))
+
+([ProtegeMenu_Class10025] of  Ingredientes
+
+	(NombreI "vainilla")
+	(Precio 0.4))
+
+([ProtegeMenu_Class10026] of  Ingredientes
+
+	(NombreI "limon")
+	(Precio 0.3))
+
+([ProtegeMenu_Class10027] of  Plato
+
+	(Calidad 4)
+	(Complejidad 2)
+	(Componentes
+		[Proyect2_Class1]
+		[Proyect2_Class10024]
+		[ProtegeMenu_Class10]
+		[Proyect2_Class20020]
+		[Proyect2_Class10000]
+		[Proyect2_Class20004]
+		[ProtegeMenu_Class10028])
+	(Especiales frances ligero vegetariano)
+	(NombreP "crepes")
+	(Orden Postre)
+	(Temporada todas))
+
+([ProtegeMenu_Class10028] of  Ingredientes
+
+	(NombreI "chocolate")
+	(Precio 2.0))
+
+([ProtegeMenu_Class10029] of  Plato
+
+	(Calidad 1)
+	(Complejidad 1)
+	(Componentes
+		[ProtegeMenu_Class10030]
+		[Proyect2_Class20012]
+		[Proyect2_Class20021]
+		[ProtegeMenu_Class10031]
+		[ProtegeMenu_Class10028]
+		[ProtegeMenu_Class10032]
+		[ProtegeMenu_Class10033]
+		[ProtegeMenu_Class10025])
+	(Especiales vegetariano ligero)
+	(NombreP "helado de fresa y platano")
+	(Orden Postre)
+	(Temporada verano))
+
+([ProtegeMenu_Class10030] of  Ingredientes
+
+	(NombreI "platano")
+	(Precio 0.4))
+
+([ProtegeMenu_Class10031] of  Ingredientes
+
+	(NombreI "leche condensada")
+	(Precio 0.8))
+
+([ProtegeMenu_Class10032] of  Ingredientes
+
+	(NombreI "barquillo")
+	(Precio 0.05))
+
+([ProtegeMenu_Class10033] of  Ingredientes
+
+	(NombreI "menta")
+	(Precio 0.1))
+
+([ProtegeMenu_Class10034] of  Plato
+
+	(Calidad 0)
+	(Componentes
+		[Proyect2_Class1]
+		[Proyect2_Class10000]
+		[ProtegeMenu_Class10]
+		[ProtegeMenu_Class10013]
+		[ProtegeMenu_Class10025])
+	(Especiales vegetariano sin_lactosa)
+	(NombreP "brazo de gitano")
+	(Orden Postre)
+	(Temporada todas))
+
+([ProtegeMenu_Class10035] of  Plato
+
+	(Calidad 3)
+	(Caliente FALSE)
+	(Complejidad 2)
+	(Componentes
+		[ProtegeMenu_Class2]
+		[Proyect2_Class20020]
+		[Proyect2_Class20021]
+		[Proyect2_Class10024]
+		[Proyect2_Class10029]
+		[ProtegeMenu_Class10023]
+		[Proyect2_Class20004])
+	(Especiales frances vegetariano ligero)
+	(NombreP "le gratin dauphinois")
+	(Orden Segundo)
+	(Temporada todas))
+
+([ProtegeMenu_Class10036] of  Plato
+
+	(Calidad 2)
+	(Complejidad 2)
+	(Componentes
+		[Proyect2_Class10014]
+		[Proyect2_Class10029]
+		[Proyect2_Class10011]
+		[ProtegeMenu_Class10037]
+		[ProtegeMenu_Class10007]
+		[ProtegeMenu_Class10023]
+		[Proyect2_Class20002]
+		[ProtegeMenu_Class10038]
+		[ProtegeMenu_Class16])
+	(Especiales italiano vegano)
+	(NombreP "risotto vegano de setas")
+	(Temporada todas))
+
+([ProtegeMenu_Class10037] of  Ingredientes
+
+	(NombreI "leche de soja")
+	(Precio 0.75))
+
+([ProtegeMenu_Class10038] of  Ingredientes
+
+	(NombreI "champiñones")
+	(Precio 3.5))
+
+([ProtegeMenu_Class10039] of  Plato
+
+	(Calidad 1)
+	(Complejidad 1)
+	(Componentes
+		[Proyect2_Class10014]
+		[ProtegeMenu_Class8]
+		[ProtegeMenu_Class10038]
+		[Proyect2_Class20007]
+		[Proyect2_Class10011]
+		[ProtegeMenu_Class10021])
+	(Especiales sin_gluten vegano ligero)
+	(NombreP "aguacate rellenos de arroz")
+	(Orden Primero)
+	(Temporada todas))
+
+([ProtegeMenu_Class10040] of  Plato
+
+	(Calidad 2)
+	(Caliente TRUE)
+	(Complejidad 1)
+	(Componentes
+		[Proyect2_Class10011]
+		[Proyect2_Class20016]
+		[Proyect2_Class10029]
+		[Proyect2_Class10024]
+		[ProtegeMenu_Class10])
+	(Especiales frances vegano)
+	(NombreP "la soupe a loignons")
+	(Orden Primero)
+	(Temporada todas))
+
+([ProtegeMenu_Class10041] of  Plato
+
+	(Calidad 3)
+	(Complejidad 4)
+	(Componentes
+		[Proyect2_Class20007]
+		[Proyect2_Class10030]
+		[ProtegeMenu_Class7]
+		[Proyect2_Class10011]
+		[Proyect2_Class20000]
+		[Proyect2_Class10029]
+		[Proyect2_Class20016]
+		[Proyect2_Class20004]
+		[ProtegeMenu_Class6])
+	(Especiales vegano)
+	(NombreP "gaspacho")
+	(Orden Primero)
+	(Temporada verano))
+
 ([ProtegeMenu_Class11] of  Ingredientes
 
 	(NombreI "queso parmesano")
@@ -283,7 +507,9 @@
 	(Precio 3.0))
 
 ([ProtegeMenu_Class16] of  Ingredientes
-)
+
+	(NombreI "girgola")
+	(Precio 3.6))
 
 ([ProtegeMenu_Class2] of  Ingredientes
 
