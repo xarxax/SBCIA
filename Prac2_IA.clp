@@ -2319,6 +2319,55 @@
 	 )
 	(assert (preguntar-frances))
 )
+
+(defrule preguntar-vegano
+	(declare ( salience 20))
+	(not (filtrado end))
+	(not (preguntar-vegano ?))
+	(filtrado-2)
+	(test (< 4 (numero-propiedad vegano-menu)))
+	(test (< 4
+		 (- (numero-menus) (numero-propiedad vegano-menu) )))
+	(test (printout t "pregunta vegano" crlf))
+	(test (< 10 (numero-menus)))
+	=>
+	(switch   (ask-question "Prefieres comida vegana?(1/2/3)
+	    1:Si
+	    2:No
+	    3:Es indiferente
+	>"
+	     1 2 3)
+	  (case 1 then (eliminar-propiedad-not vegano-menu) (assert (preguntar-vegano Si)))
+	  (case 2 then (eliminar-propiedad veagano-menu) (assert (preguntar-vegano No)))
+	  (case 3 then (- 1 1) (assert (preguntar-vegano)))
+	  (default (printout t "No te he entendido"))
+	 )
+)
+(defrule preguntar-vegetariano
+	(declare ( salience 20))
+	(not (filtrado end))
+	(not (preguntar-vegano ?))
+	(filtrado-2)
+	(test (< 4 (numero-propiedad vegetariano-menu)))
+	(test (< 4
+		 (- (numero-menus) (numero-propiedad vegetariano-menu) )))
+	(test (printout t "pregunta vegano" crlf))
+	(test (< 10 (numero-menus)))
+	=>
+	(switch   (ask-question "Prefieres comida vegana?(1/2/3)
+	    1:Si
+	    2:No
+	    3:Es indiferente
+	>"
+	     1 2 3)
+	  (case 1 then (eliminar-propiedad-not vegano-menu))
+	  (case 2 then (eliminar-propiedad veagano-menu) )
+	  (case 3 then (- 1 1) )
+	  (default (printout t "No te he entendido"))
+	 )
+	 (assert (preguntar-vegetariano))
+)
+
 ; (defrule vegano "regla para saber si prefiere un menu vegano"
 ;   (declare (salience -1))
 ;   (not (want-vegan ?))

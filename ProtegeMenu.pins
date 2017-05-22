@@ -1,4 +1,4 @@
-; Mon May 22 02:17:42 CEST 2017
+; Mon May 22 18:02:45 CEST 2017
 ; 
 ;+ (version "3.4.8")
 ;+ (build "Build 629")
@@ -259,7 +259,7 @@
 		[Proyect2_Class20016]
 		[ProtegeMenu_Class11]
 		[ProtegeMenu_Class10002])
-	(Especiales italiano)
+	(Especiales italiano sibarita)
 	(NombreP "spaghetti al ragu alla bolognese")
 	(Orden Segundo)
 	(Temporada todas))
@@ -382,7 +382,7 @@
 		[Proyect2_Class10029]
 		[ProtegeMenu_Class10023]
 		[Proyect2_Class20004])
-	(Especiales frances vegetariano ligero)
+	(Especiales frances vegetariano ligero sibarita)
 	(NombreP "le gratin dauphinois")
 	(Orden Segundo)
 	(Temporada todas))
@@ -442,7 +442,7 @@
 		[Proyect2_Class10029]
 		[Proyect2_Class10024]
 		[ProtegeMenu_Class10])
-	(Especiales frances vegano)
+	(Especiales frances vegano sibarita)
 	(NombreP "la soupe a loignons")
 	(Orden Primero)
 	(Temporada todas))
@@ -1023,7 +1023,7 @@
 	(Componentes
 		[Proyect2_Class20000]
 		[Proyect2_Class2])
-	(Especiales vegano)
+	(Especiales vegano vegetariano)
 	(NombreP "bocata de nocilla")
 	(Orden Postre))
 
