@@ -2432,7 +2432,7 @@
 	(test (< 4 (numero-propiedad japones-menu)))
 	(test (< 4
 		 (- (numero-menus) (numero-propiedad japones-menu) )))
-	(test (printout t "pregunta a los japos" crlf))
+	;(test (printout t "pregunta a los japos" crlf))
 	(test (< 10 (numero-menus)))
 	=>
 	(switch   (ask-question "Prefieres comida japonesa?(1/2/3)
@@ -2456,7 +2456,7 @@
 	(not (preguntar-italiano))
 	(filtrado-2)
 	(test (< 4 (numero-propiedad italiano-menu)))
-	(test (printout t "pregunta a los italianos" crlf))
+	;(test (printout t "pregunta a los italianos" crlf))
 	(test (< 4
 		 (-  (numero-menus) (numero-propiedad italiano-menu) )))
 	(test (< 10 (numero-menus)))
@@ -2483,7 +2483,7 @@
 	(test (< 4 (numero-propiedad frances-menu)))
 	(test (< 4
 		 (- (numero-menus) (numero-propiedad frances-menu) )))
-	(test (printout t "pregunta a los franceses" crlf))
+	;(test (printout t "pregunta a los franceses" crlf))
 	(test (< 10 (numero-menus)))
 	=>
 	(switch   (ask-question "Prefieres comida francesa?(1/2/3)
@@ -2508,7 +2508,7 @@
  	(test (< 4 (numero-propiedad vegano-menu)))
  	(test (< 4
  		 (- (numero-menus) (numero-propiedad vegano-menu) )))
- 	(test (printout t "pregunta vegano" crlf))
+ 	;(test (printout t "pregunta vegano" crlf))
  	(test (< 10 (numero-menus)))
  	=>
  	(switch   (ask-question "Prefieres comida vegana?(1/2/3)
@@ -2532,7 +2532,7 @@
  	(test (< 4 (numero-propiedad vegetariano-menu)))
  	(test (< 4
  		 (- (numero-menus) (numero-propiedad vegetariano-menu) )))
- 	(test (printout t "pregunta vegetariano" crlf))
+ 	;(test (printout t "pregunta vegetariano" crlf))
  	(test (< 10 (numero-menus)))
  	=>
  	(switch   (ask-question "Prefieres comida vegetariana?(1/2/3)
@@ -2557,7 +2557,7 @@
  	(test (< 4 (numero-propiedad sibarita-menu)))
  	(test (< 4
  		 (- (numero-menus) (numero-propiedad sibarita-menu) )))
- 	(test (printout t "pregunta a los sibaritas" crlf))
+ 	;(test (printout t "pregunta a los sibaritas" crlf))
  	(test (< 10 (numero-menus)))
  	=>
  	(switch   (ask-question "Prefieres comida sibarita?(1/2/3)
@@ -2582,12 +2582,15 @@
     ;(test (printout t "testeando fin filtrado, Japo:" preguntar-japones "  Ita:" preguntar-italiano crlf (numero-menus) crlf))
   =>
   (printout t "fin de Refinamiento,quedan " (numero-menus) "Menus" crlf)
-  (focus recomendaciones)
+   (if ( > (numero-menus) 4)
+	 		then (focus recomendaciones)
+			else (printout t "No nos quedan menus, desgraciadamente no hay ninguno compatible con
+	    tus preferencias" crlf))
     (assert (filtrado end))
 )
 
 (defrule no-platos "norma para si no quedan menus compatibles antes de escojer pref"
-    (declare (salience 110))
+    ;(declare (salience 110))
     (not (filtrado end))
     (filtrado-2)
 		(test (printout t "numero de menus: " (numero-menus) crlf))
