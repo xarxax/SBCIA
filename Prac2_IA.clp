@@ -1929,6 +1929,21 @@
     (bind ?x (random-slot li))
     )
 
+		; (deffunction question-loop (?x ?y ?z ?li)
+		;     (switch   (ask-question "Estos son tus menus, escribe su numero para cambiarlos o 1 para acabar:(1/2/3/4)
+		;         1:Acabar
+		;         2:" (string-menu ?x)"
+		;         3:" (string-menu ?y)"
+		;         4:" (string-menu ?z)"
+		; >"
+		;          1 2 3 4)
+		;     (case 1 then (- 1 1))
+		;     (case 2 then (question-loop (get-random-menus ?li) ?y ?z ?li))
+		;     (case 3 then (question-loop ?x (get-random-menus ?li) ?z ?li))
+		;     (case 4 then (question-loop ?x ?y (get-random-menus ?li) ?li))
+		;     (default (printout t "No te he entendido")))
+		; )
+
 ;;;**************************************
 ;;;
 ;;;---------      MAIN       -----------
@@ -2327,6 +2342,23 @@
     =>
     (slot-insert$ ?men MenuP 1 ?x)
 )
+
+; (defrule recomendar-menu2
+;     (declare (salience -50))
+;     (filtrado end)
+;     (object (is-a AllMenus) (MenuP ?li))
+;     (not (FIN1))
+;     (test (printout t "Entrando a la ultima norma para decidir" crlf))
+;     =>
+;     (bind ?x (get-random-menus ?li))
+;     (bind ?y (get-random-menus ?li))
+;     (bind ?z (get-random-menus ?li))
+;     (printout t "ultima funcion!" crlf)
+;     (question-loop ?x ?y ?z ?li)
+;     (printout t "Gracias por usar nuestra aplicación para recomendar menus!" crlf)
+;     (assert (FIN1))
+;     (halt)
+;     )
 
 ; (defrule recomendar-menu1
 ; 	?mimenu <-(object (is-a Menu))
