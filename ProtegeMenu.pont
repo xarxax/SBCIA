@@ -1,4 +1,4 @@
-; Mon May 22 18:02:45 CEST 2017
+; Mon May 22 18:28:54 CEST 2017
 ; 
 ;+ (version "3.4.8")
 ;+ (build "Build 629")
@@ -190,32 +190,6 @@
 	(multislot NoIngrediente
 		(type SYMBOL)
 ;+		(allowed-parents Ingredientes)
-		(create-accessor read-write)))
-
-(defclass Evento
-	(is-a USER)
-	(role concrete)
-	(multislot Restricciones
-		(type SYMBOL)
-;+		(allowed-parents)
-		(create-accessor read-write))
-	(multislot Num_com
-		(type INTEGER)
-		(cardinality 1 ?VARIABLE)
-		(create-accessor read-write))
-	(multislot MenuEvento
-		(type SYMBOL)
-;+		(allowed-parents Menu)
-		(cardinality 0 3)
-		(create-accessor read-write))
-	(multislot Presupuesto
-		(type INTEGER)
-		(cardinality 1 ?VARIABLE)
-		(create-accessor read-write))
-	(single-slot TipoE
-;+		(comment "Deberia ser Symbol")
-		(type STRING)
-;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
 (defclass Menu
