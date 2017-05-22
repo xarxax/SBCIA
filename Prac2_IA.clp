@@ -2368,7 +2368,7 @@
 		  (declare (salience 10))
 		  ?plato <- (object (is-a Plato) (Componentes ?x))
 		  (Evento Alergia ?y)
-			(test (printout t "alergia " ?y " x: " (send ?x get-NombreI) " |" ))
+			;(test (printout t "alergia " ?y " x: " (send ?x get-NombreI) " |" ))
 
 			(test (= (str-compare (send ?x get-NombreI) ?y) 0) )
 
@@ -2600,7 +2600,7 @@
  	(test (< 4 (numero-propiedad sibarita-menu)))
  	(test (< 4
  		 (- (numero-menus) (numero-propiedad sibarita-menu) )))
- 	;(test (printout t "pregunta a los sibaritas" crlf))
+ 	(test (printout t "sibaritas" (numero-propiedad sibarita-menu) crlf))
  	(test (< 10 (numero-menus)))
  	=>
  	(switch   (ask-question "Prefieres comida sibarita?(1/2/3)
@@ -2627,7 +2627,7 @@
     ;(test (printout t "testeando fin filtrado, Japo:" preguntar-japones "  Ita:" preguntar-italiano crlf (numero-menus) crlf))
   =>
   (printout t "fin de Refinamiento,quedan " (numero-menus) "Menus" crlf)
-   (if ( < (numero-menus) 4)
+   (if ( > (numero-menus) 4)
 	 		then (focus recomendaciones)
 			else (printout t "No nos quedan menus, desgraciadamente no hay ninguno compatible con
 	    tus preferencias" crlf))
