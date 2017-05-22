@@ -1966,26 +1966,32 @@
 	?ans
 )
 
+(deffunction sibarita-menu  (?menu)
+	(bind ?ans FALSE)
+	(bind ?prim (send ?menu get-Primero))
+	(bind ?seg (send ?menu get-Segundo))
+	(bind ?post (send ?menu get-Postre))
+	(bind ?ans (or (tiene-especial ?prim sibarita) ?ans))
+	(bind ?ans (or (tiene-especial ?seg sibarita) ?ans))
+	(bind ?ans (or (tiene-especial ?post sibarita) ?ans))
+	?ans
+)
+
 (deffunction vegano-menu  (?menu)
-	;(bind ?ans TRUE)
+
 	(bind ?prim (send ?menu get-Primero))
 	(bind ?seg (send ?menu get-Segundo))
 	(bind ?post (send ?menu get-Postre))
 	(bind ?ans (and (tiene-especial ?prim vegano) (tiene-especial ?seg vegano)(tiene-especial ?post vegano) ))
 
-	; (bind ?ans (and (tiene-especial ?seg vegano) ?ans))
-	; (bind ?ans (and (tiene-especial ?post vegano) ?ans))
 	?ans
 )
 
-(deffunction vegatariano-menu  (?menu)
-	(bind ?ans FALSE)
+(deffunction vegetariano-menu  (?menu)
 	(bind ?prim (send ?menu get-Primero))
 	(bind ?seg (send ?menu get-Segundo))
 	(bind ?post (send ?menu get-Postre))
-	(bind ?ans (or (tiene-especial ?prim vegetariano) ?ans))
-	(bind ?ans (or (tiene-especial ?seg vegetariano) ?ans))
-	(bind ?ans (or (tiene-especial ?post vegetariano) ?ans))
+	(bind ?ans (and (tiene-especial ?prim vegetariano) (and (tiene-especial ?seg vegetariano) (tiene-especial ?post vegetariano) )))
 	?ans
 )
 
@@ -2512,47 +2518,61 @@
  	>"
  	     1 2 3)
  	  (case 1 then (eliminar-propiedad-not vegano-menu) (assert (preguntar-vegano Si)))
- 	  (case 2 then (eliminar-propiedad veagano-menu) (assert (preguntar-vegano No)))
+ 	  (case 2 then (eliminar-propiedad vegano-menu) (assert (preguntar-vegano No)))
  	  (case 3 then (- 1 1) (assert (preguntar-vegano)))
  	  (default (printout t "No te he entendido"))
  	 )
  )
-; (defrule preguntar-vegetariano
-; 	(declare ( salience 20))
-; 	(not (filtrado end))
-; 	(not (preguntar-vegano ?))
-; 	(filtrado-2)
-; 	(test (< 4 (numero-propiedad vegetariano-menu)))
-; 	(test (< 4
-; 		 (- (numero-menus) (numero-propiedad vegetariano-menu) )))
-; 	(test (printout t "pregunta vegano" crlf))
-; 	(test (< 10 (numero-menus)))
-; 	=>
-; 	(switch   (ask-question "Prefieres comida vegana?(1/2/3)
-; 	    1:Si
-; 	    2:No
-; 	    3:Es indiferente
-; 	>"
-; 	     1 2 3)
-; 	  (case 1 then (eliminar-propiedad-not vegano-menu))
-; 	  (case 2 then (eliminar-propiedad veagano-menu) )
-; 	  (case 3 then (- 1 1) )
-; 	  (default (printout t "No te he entendido"))
-; 	 )
-; 	 (assert (preguntar-vegetariano))
-; )
+ (defrule preguntar-vegetariano
+ 	(declare ( salience 20))
+ 	(not (filtrado end))
+ 	(not (preguntar-vegetariano ?))
+	(not (preguntar-vegano Si))
+ 	(filtrado-2)
+ 	(test (< 4 (numero-propiedad vegetariano-menu)))
+ 	(test (< 4
+ 		 (- (numero-menus) (numero-propiedad vegetariano-menu) )))
+ 	(test (printout t "pregunta vegetariano" crlf))
+ 	(test (< 10 (numero-menus)))
+ 	=>
+ 	(switch   (ask-question "Prefieres comida vegetariana?(1/2/3)
+ 	    1:Si
+ 	    2:No
+ 	    3:Es indiferente
+ 	>"
+ 	     1 2 3)
+ 	  (case 1 then (eliminar-propiedad-not vegetariano-menu))
+ 	  (case 2 then (eliminar-propiedad vegetariano-menu) )
+ 	  (case 3 then (- 1 1) )
+ 	  (default (printout t "No te he entendido"))
+ 	 )
+ 	 (assert (preguntar-vegetariano))
+ )
 
-; (defrule vegano "regla para saber si prefiere un menu vegano"
-;   (declare (salience -1))
-;   (not (want-vegan ?))
-;   =>
-;   (if (yes-or-no-p "Prefiere un menu vegano? (yes/no)")
-;   then (assert (want-vegan yes))
-;
-;    else (assert (want-vegan  no))
-;   )
-;   (assert (questions end))
-; )
+ (defrule preguntar-sibarita
+ 	(declare ( salience 20))
+ 	(not (filtrado end))
+ 	(not (preguntar-sibarita))
+ 	(filtrado-2)
+ 	(test (< 4 (numero-propiedad sibarita-menu)))
+ 	(test (< 4
+ 		 (- (numero-menus) (numero-propiedad sibarita-menu) )))
+ 	(test (printout t "pregunta a los sibaritas" crlf))
+ 	(test (< 10 (numero-menus)))
+ 	=>
+ 	(switch   (ask-question "Prefieres comida sibarita?(1/2/3)
+ 	    1:Si
+ 	    2:No
+ 	    3:Es indiferente
+ 	>"
+ 	     1 2 3)
+ 	  (case 1 then (eliminar-propiedad-not sibarita-menu))
+ 	  (case 2 then (eliminar-propiedad sibarita-menu))
+ 	  (case 3 then (- 1 1))
+ 	  (default (printout t "No te he entendido"))
+ 	 )
+ 	(assert (preguntar-sibarita))
+ )
 
 
 (defrule fin-filtrado
