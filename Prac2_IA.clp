@@ -1805,6 +1805,18 @@
     ?ans
 )
 
+;menu es frances tiene un plato frances
+(deffunction frances-menu  (?menu)
+	(bind ?ans FALSE)
+	(bind ?prim (send ?menu get-Primero))
+	(bind ?seg (send ?menu get-Segundo))
+	(bind ?post (send ?menu get-Postre))
+	(bind ?ans (or (tiene-especial ?prim frances) ?ans))
+	(bind ?ans (or (tiene-especial ?seg frances) ?ans))
+	(bind ?ans (or (tiene-especial ?post frances) ?ans))
+	?ans
+)
+
 ; ;;NUMERO DE MENUS QUE CUMPLAN LA PROPIEDAD
 ; QUE DEVUELVE LA FUNCION ?foo
 (deffunction numero-propiedad (?foo)
@@ -1925,24 +1937,24 @@
   (bind ?ins (nth$ ?r ?li))
   (return ?ins)
 )
-(deffunction get-random-menus (?li)
-    (bind ?x (random-slot li))
-    )
 
-		; (deffunction question-loop (?x ?y ?z ?li)
-		;     (switch   (ask-question "Estos son tus menus, escribe su numero para cambiarlos o 1 para acabar:(1/2/3/4)
-		;         1:Acabar
-		;         2:" (string-menu ?x)"
-		;         3:" (string-menu ?y)"
-		;         4:" (string-menu ?z)"
-		; >"
-		;          1 2 3 4)
-		;     (case 1 then (- 1 1))
-		;     (case 2 then (question-loop (get-random-menus ?li) ?y ?z ?li))
-		;     (case 3 then (question-loop ?x (get-random-menus ?li) ?z ?li))
-		;     (case 4 then (question-loop ?x ?y (get-random-menus ?li) ?li))
-		;     (default (printout t "No te he entendido")))
-		; )
+(deffunction get-random-menus (?li)
+		 (bind ?x (random-slot ?li))
+)
+
+		(deffunction question-loop (?x ?y ?z $?li)
+		    (switch   (ask-question (str-cat "Estos son tus menus, escribe su numero para cambiarlos o 1 para acabar:(1/2/3/4)
+		        1:Acabar
+		        2:" (string-menu ?x)"
+		        3:" (string-menu ?y)"
+		        4:" (string-menu ?z)"
+		>")
+		         1 2 3 4)
+		    (case 1 then (- 1 1))
+		    (case 2 then (question-loop (get-random-menus $?li) ?y ?z $?li))
+		    (case 3 then (question-loop ?x (get-random-menus $?li) ?z $?li))
+		    (case 4 then (question-loop ?x ?y (get-random-menus $?li) $?li))
+		    ))
 
 ;;;**************************************
 ;;;
@@ -2009,7 +2021,7 @@
      2:25
      3:50
      4:75
-		    5:100 o mas
+		 		5:100 o mas
 >"
       1 2 3 4 5)
    (case 1 then (assert (Evento Num_com 10)) (assert (Evento Complejidad 5)) )
@@ -2028,15 +2040,17 @@
 =>
 (switch   (ask-question "Cuanta presupuesto tienes?
     1:100
-    2:200
-    3:40000
-    4:100000
+    2:250
+    3:500
+    4:1000
+				5:1500
 >"
      1 2 3 4)
   (case 1 then (assert (Evento Presupuesto 100)))
-  (case 2 then (assert (Evento Presupuesto 200)))
-  (case 3 then (assert (Evento Presupuesto 40000)))
-  (case 4 then (assert (Evento Presupuesto 100000)))
+  (case 2 then (assert (Evento Presupuesto 250)))
+  (case 3 then (assert (Evento Presupuesto 500)))
+  (case 4 then (assert (Evento Presupuesto 1000)))
+	(case 5 then (assert (Evento Presupuesto 1500)))
   (default (printout t "No te he entendido"))
  )
 )
@@ -2280,6 +2294,31 @@
 	 )
 	(assert (preguntar-italiano))
 )
+
+(defrule preguntar-frances
+	(declare ( salience 20))
+	(not (filtrado end))
+	(not (preguntar-frances))
+	(filtrado-2)
+	(test (< 4 (numero-propiedad frances-menu)))
+	(test (< 4
+		 (- (numero-menus) (numero-propiedad frances-menu) )))
+	(test (printout t "pregunta a los franceses" crlf))
+	(test (< 10 (numero-menus)))
+	=>
+	(switch   (ask-question "Prefieres comida francesa?(1/2/3)
+	    1:Si
+	    2:No
+	    3:Es indiferente
+	>"
+	     1 2 3)
+	  (case 1 then (eliminar-propiedad-not frances-menu))
+	  (case 2 then (eliminar-propiedad frances-menu))
+	  (case 3 then (- 1 1))
+	  (default (printout t "No te he entendido"))
+	 )
+	(assert (preguntar-frances))
+)
 ; (defrule vegano "regla para saber si prefiere un menu vegano"
 ;   (declare (salience -1))
 ;   (not (want-vegan ?))
@@ -2337,28 +2376,31 @@
 
 (defrule rellenar-AllMenus
     (declare (salience 10))
+    (filtrado end)
     ?men <- (object (is-a AllMenus) )
     ?x <- (object (is-a Menu))
     =>
     (slot-insert$ ?men MenuP 1 ?x)
-)
+		)
 
-; (defrule recomendar-menu2
-;     (declare (salience -50))
-;     (filtrado end)
-;     (object (is-a AllMenus) (MenuP ?li))
-;     (not (FIN1))
-;     (test (printout t "Entrando a la ultima norma para decidir" crlf))
-;     =>
-;     (bind ?x (get-random-menus ?li))
-;     (bind ?y (get-random-menus ?li))
-;     (bind ?z (get-random-menus ?li))
-;     (printout t "ultima funcion!" crlf)
-;     (question-loop ?x ?y ?z ?li)
-;     (printout t "Gracias por usar nuestra aplicación para recomendar menus!" crlf)
-;     (assert (FIN1))
-;     (halt)
-;     )
+(defrule recomendar-menu2
+    (declare (salience -50))
+    (filtrado end)
+    (object (is-a AllMenus) (MenuP $?li))
+    (not (FIN1))
+    ;(test (halt))
+    ;(test (printout t "Entrando a la ultima norma para decidir" crlf))
+    =>
+    ;(printout t "ultima funcion!" crlf)
+    (bind ?x (get-random-menus $?li))
+    (bind ?y (get-random-menus $?li))
+    (bind ?z (get-random-menus $?li))
+    ;(printout t "ultima funcion!"  crlf)
+    (question-loop ?x ?y ?z $?li)
+    (printout t "Gracias por usar nuestra aplicacion para recomendar menus!" crlf)
+    (assert (FIN1))
+    (halt)
+    )
 
 ; (defrule recomendar-menu1
 ; 	?mimenu <-(object (is-a Menu))
