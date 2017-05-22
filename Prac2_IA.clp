@@ -2600,7 +2600,7 @@
  	(test (< 4 (numero-propiedad sibarita-menu)))
  	(test (< 4
  		 (- (numero-menus) (numero-propiedad sibarita-menu) )))
- 	(test (printout t "sibaritas" (numero-propiedad sibarita-menu) crlf))
+ 	;(test (printout t "sibaritas" (numero-propiedad sibarita-menu) crlf))
  	(test (< 10 (numero-menus)))
  	=>
  	(switch   (ask-question "Prefieres comida sibarita?(1/2/3)
