@@ -2255,24 +2255,24 @@
  )
 )
 
-(defrule pregunta-alergia "regla para saber si existe alguna alergia"
-	(not (questions end))
-	(not (Evento EsAlergia ?))
-	=>
-	(if (yes-or-no-p "Hay algun ingediente que debamos excluir (yes/no)?")
-			then (assert (Evento EsAlergia Si))
-			else (assert (Evento EsAlergia No))
-			)
-)
-
-(defrule pregunta-alergia2 "regla para saber la alergia"
-	(declare (salience 1))
-	(not (questions end))
-	(Evento EsAlergia Si)
-	=>
-	(bind ?ans (cuanto "que ingrediente excluimos?"))
-	(assert (Evento Alergia ?ans))
-)
+; (defrule pregunta-alergia "regla para saber si existe alguna alergia"
+; 	(not (questions end))
+; 	(not (Evento EsAlergia ?))
+; 	=>
+; 	(if (yes-or-no-p "Hay algun ingediente que debamos excluir (yes/no)?")
+; 			then (assert (Evento EsAlergia Si))
+; 			else (assert (Evento EsAlergia No))
+; 			)
+; )
+;
+; (defrule pregunta-alergia2 "regla para saber la alergia"
+; 	(declare (salience 1))
+; 	(not (questions end))
+; 	(Evento EsAlergia Si)
+; 	=>
+; 	(bind ?ans (cuanto "que ingrediente excluimos?"))
+; 	(assert (Evento Alergia ?ans))
+; )
 
 (defrule end-questions "regla para pasar al siguiente modulo"
     ;(declare (salience -3))
@@ -2281,7 +2281,7 @@
 		(Evento Num_com ?)
 		(Evento Calidad ?)
 		(Evento Temporada ?)
-		(Evento EsAlergia ?)
+		;(Evento EsAlergia ?)
     ;(menu-nuevo)
     =>
     (printout t "fin de las preguntas" crlf)
@@ -2364,19 +2364,19 @@
 	 	(send ?plato delete)
 	 	)
 
-(defrule quitar-platos-alergia
-		  (declare (salience 10))
-		  ?plato <- (object (is-a Plato) (Componentes ?x))
-		  (Evento Alergia ?y)
-			;(test (printout t "alergia " ?y " x: " (send ?x get-NombreI) " |" ))
-
-			(test (= (str-compare (send ?x get-NombreI) ?y) 0) )
-
-		  =>
-		  (printout t "Eliminando plato por alergia: ")
-		  (printout t (send ?plato get-NombreP) crlf)
-		  (send ?plato delete)
-			)
+; (defrule quitar-platos-alergia
+; 		  (declare (salience 10))
+; 		  ?plato <- (object (is-a Plato) (Componentes ?x))
+; 		  (Evento Alergia ?y)
+; 			;(test (printout t "alergia " ?y " x: " (send ?x get-NombreI) " |" ))
+;
+; 			(test (= (str-compare (send ?x get-NombreI) ?y) 0) )
+;
+; 		  =>
+; 		  (printout t "Eliminando plato por alergia: ")
+; 		  (printout t (send ?plato get-NombreP) crlf)
+; 		  (send ?plato delete)
+; 			)
 
 (defrule insertaMenuses
 	(declare (salience 10))
